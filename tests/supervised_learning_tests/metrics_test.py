@@ -4,7 +4,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score as sklearn_r2_score
 from sklearn.metrics import root_mean_squared_error
 
-from gpax.supervised_learning.metrics import (
+from genepax.supervised_learning.metrics import (
     categorical_cross_entropy,
     classification_accuracy,
     mse,

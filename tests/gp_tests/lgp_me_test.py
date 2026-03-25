@@ -11,7 +11,7 @@ from qdax.core.neuroevolution.buffers.buffer import QDTransition
 from qdax.tasks.brax.env_creators import scoring_function_brax_envs as scoring_function
 from qdax.utils.metrics import default_qd_metrics
 
-from gpax.gp.linear_genetic_programming import LGP
+from genepax.gp.linear_genetic_programming import LGP
 
 
 def test_lgp_with_me() -> None:

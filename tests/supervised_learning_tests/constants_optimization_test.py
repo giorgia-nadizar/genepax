@@ -4,17 +4,17 @@ import jax
 import jax.numpy as jnp
 import optax
 
-from gpax.gp.cartesian_genetic_programming import CGP
-from gpax.supervised_learning.constants_optimization import (
+from genepax.gp.cartesian_genetic_programming import CGP
+from genepax.supervised_learning.constants_optimization import (
     optimize_constants_with_cmaes,
     optimize_constants_with_lbfgs,
     optimize_constants_with_sgd,
 )
-from gpax.supervised_learning.regularization import (
+from genepax.supervised_learning.regularization import (
     snap_to_pm_target,
     sticky_pm_target_regularizer,
 )
-from gpax.supervised_learning.scoring_functions import compute_model_predictions
+from genepax.supervised_learning.scoring_functions import compute_model_predictions
 
 
 def test_cmaes_output_shape_and_type():

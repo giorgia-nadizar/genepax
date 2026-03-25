@@ -4,9 +4,9 @@ import jax
 import jax.numpy as jnp
 import pytest
 
-from gpax.gp.cartesian_genetic_programming import CGP
-from gpax.gp.ensemble_genetic_programming import EnsembleGP
-from gpax.gp.tree_genetic_programming import TreeGP
+from genepax.gp.cartesian_genetic_programming import CGP
+from genepax.gp.ensemble_genetic_programming import EnsembleGP
+from genepax.gp.tree_genetic_programming import TreeGP
 
 
 def test_init_cgp() -> None:

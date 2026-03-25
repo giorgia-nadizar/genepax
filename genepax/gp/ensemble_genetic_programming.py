@@ -6,9 +6,9 @@ import jax.random
 from flax import struct
 from qdax.custom_types import Genotype, RNGKey
 
-from gpax.gp.genetic_programming import GP
-from gpax.gp.graph_genetic_programming import GGP
-from gpax.gp.tree_genetic_programming import TreeGP
+from genepax.gp.genetic_programming import GP
+from genepax.gp.graph_genetic_programming import GGP
+from genepax.gp.tree_genetic_programming import TreeGP
 
 
 @struct.dataclass

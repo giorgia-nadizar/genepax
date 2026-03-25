@@ -1,7 +1,7 @@
 import jax
 import jax.numpy as jnp
 
-from gpax.supervised_learning.regularization import (
+from genepax.supervised_learning.regularization import (
     no_regularizer,
     no_snap,
     snap_to_pm_target,

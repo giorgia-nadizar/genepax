@@ -5,20 +5,23 @@ import jax.numpy as jnp
 import numpy as np
 import pytest
 
-from gpax.gp.cartesian_genetic_programming import CGP
-from gpax.supervised_learning.constants_optimization import (
+from genepax.gp.cartesian_genetic_programming import CGP
+from genepax.supervised_learning.constants_optimization import (
     optimize_constants_with_cmaes,
     optimize_constants_with_lbfgs,
     optimize_constants_with_sgd,
 )
-from gpax.supervised_learning.dataset_utils import load_dataset
-from gpax.supervised_learning.metrics import classification_accuracy, rrmse_per_target
-from gpax.supervised_learning.scoring_functions import (
+from genepax.supervised_learning.dataset_utils import load_dataset
+from genepax.supervised_learning.metrics import (
+    classification_accuracy,
+    rrmse_per_target,
+)
+from genepax.supervised_learning.scoring_functions import (
     supervised_learning_accuracy_evaluation,
     supervised_learning_accuracy_evaluation_with_constants_optimization,
     supervised_learning_scoring_fn,
 )
-from gpax.supervised_learning.utils import (
+from genepax.supervised_learning.utils import (
     prepare_rescoring_fn,
     prepare_scoring_fn,
     prepare_train_test_evaluation_fns,

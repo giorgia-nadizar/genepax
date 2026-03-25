@@ -8,7 +8,7 @@ from qdax.core.containers.ga_repertoire import GARepertoire
 from qdax.core.emitters.emitter import Emitter, EmitterState
 from qdax.custom_types import ExtraScores, Fitness, Genotype, Metrics, RNGKey
 
-from gpax.evolution.ga_repertoire_extra_scores import GARepertoireExtraScores
+from genepax.evolution.ga_repertoire_extra_scores import GARepertoireExtraScores
 
 
 class GeneticAlgorithmWithExtraScores(GeneticAlgorithm):

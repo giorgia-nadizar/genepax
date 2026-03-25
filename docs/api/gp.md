@@ -3,23 +3,23 @@
 ## Representations
 
 ### `GP`
-::: gpax.gp.genetic_programming.GP
+::: genepax.gp.genetic_programming.GP
 
 ### `GGP`
-::: gpax.gp.graph_genetic_programming.GGP
+::: genepax.gp.graph_genetic_programming.GGP
 
 ### `CGP`
-::: gpax.gp.cartesian_genetic_programming.CGP
+::: genepax.gp.cartesian_genetic_programming.CGP
 
 ### `LGP`
-::: gpax.gp.linear_genetic_programming.LGP
+::: genepax.gp.linear_genetic_programming.LGP
 
 ### `TreeGP`
-::: gpax.gp.tree_genetic_programming.TreeGP
+::: genepax.gp.tree_genetic_programming.TreeGP
 
 ### `EnsembleGP`
-::: gpax.gp.ensemble_genetic_programming.EnsembleGP
+::: genepax.gp.ensemble_genetic_programming.EnsembleGP
 
 ## Other elements
 
-::: gpax.gp.functions
+::: genepax.gp.functions

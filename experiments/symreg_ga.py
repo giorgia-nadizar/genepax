@@ -11,15 +11,15 @@ from qdax.core.containers.ga_repertoire import GARepertoire
 from qdax.custom_types import ExtraScores, Fitness, Genotype, RNGKey
 from qdax.utils.metrics import CSVLogger
 
-from gpax.evolution.custom_emitters import CustomMixingEmitter
-from gpax.evolution.evolution_metrics import custom_ga_metrics
-from gpax.evolution.genetic_algorithm_extra_scores import (
+from genepax.evolution.custom_emitters import CustomMixingEmitter
+from genepax.evolution.evolution_metrics import custom_ga_metrics
+from genepax.evolution.genetic_algorithm_extra_scores import (
     GeneticAlgorithmWithExtraScores,
 )
-from gpax.evolution.tournament_selector import TournamentSelector
-from gpax.gp.tree_genetic_programming import TreeGP
-from gpax.supervised_learning.dataset_utils import downsample_dataset, load_dataset
-from gpax.supervised_learning.utils import prepare_rescoring_fn, prepare_scoring_fn
+from genepax.evolution.tournament_selector import TournamentSelector
+from genepax.gp.tree_genetic_programming import TreeGP
+from genepax.supervised_learning.dataset_utils import downsample_dataset, load_dataset
+from genepax.supervised_learning.utils import prepare_rescoring_fn, prepare_scoring_fn
 
 
 def process_metrics_mtr(metrics: Dict, headers: List) -> Dict:
@@ -60,7 +60,7 @@ def run_sym_reg_ga(config: Dict):
     # print(tree_structure)
 
     def get_scoring_fn_wrapper(
-        original_scoring_fn: Callable[[Genotype, RNGKey], Tuple[Fitness, ExtraScores]]
+        original_scoring_fn: Callable[[Genotype, RNGKey], Tuple[Fitness, ExtraScores]],
     ) -> Callable[[Genotype, RNGKey], Tuple[Fitness, ExtraScores]]:
 
         def _wrapped(geno: Genotype, the_k: RNGKey) -> Tuple[Fitness, ExtraScores]:
@@ -73,7 +73,7 @@ def run_sym_reg_ga(config: Dict):
         return _wrapped
 
     def get_rescoring_fn_wrapper(
-        original_rescoring_fn: Callable[[Genotype, RNGKey], Fitness]
+        original_rescoring_fn: Callable[[Genotype, RNGKey], Fitness],
     ) -> Callable[[Genotype, RNGKey], Fitness]:
 
         def _rewrapped(geno: Genotype, the_k: RNGKey) -> Fitness:

@@ -1,4 +1,4 @@
-# GPax
+# genepax
 ![CI](https://github.com/giorgia-nadizar/GPax/actions/workflows/ci.yml/badge.svg)
 [![Coverage](https://codecov.io/gh/giorgia-nadizar/GPax/branch/main/graph/badge.svg)](https://codecov.io/gh/giorgia-nadizar/GPax)
 [![Docs](https://img.shields.io/badge/docs-online-blue)](https://giorgia-nadizar.github.io/GPax/)

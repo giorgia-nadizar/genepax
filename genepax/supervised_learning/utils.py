@@ -4,20 +4,20 @@ from typing import Callable, Dict, Optional, Tuple
 import jax.numpy as jnp
 import optax
 
-from gpax.gp.graph_genetic_programming import GGP
-from gpax.supervised_learning.constants_optimization import (
+from genepax.gp.graph_genetic_programming import GGP
+from genepax.supervised_learning.constants_optimization import (
     optimize_constants_with_cmaes,
     optimize_constants_with_lbfgs,
     optimize_constants_with_sgd,
 )
-from gpax.supervised_learning.metrics import (
+from genepax.supervised_learning.metrics import (
     categorical_cross_entropy,
     classification_accuracy,
     r2_score,
     rmse,
     rrmse_per_target,
 )
-from gpax.supervised_learning.scoring_functions import (
+from genepax.supervised_learning.scoring_functions import (
     supervised_learning_accuracy_evaluation,
     supervised_learning_accuracy_evaluation_with_constants_optimization,
     supervised_learning_scoring_fn,

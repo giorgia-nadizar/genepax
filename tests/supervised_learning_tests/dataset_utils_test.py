@@ -2,7 +2,7 @@ import jax
 import jax.numpy as jnp
 import pytest
 
-from gpax.supervised_learning.dataset_utils import downsample_dataset
+from genepax.supervised_learning.dataset_utils import downsample_dataset
 
 
 @pytest.fixture

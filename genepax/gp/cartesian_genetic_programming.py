@@ -9,7 +9,7 @@ from jax import jit, random
 from jax.lax import fori_loop
 from qdax.custom_types import Genotype, Mask, RNGKey
 
-from gpax.gp.graph_genetic_programming import GGP, _mutate_subgenome
+from genepax.gp.graph_genetic_programming import GGP, _mutate_subgenome
 
 
 @struct.dataclass

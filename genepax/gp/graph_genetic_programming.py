@@ -7,8 +7,8 @@ from jax import random
 from jax.lax import fori_loop
 from qdax.custom_types import Genotype, Mask, RNGKey
 
-from gpax.gp.functions import FunctionSet
-from gpax.gp.genetic_programming import GP
+from genepax.gp.functions import FunctionSet
+from genepax.gp.genetic_programming import GP
 
 
 @struct.dataclass

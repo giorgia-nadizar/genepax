@@ -2,10 +2,10 @@ import jax
 import jax.numpy as jnp
 from qdax.core.containers.ga_repertoire import GARepertoire
 
-from gpax.evolution.elite_selector import EliteSelector
-from gpax.evolution.tournament_selector import TournamentSelector
-from gpax.gp.cartesian_genetic_programming import CGP
-from gpax.gp.tree_genetic_programming import TreeGP
+from genepax.evolution.elite_selector import EliteSelector
+from genepax.evolution.tournament_selector import TournamentSelector
+from genepax.gp.cartesian_genetic_programming import CGP
+from genepax.gp.tree_genetic_programming import TreeGP
 
 
 def test_tournament_with_tree_gp() -> None:

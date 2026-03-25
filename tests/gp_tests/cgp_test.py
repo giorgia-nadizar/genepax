@@ -3,7 +3,7 @@ import jax.numpy as jnp
 import optax
 import pytest
 
-from gpax.gp.cartesian_genetic_programming import CGP
+from genepax.gp.cartesian_genetic_programming import CGP
 
 
 def test_genome_bounds() -> None:

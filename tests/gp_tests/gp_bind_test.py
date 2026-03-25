@@ -2,9 +2,9 @@ import jax
 import jax.numpy as jnp
 import pytest
 
-from gpax.gp.cartesian_genetic_programming import CGP
-from gpax.gp.linear_genetic_programming import LGP
-from gpax.gp.tree_genetic_programming import TreeGP
+from genepax.gp.cartesian_genetic_programming import CGP
+from genepax.gp.linear_genetic_programming import LGP
+from genepax.gp.tree_genetic_programming import TreeGP
 
 
 def test_equal_behavior() -> None:

@@ -5,9 +5,11 @@ import jax
 import jax.numpy as jnp
 from qdax.custom_types import Descriptor, ExtraScores, Fitness, Genotype, Params, RNGKey
 
-from gpax.gp.graph_genetic_programming import GGP
-from gpax.supervised_learning.constants_optimization import optimize_constants_with_sgd
-from gpax.supervised_learning.metrics import r2_score
+from genepax.gp.graph_genetic_programming import GGP
+from genepax.supervised_learning.constants_optimization import (
+    optimize_constants_with_sgd,
+)
+from genepax.supervised_learning.metrics import r2_score
 
 
 def compute_model_predictions(

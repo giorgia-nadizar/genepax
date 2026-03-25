@@ -2,7 +2,7 @@ import jax
 import jax.numpy as jnp
 import pytest
 
-from gpax.gp.tree_genetic_programming import TreeGP
+from genepax.gp.tree_genetic_programming import TreeGP
 
 
 @pytest.fixture

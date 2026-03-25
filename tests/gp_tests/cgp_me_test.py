@@ -12,7 +12,7 @@ from qdax.core.neuroevolution.buffers.buffer import QDTransition
 from qdax.tasks.brax.env_creators import scoring_function_brax_envs as scoring_function
 from qdax.utils.metrics import default_qd_metrics
 
-from gpax.gp.cartesian_genetic_programming import CGP
+from genepax.gp.cartesian_genetic_programming import CGP
 
 
 def test_cgp_with_me() -> None:

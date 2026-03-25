@@ -8,9 +8,9 @@ from optax import GradientTransformation
 from qdax.baselines.cmaes import CMAES, CMAESState
 from qdax.custom_types import Genotype, RNGKey
 
-from gpax.supervised_learning.dataset_utils import downsample_dataset
-from gpax.supervised_learning.metrics import rmse
-from gpax.supervised_learning.regularization import no_regularizer, no_snap
+from genepax.supervised_learning.dataset_utils import downsample_dataset
+from genepax.supervised_learning.metrics import rmse
+from genepax.supervised_learning.regularization import no_regularizer, no_snap
 
 
 def optimize_constants_with_cmaes(

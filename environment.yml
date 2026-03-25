@@ -1,4 +1,4 @@
-name: gpax311
+name: genepax311
 channels:
 - defaults
 - conda-forge

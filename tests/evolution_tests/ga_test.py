@@ -5,8 +5,8 @@ import jax.numpy as jnp
 import pytest
 from qdax.core.emitters.standard_emitters import MixingEmitter
 
-from gpax.evolution.evolution_metrics import custom_ga_metrics
-from gpax.evolution.genetic_algorithm_extra_scores import (
+from genepax.evolution.evolution_metrics import custom_ga_metrics
+from genepax.evolution.genetic_algorithm_extra_scores import (
     GeneticAlgorithmWithExtraScores,
 )
 
