@@ -1,10 +1,10 @@
-site_name: GPax
+site_name: genepax
 site_description: JAX Accelerated Genetic Programming
 site_author: Giorgia Nadizar
-site_url: https://giorgia-nadizar.github.io/GPax/
+site_url: https://giorgia-nadizar.github.io/genepax/
 
-repo_url: https://github.com/giorgia-nadizar/GPax
-repo_name: GPax
+repo_url: https://github.com/giorgia-nadizar/genepax
+repo_name: genepax
 
 theme:
   name: readthedocs
