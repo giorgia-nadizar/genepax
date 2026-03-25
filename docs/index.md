@@ -1,3 +1,7 @@
+<div align="center">
+    <img src="img/logo.png" alt="genepax_logo" width="300"></img>
+</div>
+
 # genepax
 ![CI](https://github.com/giorgia-nadizar/genepax/actions/workflows/ci.yml/badge.svg)
 [![Coverage](https://codecov.io/gh/giorgia-nadizar/genepax/branch/main/graph/badge.svg)](https://codecov.io/gh/giorgia-nadizar/genepax)
