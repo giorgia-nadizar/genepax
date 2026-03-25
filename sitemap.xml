@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://giorgia-nadizar.github.io/genepax/</loc>
+         <lastmod>2026-03-25</lastmod>
+    </url>
+    <url>
+         <loc>https://giorgia-nadizar.github.io/genepax/api/evolution/</loc>
+         <lastmod>2026-03-25</lastmod>
+    </url>
+    <url>
+         <loc>https://giorgia-nadizar.github.io/genepax/api/gp/</loc>
+         <lastmod>2026-03-25</lastmod>
+    </url>
+    <url>
+         <loc>https://giorgia-nadizar.github.io/genepax/api/supervised_learning/</loc>
+         <lastmod>2026-03-25</lastmod>
+    </url>
+</urlset>
