@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "gpax"
+name = "genepax"
 dynamic = ["version"]
-description = "GPax: Jax Accelerated Genetic Programming"
+description = "genepax: Jax Accelerated Genetic Programming"
 readme = "README.md"
 authors = [
     { name = "Giorgia Nadizar", email = "giorgia.nadizar@gmail.com" }
@@ -52,7 +52,7 @@ examples = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/giorgia-nadizar/GPax"
+Homepage = "https://github.com/giorgia-nadizar/genepax"
 
 [tool.hatch.version]
 path = "genepax/__init__.py"
