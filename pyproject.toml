@@ -55,7 +55,7 @@ examples = [
 Homepage = "https://github.com/giorgia-nadizar/GPax"
 
 [tool.hatch.version]
-path = "gpax/__init__.py"
+path = "genepax/__init__.py"
 
 [tool.hatch.metadata]
 allow-direct-references = true
