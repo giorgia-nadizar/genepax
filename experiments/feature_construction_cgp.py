@@ -28,8 +28,17 @@ def single_genome_feature_construction_scoring_fn(genotype: Genotype, X_train: j
                                                   X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
                                                   ) -> Tuple:
     features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
+    # sanitization step and ridge regression
+    features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
+    lam = 1e-5
+    XtX = features.T @ features
+    Xty = features.T @ y_train
+    train_weights = jnp.linalg.solve(
+        XtX + lam * jnp.eye(features.shape[1]),
+        Xty
+    )
+    # train_weights, _, _, _ = jnp.linalg.lstsq(features, y_train)
     test_features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_test)
-    train_weights, _, _, _ = jnp.linalg.lstsq(features, y_train)
     pred_y_train = features @ train_weights
     pred_y_test = test_features @ train_weights
     r2_train = r2_score(y_train, pred_y_train)
@@ -66,8 +75,10 @@ def run_sym_reg_ga(config: Dict):
     sample_key, key = jax.random.split(key)
     rescoring = len(X_train) > 2048
 
-    danco_id = skdim.id.DANCo(fractal=False).fit(X_train)
-    n_features = danco_id.dimension_
+    # danco_id = skdim.id.DANCo(fractal=False).fit(X_train)
+    # n_features = danco_id.dimension_
+    # print(n_features)
+    n_features = jnp.round(jnp.sqrt(X_train.shape[1])).astype(int)
 
     # Init the CGP policy graph with default values
     cgp_structure = CGP(
