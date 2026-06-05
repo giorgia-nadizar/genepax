@@ -24,29 +24,103 @@ from genepax.supervised_learning.dataset_utils import downsample_dataset, load_d
 from genepax.supervised_learning.metrics import r2_score
 
 
-def single_genome_feature_construction_scoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
-                                                  X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
-                                                  ) -> Tuple:
-    features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
-    # sanitization step and ridge regression
-    features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
-    lam = 1e-5
-    XtX = features.T @ features
-    Xty = features.T @ y_train
-    train_weights = jnp.linalg.solve(
-        XtX + lam * jnp.eye(features.shape[1]),
-        Xty
+def single_genome_feature_construction_scoring_fn(
+        genotype: Genotype,
+        X_train: jnp.ndarray,
+        y_train: jnp.ndarray,
+        X_test: jnp.ndarray,
+        y_test: jnp.ndarray,
+        cgp_structure: CGP,
+) -> Tuple:
+    # Construct features
+    features = jax.jit(
+        jax.vmap(cgp_structure.apply, in_axes=(None, 0))
+    )(genotype, X_train)
+
+    # Sanitization
+    features = jnp.nan_to_num(
+        features,
+        nan=0.0,
+        posinf=1e3,
+        neginf=-1e3,
     )
-    # train_weights, _, _, _ = jnp.linalg.lstsq(features, y_train)
-    test_features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_test)
-    pred_y_train = features @ train_weights
-    pred_y_test = test_features @ train_weights
+
+    # Add intercept column
+    features_aug = jnp.concatenate(
+        [features, jnp.ones((features.shape[0], 1))],
+        axis=1,
+    )
+
+    # Ridge regression
+    lam = 1e-5
+
+    XtX = features_aug.T @ features_aug
+    Xty = features_aug.T @ y_train
+
+    # Do not regularize intercept
+    reg = lam * jnp.eye(features_aug.shape[1])
+    reg = reg.at[-1, -1].set(0.0)
+
+    train_weights = jnp.linalg.solve(
+        XtX + reg,
+        Xty,
+    )
+
+    # Test features
+    test_features = jax.jit(
+        jax.vmap(cgp_structure.apply, in_axes=(None, 0))
+    )(genotype, X_test)
+
+    test_features = jnp.nan_to_num(
+        test_features,
+        nan=0.0,
+        posinf=1e3,
+        neginf=-1e3,
+    )
+
+    test_features_aug = jnp.concatenate(
+        [test_features, jnp.ones((test_features.shape[0], 1))],
+        axis=1,
+    )
+
+    # Predictions
+    pred_y_train = features_aug @ train_weights
+    pred_y_test = test_features_aug @ train_weights
+
     r2_train = r2_score(y_train, pred_y_train)
     r2_test = r2_score(y_test, pred_y_test)
+
     return jnp.asarray([r2_train]), {
         "test_accuracy": r2_test,
         "updated_params": genotype,
+        "linear_weights": train_weights[:-1],
+        "intercept": train_weights[-1],
     }
+
+
+# def single_genome_feature_construction_scoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
+#                                                   X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
+#                                                   ) -> Tuple:
+#     features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
+#     # sanitization step and ridge regression
+#     features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
+#     lam = 1e-5
+#     XtX = features.T @ features
+#     Xty = features.T @ y_train
+#     train_weights = jnp.linalg.solve(
+#         XtX + lam * jnp.eye(features.shape[1]),
+#         Xty
+#     )
+#     # train_weights, _, _, _ = jnp.linalg.lstsq(features, y_train)
+#     test_features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_test)
+#     pred_y_train = features @ train_weights
+#     pred_y_test = test_features @ train_weights
+#     r2_train = r2_score(y_train, pred_y_train)
+#     r2_test = r2_score(y_test, pred_y_test)
+#     return jnp.asarray([r2_train]), {
+#         "test_accuracy": r2_test,
+#         "updated_params": genotype,
+#     }
 
 
 def feature_construction_scoring_fn(genotypes: Genotype, key: RNGKey, X_train: jnp.ndarray, y_train: jnp.ndarray,
@@ -240,7 +314,7 @@ if __name__ == "__main__":
             conf["n_gens"] = n_gens
             # extra += f"_wpgs" if w_pgs else ""
             conf["run_name"] = (
-                    "CGP_feats_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
+                    "CGP_featsls_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
             )
             print(conf["run_name"])
             if os.path.exists(f"../results/{conf['run_name']}.pickle"):
