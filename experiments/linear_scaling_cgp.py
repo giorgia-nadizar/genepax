@@ -248,8 +248,7 @@ def run_sym_reg_ga(config: Dict):
 
 
 if __name__ == "__main__":
-    n_gens = 3
-    # n_gens = 1500
+    n_gens = 1500
     n_pop = 100
     conf = {
         "solver": {"n_nodes": 50},
