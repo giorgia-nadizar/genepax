@@ -49,6 +49,7 @@ class GGP(GP):
     weights_initialization: str = "uniform"
     weights_mutation: bool = True
     weights_mutation_type: str = "gaussian"
+    n_custom_weights: int = 0
 
     @property
     def n_functions(self) -> int:
@@ -60,17 +61,17 @@ class GGP(GP):
         raise NotImplementedError
 
     def apply(
-        self,
-        genotype: Genotype,
-        obs: jnp.ndarray,
-        weights: Optional[Dict[str, jnp.ndarray]] = None,
+            self,
+            genotype: Genotype,
+            obs: jnp.ndarray,
+            weights: Optional[Dict[str, jnp.ndarray]] = None,
     ) -> jnp.ndarray:
         """Evaluate a genotype on an input observation (subclass-specific)."""
         raise NotImplementedError
 
     def compute_active_mask(
-        self,
-        genotype: Genotype,
+            self,
+            genotype: Genotype,
     ) -> Mask:
         """Compute the mask of active (expressed) elements in a genotype (subclass-specific)."""
         raise NotImplementedError
@@ -80,15 +81,15 @@ class GGP(GP):
         return jnp.sum(self.compute_active_mask(genotype))
 
     def mutate(
-        self,
-        genotype: Genotype,
-        rnd_key: RNGKey,
-        *,
-        p_mut_inputs: float = 0.1,
-        p_mut_functions: float = 0.1,
-        weights_mut_sigma: float = 0.1,
-        mutation_probabilities: Optional[Dict[str, float]] = None,
-        **kwargs: Any,
+            self,
+            genotype: Genotype,
+            rnd_key: RNGKey,
+            *,
+            p_mut_inputs: float = 0.1,
+            p_mut_functions: float = 0.1,
+            weights_mut_sigma: float = 0.1,
+            mutation_probabilities: Optional[Dict[str, float]] = None,
+            **kwargs: Any,
     ) -> Genotype:
         """Mutates a GGP genotype using int-flip mutation. If the genotype is weighted, the weights
         are mutated with Gaussian mutation.
@@ -131,13 +132,13 @@ class GGP(GP):
         )[0]
 
     def _mutate(
-        self,
-        genotype: Genotype,
-        rnd_key: RNGKey,
-        p_mut_inputs: float = 0.1,
-        p_mut_functions: float = 0.1,
-        weights_mut_sigma: float = 0.1,
-        mutation_probabilities: Optional[Dict[str, float]] = None,
+            self,
+            genotype: Genotype,
+            rnd_key: RNGKey,
+            p_mut_inputs: float = 0.1,
+            p_mut_functions: float = 0.1,
+            weights_mut_sigma: float = 0.1,
+            mutation_probabilities: Optional[Dict[str, float]] = None,
     ) -> Tuple[Genotype, Genotype]:
         """Worker class for mutation that returns both the mutated genotype and the donor."""
         # extract mutation probabilities if passed through a dictionary
@@ -179,41 +180,42 @@ class GGP(GP):
         }, donor_genotype
 
     def _mutate_weights(
-        self, weights: Dict, key: RNGKey, weights_mut_sigma: float
+            self, weights: Dict, key: RNGKey, weights_mut_sigma: float
     ) -> Dict:
         if self.weights_mutation_type == "gaussian":
             weights_key1, weights_key2 = random.split(key)
             weights_noise = (
-                weights_mut_sigma
-                * self.weights_mutation
-                * random.normal(weights_key1, shape=(self.n_functions * 6,))
+                    weights_mut_sigma
+                    * self.weights_mutation
+                    * random.normal(weights_key1, shape=(self.n_functions * 6,))
             )
             fn_w_noise, i1_w_noise, i2_w_noise, fn_b_noise, i1_b_noise, i2_b_noise = (
                 jnp.split(weights_noise, 6)
             )
             progr_in_noise = (
-                weights_mut_sigma
-                * self.weighted_program_inputs
-                * self.weights_mutation
-                * random.normal(weights_key2, shape=(self.n_input_constants,))
+                    weights_mut_sigma
+                    * self.weighted_program_inputs
+                    * self.weights_mutation
+                    * random.normal(weights_key2, shape=(self.n_input_constants,))
             )
             return {
                 "program_inputs": weights["program_inputs"] + progr_in_noise,
                 "inputs1": weights["inputs1"] + self.weighted_inputs * i1_w_noise,
                 "inputs2": weights["inputs2"] + self.weighted_inputs * i2_w_noise,
                 "functions": weights["functions"]
-                + self.weighted_functions * fn_w_noise,
+                             + self.weighted_functions * fn_w_noise,
                 "inputs1_biases": weights["inputs1_biases"]
-                + self.biased_inputs * i1_b_noise,
+                                  + self.biased_inputs * i1_b_noise,
                 "inputs2_biases": weights["inputs2_biases"]
-                + self.biased_inputs * i2_b_noise,
+                                  + self.biased_inputs * i2_b_noise,
                 "functions_biases": weights["functions_biases"]
-                + self.biased_functions * fn_b_noise,
+                                    + self.biased_functions * fn_b_noise,
+                "custom_weights": weights["custom_weights"]
             }
         elif self.weights_mutation_type == "automl0":
 
             def _automl0_mutation(
-                weights_array: jnp.ndarray, w_key: RNGKey, mutate: bool
+                    weights_array: jnp.ndarray, w_key: RNGKey, mutate: bool
             ) -> jnp.ndarray:
                 sample_key1, sample_key2, bern_key1, bern_key2 = random.split(w_key, 4)
                 double_values_array = jax.random.uniform(
@@ -228,7 +230,7 @@ class GGP(GP):
                     jax.random.bernoulli(bern_key2, 0.5, weights_array.shape), 1, -1
                 )
                 final_multiplier = multipliers * signs * mutate + (
-                    1 - mutate
+                        1 - mutate
                 ) * jnp.ones_like(weights_array)
                 return weights_array * final_multiplier
 
@@ -278,10 +280,10 @@ class GGP(GP):
             )
 
     def get_readable_expression(
-        self,
-        genotype: Genotype,
-        inputs_mapping: Optional[Union[Dict[int, str], Callable[[int], str]]] = None,
-        outputs_mapping: Optional[Union[Dict[int, str], Callable[[int], str]]] = None,
+            self,
+            genotype: Genotype,
+            inputs_mapping: Optional[Union[Dict[int, str], Callable[[int], str]]] = None,
+            outputs_mapping: Optional[Union[Dict[int, str], Callable[[int], str]]] = None,
     ) -> str:
         """Generate a human-readable symbolic representation of a GGP genotype.
 
@@ -337,16 +339,16 @@ class GGP(GP):
         return "\n".join(targets)
 
     def _get_readable_expression(
-        self,
-        genotype: Genotype,
-        inputs_mapping_fn: Callable[[int], str],
-        outputs_mapping_fn: Callable[[int], str],
+            self,
+            genotype: Genotype,
+            inputs_mapping_fn: Callable[[int], str],
+            outputs_mapping_fn: Callable[[int], str],
     ) -> List[str]:
         """Worker class for computing the readable symbolic representation of a GGP genotype."""
         raise NotImplementedError
 
     def _weights_representations(
-        self, genotype: Genotype, gene_idx: int
+            self, genotype: Genotype, gene_idx: int
     ) -> Tuple[str, str, str]:
         input_weight = (
             f"{genotype['weights']['functions'][gene_idx]:.2f}*"
@@ -366,7 +368,7 @@ class GGP(GP):
         return input_weight, x_weight, y_weight
 
     def _biases_representations(
-        self, genotype: Genotype, gene_idx: int
+            self, genotype: Genotype, gene_idx: int
     ) -> Tuple[str, str, str]:
         input_bias = (
             f"+{genotype['weights']['functions_biases'][gene_idx]:.2f}"
@@ -399,7 +401,7 @@ class GGP(GP):
         node_weights, input_weights1, input_weights2 = jnp.split(random_weights, 3)
         node_biases, input_biases1, input_biases2 = jnp.split(random_biases, 3)
         program_inputs = (
-            random.uniform(key=key2, shape=(self.n_input_constants,)) * 2 - 1
+                random.uniform(key=key2, shape=(self.n_input_constants,)) * 2 - 1
         )
         if not self.weighted_program_inputs:
             program_inputs = program_inputs.at[:2].set(jnp.asarray([0.1, 1.0]))
@@ -427,6 +429,7 @@ class GGP(GP):
             "inputs2_biases": (
                 input_biases2 if self.biased_inputs else jnp.zeros_like(input_biases2)
             ),
+            "custom_weights": jnp.ones(self.n_custom_weights, dtype=jnp.float32)
         }
 
     def get_weights(self, genotype: Genotype) -> Dict[str, jnp.ndarray]:
@@ -482,7 +485,7 @@ class GGP(GP):
 
     # noinspection PyMethodMayBeStatic
     def update_weights(
-        self, genotype: Genotype, weights: Dict[str, jnp.ndarray]
+            self, genotype: Genotype, weights: Dict[str, jnp.ndarray]
     ) -> Genotype:
         """Update the weights of a genotype with the passed values.
 
@@ -524,16 +527,17 @@ class GGP(GP):
                 "functions_biases": weights.get(
                     "functions_biases", genotype["weights"]["functions_biases"]
                 ),
+                "custom_weights": weights.get("custom_weights", genotype["weights"]["custom_weights"]),
             },
         }
 
     def _update_memory(
-        self,
-        genotype: Genotype,
-        weights: Dict[str, jnp.ndarray],
-        memory: jnp.ndarray,
-        gene_idx: int,
-        memory_idx: Union[int, jnp.ndarray],
+            self,
+            genotype: Genotype,
+            weights: Dict[str, jnp.ndarray],
+            memory: jnp.ndarray,
+            gene_idx: int,
+            memory_idx: Union[int, jnp.ndarray],
     ) -> Tuple[jnp.ndarray, jnp.ndarray]:
         """Updates the memory at a given index computing the function at the genotype index."""
         f_idx = genotype["genes"]["functions"].at[gene_idx].get()
@@ -544,10 +548,10 @@ class GGP(GP):
         y_b = weights["inputs2_biases"].at[gene_idx].get()
         f_b = weights["functions_biases"].at[gene_idx].get()
         x_arg = (
-            memory.at[genotype["genes"]["inputs1"].at[gene_idx].get()].get() * x_w + x_b
+                memory.at[genotype["genes"]["inputs1"].at[gene_idx].get()].get() * x_w + x_b
         )
         y_arg = (
-            memory.at[genotype["genes"]["inputs2"].at[gene_idx].get()].get() * y_w + y_b
+                memory.at[genotype["genes"]["inputs2"].at[gene_idx].get()].get() * y_w + y_b
         )
         f_computed = self.function_set.apply(f_idx, x_arg, y_arg) * f_w + f_b
         memory = memory.at[memory_idx].set(f_computed)
@@ -568,8 +572,8 @@ class GGP(GP):
         f_genes = genotype["genes"]["functions"]
 
         def _count_functions(
-            idx: int,
-            f_counter: jnp.ndarray,
+                idx: int,
+                f_counter: jnp.ndarray,
         ) -> jnp.ndarray:
             f_id = f_genes.at[idx].get()
             f_counter = f_counter.at[f_id].set(
@@ -598,7 +602,7 @@ class GGP(GP):
 
 
 def _mutate_subgenome(
-    x1: jnp.ndarray, x2: jnp.ndarray, key: RNGKey, p_mut: float
+        x1: jnp.ndarray, x2: jnp.ndarray, key: RNGKey, p_mut: float
 ) -> jnp.ndarray:
     """Performs elementwise mutation of a genotype section.
 
