@@ -33,6 +33,18 @@ def linear_scale(y_pred: jnp.ndarray, y_true: jnp.ndarray) -> Tuple[jnp.ndarray,
     return y_scaled, a, b
 
 
+def single_genome_linear_scaling_rescoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
+                                              X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
+                                              ) -> Tuple:
+    pred_y_train = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
+    scaling_weights = genotype["weights"]["custom_weights"]
+    a = scaling_weights[0]
+    b = scaling_weights[1]
+    pred_y_train_scaled = a * pred_y_train + b
+    r2_train = r2_score(y_train, pred_y_train_scaled)
+    return jnp.asarray([r2_train])
+
+
 def single_genome_linear_scaling_scoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
                                             X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
                                             ) -> Tuple:
@@ -40,18 +52,26 @@ def single_genome_linear_scaling_scoring_fn(genotype: Genotype, X_train: jnp.nda
     pred_y_train_scaled, a, b = linear_scale(pred_y_train, y_train)
     pred_y_test = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_test)
     pred_y_test_scaled = a * pred_y_test + b
+    custom_weights = jnp.asarray([a, b])
+    updated_genotype = cgp_structure.update_weights(
+        genotype,
+        {
+            "custom_weights": custom_weights
+        }
+    )
     r2_train = r2_score(y_train, pred_y_train_scaled)
     r2_test = r2_score(y_test, pred_y_test_scaled)
     return jnp.asarray([r2_train]), {
         "test_accuracy": r2_test,
-        "updated_params": genotype,
+        "updated_params": updated_genotype,
     }
 
 
 def linear_scaling_scoring_fn(genotypes: Genotype, key: RNGKey, X_train: jnp.ndarray, y_train: jnp.ndarray,
-                              X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
+                              X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP,
+                              inner_fn=single_genome_linear_scaling_scoring_fn
                               ) -> Tuple[jnp.ndarray, jnp.ndarray]:
-    sng = partial(single_genome_linear_scaling_scoring_fn, X_train=X_train, y_train=y_train, X_test=X_test,
+    sng = partial(inner_fn, X_train=X_train, y_train=y_train, X_test=X_test,
                   y_test=y_test, cgp_structure=cgp_structure)
     return jax.jit(jax.vmap(sng))(genotypes)
 
@@ -74,10 +94,13 @@ def run_sym_reg_ga(config: Dict):
     sample_key, key = jax.random.split(key)
     rescoring = len(X_train) > 2048
 
-    # danco_id = skdim.id.DANCo(fractal=False).fit(X_train)
-    # n_features = danco_id.dimension_
-    # print(n_features)
-    n_features = jnp.round(jnp.sqrt(X_train.shape[1])).astype(int)
+    if rescoring:
+        downsample_fn = functools.partial(
+            downsample_dataset, size=config.get("dataset_size", 1024)
+        )
+        X_train_sub, y_train_sub = downsample_fn(X_train, y_train, sample_key)
+    else:
+        X_train_sub, y_train_sub = X_train, y_train
 
     # Init the CGP policy graph with default values
     cgp_structure = CGP(
@@ -85,6 +108,7 @@ def run_sym_reg_ga(config: Dict):
         n_outputs=1,
         n_nodes=config["solver"]["n_nodes"],
         outputs_wrapper=lambda x: x,
+        n_custom_weights=2
     )
 
     # Init the population
@@ -111,8 +135,15 @@ def run_sym_reg_ga(config: Dict):
     # Prepare the scoring function
     scoring_fn = partial(
         linear_scaling_scoring_fn,
-        X_train=X_train, y_train=y_train,
-        X_test=X_test, y_test=y_test, cgp_structure=cgp_structure
+        X_train=X_train_sub, y_train=y_train_sub,
+        X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
+        inner_fn=single_genome_linear_scaling_scoring_fn
+    )
+    rescoring_fn = partial(
+        linear_scaling_scoring_fn,
+        X_train=X_train_sub, y_train=y_train_sub,
+        X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
+        inner_fn=single_genome_linear_scaling_rescoring_fn
     )
     # Instantiate GA
     ga = GeneticAlgorithmWithExtraScores(
@@ -120,6 +151,7 @@ def run_sym_reg_ga(config: Dict):
         emitter=mixing_emitter,
         metrics_function=metrics_function,
         lamarckian=False,
+        rescoring_function=rescoring_fn
     )
 
     # Evaluate the initial population
@@ -160,6 +192,25 @@ def run_sym_reg_ga(config: Dict):
     # Iterations
     for iteration in range(1, config["n_gens"]):
         key, subkey, sample_key = jax.random.split(key, 3)
+        if rescoring:
+            # change batch of the dataset to evaluate upon
+            X_train_sub, y_train_sub = downsample_fn(X_train, y_train, sample_key)
+            scoring_fn = partial(
+                linear_scaling_scoring_fn,
+                X_train=X_train_sub, y_train=y_train_sub,
+                X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
+                inner_fn=single_genome_linear_scaling_scoring_fn
+            )
+            rescoring_fn = partial(
+                linear_scaling_scoring_fn,
+                X_train=X_train_sub, y_train=y_train_sub,
+                X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
+                inner_fn=single_genome_linear_scaling_rescoring_fn
+            )
+            ga = ga.replace_scoring_fns(
+                scoring_fn,
+                rescoring_fn,
+            )
 
         start_time = time.time()
 
@@ -197,7 +248,8 @@ def run_sym_reg_ga(config: Dict):
 
 
 if __name__ == "__main__":
-    n_gens = 1500
+    n_gens = 3
+    # n_gens = 1500
     n_pop = 100
     conf = {
         "solver": {"n_nodes": 50},
@@ -211,15 +263,15 @@ if __name__ == "__main__":
     }
 
     problems = [
-        "chemical_2_competition",
-        "friction_dyn_one-hot",
-        "friction_stat_one-hot",
-        "nasa_battery_1_10min",
-        "nasa_battery_2_20min",
-        "nikuradse_1",
-        "nikuradse_2",
-        # "chemical_1_tower",
-        # "flow_stress_phip0.1",
+        # "chemical_2_competition",
+        # "friction_dyn_one-hot",
+        # "friction_stat_one-hot",
+        # "nasa_battery_1_10min",
+        # "nasa_battery_2_20min",
+        # "nikuradse_1",
+        # "nikuradse_2",
+        "chemical_1_tower",
+        "flow_stress_phip0.1",
     ]
 
     args = sys.argv[1:]
