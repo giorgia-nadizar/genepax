@@ -17,6 +17,7 @@ from genepax.evolution.genetic_algorithm_extra_scores import (
     GeneticAlgorithmWithExtraScores,
 )
 from genepax.evolution.tournament_selector import TournamentSelector
+from genepax.gp.cartesian_genetic_programming import CGP
 from genepax.gp.tree_genetic_programming import TreeGP
 from genepax.supervised_learning.dataset_utils import downsample_dataset, load_dataset
 from genepax.supervised_learning.utils import prepare_rescoring_fn, prepare_scoring_fn
@@ -51,42 +52,17 @@ def run_sym_reg_ga(config: Dict):
         X_train_sub, y_train_sub = X_train, y_train
 
     # Init the CGP policy graph with default values
-    tree_structure = TreeGP(
+    cgp_structure = CGP(
         n_inputs=X_train.shape[1],
-        max_depth=config["solver"]["max_depth"],
+        n_outputs=1,
+        n_nodes=config["solver"]["n_nodes"],
         outputs_wrapper=lambda x: x,
     )
 
-    # print(tree_structure)
-
-    def get_scoring_fn_wrapper(
-        original_scoring_fn: Callable[[Genotype, RNGKey], Tuple[Fitness, ExtraScores]],
-    ) -> Callable[[Genotype, RNGKey], Tuple[Fitness, ExtraScores]]:
-
-        def _wrapped(geno: Genotype, the_k: RNGKey) -> Tuple[Fitness, ExtraScores]:
-            fit, extras = original_scoring_fn(geno, the_k)
-            tree_sizes = jax.jit(jax.vmap(tree_structure.size))(geno)
-            mask = (tree_sizes <= config["solver"]["max_size"]).reshape(-1, 1)
-            wrapped_fits = jnp.where(mask, fit, -jnp.inf)
-            return wrapped_fits, extras
-
-        return _wrapped
-
-    def get_rescoring_fn_wrapper(
-        original_rescoring_fn: Callable[[Genotype, RNGKey], Fitness],
-    ) -> Callable[[Genotype, RNGKey], Fitness]:
-
-        def _rewrapped(geno: Genotype, the_k: RNGKey) -> Fitness:
-            fit = original_rescoring_fn(geno, the_k)
-            tree_sizes = jax.jit(jax.vmap(tree_structure.size))(geno)
-            mask = (tree_sizes <= config["solver"]["max_size"]).reshape(-1, 1)
-            return jnp.where(mask, fit, -jnp.inf)
-
-        return _rewrapped
-
-    # Init the population of trees
+    # Init the population
     key, subkey = jax.random.split(key)
-    init_population = tree_structure.init_ramped_half_and_half(subkey, config["n_pop"])
+    init_keys = jax.random.split(key, config["n_pop"])
+    init_population = jax.jit(jax.vmap(cgp_structure.init))(init_keys)
 
     # Define a metrics function
     metrics_function = functools.partial(
@@ -94,31 +70,30 @@ def run_sym_reg_ga(config: Dict):
     )
 
     # Define emitter
-    mutation_fn = jax.jit(jax.vmap(tree_structure.mutate, in_axes=(0, 0)))
-    variation_fn = jax.jit(jax.vmap(tree_structure.crossover, in_axes=(0, 0, 0)))
+    mutation_fn = jax.jit(jax.vmap(cgp_structure.mutate, in_axes=(0, 0)))
     tournament_selector = TournamentSelector(tournament_size=config["tournament_size"])
     mixing_emitter = CustomMixingEmitter(
         mutation_fn=mutation_fn,
-        variation_fn=variation_fn,
-        variation_percentage=0.8,
+        variation_fn=None,
+        variation_percentage=0,
         batch_size=config["n_offspring"],
         selector=tournament_selector,
     )
 
     # Prepare the scoring function
     scoring_fn = prepare_scoring_fn(
-        X_train_sub, y_train_sub, X_test, y_test, tree_structure, task=task
+        X_train_sub, y_train_sub, X_test, y_test, cgp_structure, task=task
     )
-    rescoring_fn_gp = prepare_rescoring_fn(
-        X_train_sub, y_train_sub, tree_structure, task=task
+    rescoring_fn = prepare_rescoring_fn(
+        X_train_sub, y_train_sub, cgp_structure, task=task
     )
     # Instantiate GA
     ga = GeneticAlgorithmWithExtraScores(
-        scoring_function=get_scoring_fn_wrapper(scoring_fn),
+        scoring_function=scoring_fn,
         emitter=mixing_emitter,
         metrics_function=metrics_function,
         lamarckian=False,
-        rescoring_function=get_rescoring_fn_wrapper(rescoring_fn_gp),
+        rescoring_function=rescoring_fn,
     )
 
     # Evaluate the initial population
@@ -164,14 +139,14 @@ def run_sym_reg_ga(config: Dict):
             # change batch of the dataset to evaluate upon
             X_train_sub, y_train_sub = downsample_fn(X_train, y_train, sample_key)
             scoring_fn = prepare_scoring_fn(
-                X_train_sub, y_train_sub, X_test, y_test, tree_structure, task=task
+                X_train_sub, y_train_sub, X_test, y_test, cgp_structure, task=task
             )
             rescoring_fn = prepare_rescoring_fn(
-                X_train_sub, y_train_sub, tree_structure, task=task
+                X_train_sub, y_train_sub, cgp_structure, task=task
             )
             ga = ga.replace_scoring_fns(
-                get_scoring_fn_wrapper(scoring_fn),
-                get_rescoring_fn_wrapper(rescoring_fn),
+                scoring_fn,
+                rescoring_fn,
             )
 
         start_time = time.time()
@@ -210,10 +185,10 @@ def run_sym_reg_ga(config: Dict):
 
 
 if __name__ == "__main__":
-    n_gens = 300
-    n_pop = 500
+    n_gens = 1500
+    n_pop = 100
     conf = {
-        "solver": {"max_depth": 10, "max_size": 50},
+        "solver": {"n_nodes": 50},
         "n_offspring": n_pop,
         "n_pop": n_pop,
         "seed": 0,
@@ -246,15 +221,16 @@ if __name__ == "__main__":
             conf["problem"] = problems[int(value)]
 
     for seed in range(10):
-        conf["seed"] = seed
-        conf["n_gens"] = n_gens
-        # extra += f"_wpgs" if w_pgs else ""
-        conf["run_name"] = (
-            "GP_deep_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
-        )
-        print(conf["run_name"])
-        if os.path.exists(f"../results/{conf['run_name']}.pickle"):
-            print("run already done!")
-        else:
-            print("running")
-            run_sym_reg_ga(conf)
+        for problem in problems:
+            conf["problem"] = problem
+            conf["seed"] = seed
+            conf["n_gens"] = n_gens
+            conf["run_name"] = (
+                    "CGP_baseline_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
+            )
+            print(conf["run_name"])
+            if os.path.exists(f"../results/{conf['run_name']}.pickle"):
+                print("run already done!")
+            else:
+                print("running")
+                run_sym_reg_ga(conf)
