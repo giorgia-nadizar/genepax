@@ -414,7 +414,7 @@ if __name__ == "__main__":
                             f"CGP_feats{ls_text}_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
                     )
                     print(conf["run_name"])
-                    if os.path.exists(f"../results/{conf['run_name']}.pickle"):
+                    if os.path.exists(f"../results/sensitivity/{conf['run_name']}_{n_feats}.pickle"):
                         print("run already done!")
                     else:
                         print("running")
