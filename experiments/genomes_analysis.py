@@ -57,14 +57,14 @@ if __name__ == '__main__':
         "nasa_battery_2_20min",
         "nikuradse_1",
         "nikuradse_2",
-        # "chemical_1_tower",
-        # "flow_stress_phip0.1",
+        "chemical_1_tower",
+        "flow_stress_phip0.1",
     ]
 
     with open("../results/genome_analysis.csv", "a") as f:
         f.write("problem,seed,algo,size\n")
         for seed in range(10):
-            for extra in ['linscal', 'feats', 'featsls']:
+            for extra in ['linscal', 'feats', 'featsls', 'baseline']:
                 for problem in problems:
                     conf["problem"] = problem
                     conf["seed"] = seed

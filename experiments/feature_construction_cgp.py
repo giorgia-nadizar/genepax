@@ -365,8 +365,7 @@ def run_sym_reg_ga(config: Dict):
 
 
 if __name__ == "__main__":
-    # n_gens = 1500
-    n_gens = 3
+    n_gens = 1500
     n_pop = 100
     conf = {
         "solver": {"n_nodes": 50},
@@ -380,13 +379,13 @@ if __name__ == "__main__":
     }
 
     problems = [
-        # "chemical_2_competition",
-        # "friction_dyn_one-hot",
-        # "friction_stat_one-hot",
-        # "nasa_battery_1_10min",
-        # "nasa_battery_2_20min",
-        # "nikuradse_1",
-        # "nikuradse_2",
+        "chemical_2_competition",
+        "friction_dyn_one-hot",
+        "friction_stat_one-hot",
+        "nasa_battery_1_10min",
+        "nasa_battery_2_20min",
+        "nikuradse_1",
+        "nikuradse_2",
         "chemical_1_tower",
         "flow_stress_phip0.1",
     ]

@@ -199,8 +199,8 @@ if __name__ == "__main__":
         "nasa_battery_2_20min",
         "nikuradse_1",
         "nikuradse_2",
-        # "chemical_1_tower",
-        # "flow_stress_phip0.1",
+        "chemical_1_tower",
+        "flow_stress_phip0.1",
     ]
     for problem in problems:
         run_ridge_regression(problem)
