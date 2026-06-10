@@ -18,5 +18,10 @@ git clone https://github.com/giorgia-nadizar/genepax.git
 cd genepax
 conda env create -f environment.yml
 ```
+
+## Notes
+The installation is meant for GPU; if your machine doesn't have a GPU, you can set `export JAX_PLATFORMS=cpu` before
+running the code.
+
 ## Branches
 - `feat/constants` contains results of experiments on symbolic regression with constants optimization
