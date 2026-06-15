@@ -8,7 +8,6 @@ from typing import Dict, List, Tuple
 
 import jax
 import jax.numpy as jnp
-import skdim
 from qdax.core.containers.ga_repertoire import GARepertoire
 from qdax.custom_types import Genotype, RNGKey
 from qdax.utils.metrics import CSVLogger
