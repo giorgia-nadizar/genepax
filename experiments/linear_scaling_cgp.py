@@ -251,7 +251,7 @@ if __name__ == "__main__":
     n_gens = 1500
     n_pop = 100
     conf = {
-        "solver": {"n_nodes": 50},
+        "solver": {"n_nodes": 100},
         "n_offspring": n_pop,
         "n_pop": n_pop,
         "seed": 0,
@@ -262,13 +262,13 @@ if __name__ == "__main__":
     }
 
     problems = [
-        # "chemical_2_competition",
-        # "friction_dyn_one-hot",
-        # "friction_stat_one-hot",
-        # "nasa_battery_1_10min",
-        # "nasa_battery_2_20min",
-        # "nikuradse_1",
-        # "nikuradse_2",
+        "chemical_2_competition",
+        "friction_dyn_one-hot",
+        "friction_stat_one-hot",
+        "nasa_battery_1_10min",
+        "nasa_battery_2_20min",
+        "nikuradse_1",
+        "nikuradse_2",
         "chemical_1_tower",
         "flow_stress_phip0.1",
     ]
@@ -292,6 +292,8 @@ if __name__ == "__main__":
             conf["run_name"] = (
                     "CGP_linscal_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
             )
+            if conf["solver"]["n_nodes"] == 100:
+                conf["run_name"] = conf["run_name"].replace("CGP", "CGP_100")
             print(conf["run_name"])
             if os.path.exists(f"../results/{conf['run_name']}.pickle"):
                 print("run already done!")
