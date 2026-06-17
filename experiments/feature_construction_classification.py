@@ -8,7 +8,7 @@ from typing import Dict, List, Tuple
 
 import jax
 import jax.numpy as jnp
-import skdim
+from jax import grad, jit
 from qdax.core.containers.ga_repertoire import GARepertoire
 from qdax.custom_types import Genotype, RNGKey
 from qdax.utils.metrics import CSVLogger
@@ -21,58 +21,127 @@ from genepax.evolution.genetic_algorithm_extra_scores import (
 from genepax.evolution.tournament_selector import TournamentSelector
 from genepax.gp.cartesian_genetic_programming import CGP
 from genepax.supervised_learning.dataset_utils import downsample_dataset, load_dataset
-from genepax.supervised_learning.metrics import r2_score
 
 
-def single_genome_feature_construction_rescoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
-                                                    X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
-                                                    ) -> Tuple:
-    features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
-    # sanitization step and ridge regression
-    features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
-    train_weights = genotype["weights"]["custom_weights"].reshape(-1, 1)
-    pred_y_train = features @ train_weights
-    r2_train = r2_score(y_train, pred_y_train)
-    return jnp.asarray([r2_train])
+def sigmoid(z):
+    return 1 / (1 + jnp.exp(-z))
 
 
-def single_genome_feature_construction_scoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
-                                                  X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
-                                                  ) -> Tuple:
-    features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
-    # sanitization step and ridge regression
-    features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
-    lam = 1e-5
-    XtX = features.T @ features
-    Xty = features.T @ y_train
-    train_weights = jnp.linalg.solve(
-        XtX + lam * jnp.eye(features.shape[1]),
-        Xty
+def predict_proba(params, features):
+    w, b = params
+    return sigmoid(jnp.dot(features, w) + b)
+
+
+def loss_fn(params, features, y):
+    preds = predict_proba(params, features)
+    eps = 1e-7  # numerical stability
+    preds = jnp.clip(preds, eps, 1 - eps)
+
+    loss = -jnp.mean(
+        y * jnp.log(preds) + (1 - y) * jnp.log(1 - preds)
     )
-    updated_genotype = cgp_structure.update_weights(
-        genotype,
-        {
-            "custom_weights": train_weights.ravel()
-        }
-    )
-    test_features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_test)
-    pred_y_train = features @ train_weights
-    pred_y_test = test_features @ train_weights
-    r2_train = r2_score(y_train, pred_y_train)
-    r2_test = r2_score(y_test, pred_y_test)
-    return jnp.asarray([r2_train]), {
-        "test_accuracy": r2_test,
-        "updated_params": updated_genotype,
+    return loss
+
+
+def accuracy(params, features, y):
+    probs = predict_proba(params, features)
+    preds = (probs >= 0.5).astype(jnp.float32)
+    return jnp.mean(preds == y)
+
+
+def _single_genome_assessment(single_genotype, X, y, cgp_structure: CGP):
+    custom_weights = single_genotype["weights"]["custom_weights"]
+    features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(single_genotype, X)
+    features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
+    weights, bias = jnp.split(custom_weights, [cgp_structure.n_outputs])
+    params = weights, bias
+    return accuracy(params, features, y)
+
+
+def _single_genome_update(single_genotype, X, y, cgp_structure: CGP, lr):
+    custom_weights = single_genotype["weights"]["custom_weights"]
+    features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(single_genotype, X)
+    features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
+    weights, bias = jnp.split(custom_weights, [cgp_structure.n_outputs])
+    params = weights, bias
+    grads = grad(loss_fn)(params, features, y)
+    w, b = params
+    dw, db = grads
+    w = w - lr * dw
+    b = b - lr * db
+    updated_weights = {
+        "custom_weights": jnp.concatenate([w, b])
     }
+    return cgp_structure.update_weights(single_genotype, updated_weights)
+
+
+# def single_genome_feature_construction_rescoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
+#                                                     X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
+#                                                     ) -> Tuple:
+#     features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
+#     # sanitization step and ridge regression
+#     features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
+#     train_weights = genotype["weights"]["custom_weights"].reshape(-1, 1)
+#     pred_y_train = features @ train_weights
+#     r2_train = r2_score(y_train, pred_y_train)
+#     return jnp.asarray([r2_train])
+#
+#
+# def single_genome_feature_construction_scoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
+#                                                   X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
+#                                                   ) -> Tuple:
+#     features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
+#     # sanitization step and ridge regression
+#     features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
+#     lam = 1e-5
+#     XtX = features.T @ features
+#     Xty = features.T @ y_train
+#     train_weights = jnp.linalg.solve(
+#         XtX + lam * jnp.eye(features.shape[1]),
+#         Xty
+#     )
+#     updated_genotype = cgp_structure.update_weights(
+#         genotype,
+#         {
+#             "custom_weights": train_weights.ravel()
+#         }
+#     )
+#     test_features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_test)
+#     pred_y_train = features @ train_weights
+#     pred_y_test = test_features @ train_weights
+#     r2_train = r2_score(y_train, pred_y_train)
+#     r2_test = r2_score(y_test, pred_y_test)
+#     return jnp.asarray([r2_train]), {
+#         "test_accuracy": r2_test,
+#         "updated_params": updated_genotype,
+#     }
 
 
 def feature_construction_scoring_fn(genotypes: Genotype, key: RNGKey, X_train: jnp.ndarray, y_train: jnp.ndarray,
-                                    X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP,
-                                    inner_fn=single_genome_feature_construction_scoring_fn_ls
-                                    ) -> Tuple[jnp.ndarray, jnp.ndarray]:
-    sng = partial(inner_fn, X_train=X_train, y_train=y_train, X_test=X_test,
-                  y_test=y_test, cgp_structure=cgp_structure)
-    return jax.jit(jax.vmap(sng))(genotypes)
+                                    X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP, batch_size: int = 32,
+                                    n_updates: int = 100, lr: float = 0.01,
+                                    ):
+    # single_genotype, X, y,
+    partial_updated_fn = jax.jit(partial(_single_genome_update, cgp_structure=cgp_structure, lr=lr))
+    step_fn = jax.vmap(
+        jax.jit(partial_updated_fn), in_axes=(0, None, None)
+    )
+    for _ in range(n_updates):
+        key, subkey = jax.random.split(key)
+        # sample a mini-batch
+        X_batch, y_batch = downsample_dataset(X_train, y_train, random_key=subkey, size=batch_size)
+        genotypes = step_fn(genotypes, X_batch, y_batch)
+
+    # assess accuracy
+    train_assessment_fn = partial(_single_genome_assessment, X=X_train, y=y_train, cgp_structure=cgp_structure)
+    test_assessment_fn = partial(_single_genome_assessment, X=X_test, y=y_test, cgp_structure=cgp_structure)
+    train_accuracies = jax.vmap(jax.jit(train_assessment_fn))(genotypes)
+    train_accuracies_reshaped = jnp.expand_dims(train_accuracies, axis=1)
+    test_accuracies = jax.vmap(jax.jit(test_assessment_fn))(genotypes)
+    return train_accuracies_reshaped, {
+        "test_accuracy": test_accuracies,
+        "updated_params": genotypes,
+    }
 
 
 def process_metrics_mtr(metrics: Dict, headers: List) -> Dict:
@@ -82,7 +151,7 @@ def process_metrics_mtr(metrics: Dict, headers: List) -> Dict:
     return metrics
 
 
-def run_sym_reg_ga(config: Dict):
+def run_classification_ga(config: Dict):
     X_train, X_test, y_train, y_test = load_dataset(
         config["problem"],
         scale_x=config.get("scale_x", False),
@@ -92,6 +161,10 @@ def run_sym_reg_ga(config: Dict):
     key = jax.random.key(config["seed"])
     sample_key, key = jax.random.split(key)
     rescoring = len(X_train) > 2048
+    y_train = jnp.argmax(y_train, axis=1).astype(jnp.float32)
+    y_test = jnp.argmax(y_test, axis=1).astype(jnp.float32)
+    y_train = jnp.expand_dims(y_train, axis=1)
+    y_test = jnp.expand_dims(y_test, axis=1)
 
     if rescoring:
         downsample_fn = functools.partial(
@@ -105,8 +178,7 @@ def run_sym_reg_ga(config: Dict):
     # n_features = danco_id.dimension_
     # print(n_features)
     n_features = jnp.round(jnp.sqrt(X_train.shape[1])).astype(int)
-    ls = config["ls"]
-    n_custom_weights = n_features + 1 * ls
+    n_custom_weights = n_features + 1
 
     # Init the CGP policy graph with default values
     cgp_structure = CGP(
@@ -138,20 +210,15 @@ def run_sym_reg_ga(config: Dict):
         selector=tournament_selector,
     )
 
-    # Prepare the scoring function
-    inner_scoring_fn = single_genome_feature_construction_scoring_fn_ls if ls else single_genome_feature_construction_scoring_fn
-    inner_rescoring_fn = single_genome_feature_construction_rescoring_fn_ls if ls else single_genome_feature_construction_rescoring_fn
     scoring_fn = partial(
         feature_construction_scoring_fn,
         X_train=X_train_sub, y_train=y_train_sub,
         X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
-        inner_fn=inner_scoring_fn
     )
     rescoring_fn = partial(
         feature_construction_scoring_fn,
         X_train=X_train_sub, y_train=y_train_sub,
         X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
-        inner_fn=inner_rescoring_fn
     )
     # Instantiate GA
     ga = GeneticAlgorithmWithExtraScores(
@@ -200,25 +267,25 @@ def run_sym_reg_ga(config: Dict):
     # Iterations
     for iteration in range(1, config["n_gens"]):
         key, subkey, sample_key = jax.random.split(key, 3)
-        if rescoring:
-            # change batch of the dataset to evaluate upon
-            X_train_sub, y_train_sub = downsample_fn(X_train, y_train, sample_key)
-            scoring_fn = partial(
-                feature_construction_scoring_fn,
-                X_train=X_train_sub, y_train=y_train_sub,
-                X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
-                inner_fn=inner_scoring_fn
-            )
-            rescoring_fn = partial(
-                feature_construction_scoring_fn,
-                X_train=X_train_sub, y_train=y_train_sub,
-                X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
-                inner_fn=inner_rescoring_fn
-            )
-            ga = ga.replace_scoring_fns(
-                scoring_fn,
-                rescoring_fn,
-            )
+        # if rescoring:
+        #     # change batch of the dataset to evaluate upon
+        #     X_train_sub, y_train_sub = downsample_fn(X_train, y_train, sample_key)
+        #     scoring_fn = partial(
+        #         feature_construction_scoring_fn,
+        #         X_train=X_train_sub, y_train=y_train_sub,
+        #         X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
+        #         inner_fn=inner_scoring_fn
+        #     )
+        #     rescoring_fn = partial(
+        #         feature_construction_scoring_fn,
+        #         X_train=X_train_sub, y_train=y_train_sub,
+        #         X_test=X_test, y_test=y_test, cgp_structure=cgp_structure,
+        #         inner_fn=inner_rescoring_fn
+        #     )
+        #     ga = ga.replace_scoring_fns(
+        #         scoring_fn,
+        #         rescoring_fn,
+        #     )
 
         start_time = time.time()
 
@@ -270,15 +337,7 @@ if __name__ == "__main__":
     }
 
     problems = [
-        "chemical_2_competition",
-        "friction_dyn_one-hot",
-        "friction_stat_one-hot",
-        "nasa_battery_1_10min",
-        "nasa_battery_2_20min",
-        "nikuradse_1",
-        "nikuradse_2",
-        "chemical_1_tower",
-        "flow_stress_phip0.1",
+        "diabetes_classification",
     ]
 
     args = sys.argv[1:]
@@ -292,19 +351,16 @@ if __name__ == "__main__":
             conf["problem"] = problems[int(value)]
 
     for seed in range(10):
-        for ls in [True, False]:
-            for problem in problems:
-                conf["problem"] = problem
-                conf["seed"] = seed
-                conf["n_gens"] = n_gens
-                ls_text = "ls" if ls else ""
-                conf["ls"] = ls
-                conf["run_name"] = (
-                        f"CGP_feats{ls_text}_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
-                )
-                print(conf["run_name"])
-                if os.path.exists(f"../results/{conf['run_name']}.pickle"):
-                    print("run already done!")
-                else:
-                    print("running")
-                    run_sym_reg_ga(conf)
+        for problem in problems:
+            conf["problem"] = problem
+            conf["seed"] = seed
+            conf["n_gens"] = n_gens
+            conf["run_name"] = (
+                    f"CGP_feats_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
+            )
+            print(conf["run_name"])
+            if os.path.exists(f"../results/{conf['run_name']}.pickle"):
+                print("run already done!")
+            else:
+                print("running")
+                run_classification_ga(conf)
