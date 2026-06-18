@@ -165,6 +165,7 @@ def run_classification_ga(config: Dict):
     y_test = jnp.argmax(y_test, axis=1).astype(jnp.float32)
     y_train = jnp.expand_dims(y_train, axis=1)
     y_test = jnp.expand_dims(y_test, axis=1)
+    config["n_gens"] = int((config["n_gens"] * min(2048, len(X_train))) / (min(2048, len(X_train)) + 3200))
 
     if rescoring:
         downsample_fn = functools.partial(
