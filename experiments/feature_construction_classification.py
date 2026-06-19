@@ -4,11 +4,11 @@ import pickle
 import sys
 import time
 from functools import partial
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 import jax
 import jax.numpy as jnp
-from jax import grad, jit
+from jax import grad
 from qdax.core.containers.ga_repertoire import GARepertoire
 from qdax.custom_types import Genotype, RNGKey
 from qdax.utils.metrics import CSVLogger
@@ -33,13 +33,16 @@ def predict_proba(params, features):
 
 
 def loss_fn(params, features, y):
-    preds = predict_proba(params, features)
-    eps = 1e-7  # numerical stability
-    preds = jnp.clip(preds, eps, 1 - eps)
+    w, b = params
+    logits = jnp.dot(features, w) + b
 
-    loss = -jnp.mean(
-        y * jnp.log(preds) + (1 - y) * jnp.log(1 - preds)
+    # Stable binary cross entropy
+    loss = jnp.mean(
+        jnp.maximum(logits, 0)
+        - logits * y
+        + jnp.log1p(jnp.exp(-jnp.abs(logits)))
     )
+
     return loss
 
 
@@ -52,7 +55,13 @@ def accuracy(params, features, y):
 def _single_genome_assessment(single_genotype, X, y, cgp_structure: CGP):
     custom_weights = single_genotype["weights"]["custom_weights"]
     features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(single_genotype, X)
-    features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
+    features = jnp.nan_to_num(
+        features,
+        nan=0.0,
+        posinf=100.0,
+        neginf=-100.0,
+    )
+    features = jnp.clip(features, -100.0, 100.0)
     weights, bias = jnp.split(custom_weights, [cgp_structure.n_outputs])
     params = weights, bias
     return accuracy(params, features, y)
@@ -75,51 +84,9 @@ def _single_genome_update(single_genotype, X, y, cgp_structure: CGP, lr):
     return cgp_structure.update_weights(single_genotype, updated_weights)
 
 
-# def single_genome_feature_construction_rescoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
-#                                                     X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
-#                                                     ) -> Tuple:
-#     features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
-#     # sanitization step and ridge regression
-#     features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
-#     train_weights = genotype["weights"]["custom_weights"].reshape(-1, 1)
-#     pred_y_train = features @ train_weights
-#     r2_train = r2_score(y_train, pred_y_train)
-#     return jnp.asarray([r2_train])
-#
-#
-# def single_genome_feature_construction_scoring_fn(genotype: Genotype, X_train: jnp.ndarray, y_train: jnp.ndarray,
-#                                                   X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP
-#                                                   ) -> Tuple:
-#     features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_train)
-#     # sanitization step and ridge regression
-#     features = jnp.nan_to_num(features, nan=0.0, posinf=1e3, neginf=-1e3)
-#     lam = 1e-5
-#     XtX = features.T @ features
-#     Xty = features.T @ y_train
-#     train_weights = jnp.linalg.solve(
-#         XtX + lam * jnp.eye(features.shape[1]),
-#         Xty
-#     )
-#     updated_genotype = cgp_structure.update_weights(
-#         genotype,
-#         {
-#             "custom_weights": train_weights.ravel()
-#         }
-#     )
-#     test_features = jax.jit(jax.vmap(cgp_structure.apply, in_axes=(None, 0)))(genotype, X_test)
-#     pred_y_train = features @ train_weights
-#     pred_y_test = test_features @ train_weights
-#     r2_train = r2_score(y_train, pred_y_train)
-#     r2_test = r2_score(y_test, pred_y_test)
-#     return jnp.asarray([r2_train]), {
-#         "test_accuracy": r2_test,
-#         "updated_params": updated_genotype,
-#     }
-
-
 def feature_construction_scoring_fn(genotypes: Genotype, key: RNGKey, X_train: jnp.ndarray, y_train: jnp.ndarray,
                                     X_test: jnp.ndarray, y_test: jnp.ndarray, cgp_structure: CGP, batch_size: int = 32,
-                                    n_updates: int = 100, lr: float = 0.01,
+                                    n_updates: int = 100, lr: float = 0.001,
                                     ):
     # single_genotype, X, y,
     partial_updated_fn = jax.jit(partial(_single_genome_update, cgp_structure=cgp_structure, lr=lr))
@@ -226,7 +193,7 @@ def run_classification_ga(config: Dict):
         scoring_function=scoring_fn,
         emitter=mixing_emitter,
         metrics_function=metrics_function,
-        lamarckian=False,
+        lamarckian=True,
         rescoring_function=rescoring_fn,
     )
 
@@ -325,7 +292,7 @@ def run_classification_ga(config: Dict):
 
 if __name__ == "__main__":
     n_gens = 1500
-    n_pop = 100
+    n_pop = 7
     conf = {
         "solver": {"n_nodes": 50},
         "n_offspring": n_pop,

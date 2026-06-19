@@ -10,11 +10,11 @@ from genepax.supervised_learning.dataset_utils import load_dataset
 eps = 1e-6
 
 
-def genome_size(conf: Dict) -> int:
+def genome_size(conf: Dict, n_feats: int) -> int:
     try:
-        file = open(f"../results/{conf['run_name']}.pickle", 'rb')
+        file = open(f"../results/sensitivity/{conf['run_name']}.pickle", 'rb')
     except FileNotFoundError:
-        print(f"../results/{conf['run_name']}.pickle")
+        print(f"../results/sensitivity/{conf['run_name']}.pickle")
         return -1
     repertoire = pickle.load(file)
 
@@ -23,7 +23,7 @@ def genome_size(conf: Dict) -> int:
                                                     scale_y=conf.get("scale_y", False),
                                                     random_state=conf["seed"]
                                                     )
-    n_features = jnp.round(jnp.sqrt(X_train.shape[1])).astype(int)
+    n_features = n_feats
     if "seq" not in conf['run_name']:
         n_outputs = 1 if "feat" not in conf['run_name'] else n_features
         # Init the CGP policy graph with default values
@@ -57,7 +57,7 @@ def genome_size(conf: Dict) -> int:
 
 if __name__ == '__main__':
     conf = {
-        "solver": {"n_nodes": 100},
+        "solver": {"n_nodes": 50},
         "seed": 0,
         "tournament_size": 3,
         "problem": "chemical_2_competition",
@@ -67,28 +67,24 @@ if __name__ == '__main__':
 
     problems = [
         "chemical_2_competition",
-        "friction_dyn_one-hot",
-        "friction_stat_one-hot",
-        "nasa_battery_1_10min",
-        "nasa_battery_2_20min",
-        "nikuradse_1",
-        "nikuradse_2",
-        "chemical_1_tower",
-        "flow_stress_phip0.1",
     ]
 
-    with open("../results/genome_analysis_100.csv", "a") as f:
-        f.write("problem,seed,algo,size\n")
+    with open("../results/genome_analysis_sensitivity.csv", "a") as f:
+        f.write("problem,seed,algo,size,n_features\n")
         for seed in range(10):
-            for extra in ['seq', 'linscal', 'feats', 'featsls', 'baseline']:
-                for problem in problems:
-                    conf["problem"] = problem
-                    conf["seed"] = seed
-                    conf["run_name"] = (
-                            f"CGP_100_{extra}_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
-                    )
-                    # conf["repertoire_path"] = f"../results/{conf['run_name']}.pickle"
-                    print(conf["run_name"])
-                    active_size = genome_size(conf)
-                    if active_size >= 0:
-                        f.write(f"{problem},{seed},{extra},{active_size}\n")
+            for extra in ['feats', 'featsls']:
+                for n_feats in range(1, 57):
+                    if n_feats % 2 != 0 or n_feats == 8:
+                        continue
+                    for problem in problems:
+                        conf["problem"] = problem
+                        conf["seed"] = seed
+                        conf["run_name"] = (
+                                f"CGP_{extra}_" + conf["problem"].replace("/", "_") + "_" + str(conf["seed"])
+                                                                                                + "_" + str(n_feats)
+                        )
+                        # conf["repertoire_path"] = f"../results/{conf['run_name']}.pickle"
+                        print(conf["run_name"])
+                        active_size = genome_size(conf, n_feats)
+                        if active_size >= 0:
+                            f.write(f"{problem},{seed},{extra},{active_size},{n_feats}\n")
