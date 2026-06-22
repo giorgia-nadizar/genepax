@@ -146,7 +146,7 @@ def run_classification_ga(config: Dict):
     # danco_id = skdim.id.DANCo(fractal=False).fit(X_train)
     # n_features = danco_id.dimension_
     # print(n_features)
-    n_features = jnp.round(jnp.sqrt(X_train.shape[1])).astype(int)
+    n_features = max(jnp.round(jnp.sqrt(X_train.shape[1])).astype(int), 5)
     n_custom_weights = n_features + 1
 
     # Init the CGP policy graph with default values
@@ -293,7 +293,7 @@ def run_classification_ga(config: Dict):
 
 if __name__ == "__main__":
     n_gens = 1500
-    n_pop = 7
+    n_pop = 100
     conf = {
         "solver": {"n_nodes": 50},
         "n_offspring": n_pop,
@@ -307,6 +307,7 @@ if __name__ == "__main__":
 
     problems = [
         "diabetes_classification",
+        "breast_cancer"
     ]
 
     args = sys.argv[1:]
