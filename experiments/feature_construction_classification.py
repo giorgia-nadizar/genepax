@@ -97,11 +97,12 @@ def feature_construction_scoring_fn(genotypes: Genotype, key: RNGKey, X_train: j
         key, subkey = jax.random.split(key)
         # sample a mini-batch
         X_batch, y_batch = downsample_dataset(X_train, y_train, random_key=subkey, size=batch_size)
+        y_batch = y_batch.ravel()
         genotypes = step_fn(genotypes, X_batch, y_batch)
 
     # assess accuracy
-    train_assessment_fn = partial(_single_genome_assessment, X=X_train, y=y_train, cgp_structure=cgp_structure)
-    test_assessment_fn = partial(_single_genome_assessment, X=X_test, y=y_test, cgp_structure=cgp_structure)
+    train_assessment_fn = partial(_single_genome_assessment, X=X_train, y=y_train.ravel(), cgp_structure=cgp_structure)
+    test_assessment_fn = partial(_single_genome_assessment, X=X_test, y=y_test.ravel(), cgp_structure=cgp_structure)
     train_accuracies = jax.vmap(jax.jit(train_assessment_fn))(genotypes)
     train_accuracies_reshaped = jnp.expand_dims(train_accuracies, axis=1)
     test_accuracies = jax.vmap(jax.jit(test_assessment_fn))(genotypes)
