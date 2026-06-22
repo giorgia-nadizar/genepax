@@ -162,6 +162,11 @@ def run_classification_ga(config: Dict):
     key, subkey = jax.random.split(key)
     init_keys = jax.random.split(key, config["n_pop"])
     init_population = jax.jit(jax.vmap(cgp_structure.init))(init_keys)
+    custom_weights = {
+        "custom_weights": jnp.hstack([jnp.ones(n_features) * 1e-5, 0.])
+    }
+    init_population = jax.jit(jax.vmap(cgp_structure.update_weights, in_axes=(0, None)))(init_population,
+                                                                                         custom_weights)
 
     # Define a metrics function
     metrics_function = functools.partial(
@@ -306,8 +311,8 @@ if __name__ == "__main__":
     }
 
     problems = [
+        "breast_cancer",
         "diabetes_classification",
-        "breast_cancer"
     ]
 
     args = sys.argv[1:]
