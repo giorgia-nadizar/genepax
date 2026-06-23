@@ -92,6 +92,7 @@ def load_dataset(
     """
     uci_classification_datasets = {"breast_cancer": 17, "glass": 42}
     local_classification_datasets = ["diabetes_classification"]
+    local_regression_datasets = ["bioavailability", "ld50", "ppb"]
 
     if dataset_name in uci_classification_datasets.keys():
         dataset = fetch_ucirepo(id=uci_classification_datasets[dataset_name])
@@ -140,6 +141,13 @@ def load_dataset(
     elif "dcgp" in dataset_name:
         X_train, X_test, y_train, y_test = getattr(dcgp, dataset_name)(
             seed=random_state
+        )
+    elif dataset_name in local_regression_datasets:
+        df = pd.read_csv(f"../datasets/regression/{dataset_name}.txt")
+        X = df.values[:, :-1]
+        y = df.values[:, -1]
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_split, random_state=random_state
         )
     else:
         df_train = pd.read_csv(f"../datasets/regression/{dataset_name}_train.csv")
