@@ -145,7 +145,7 @@ def load_dataset(
     elif dataset_name in local_regression_datasets:
         df = pd.read_csv(f"../datasets/regression/{dataset_name}.txt")
         X = df.values[:, :-1]
-        y = df.values[:, -1]
+        y = df.values[:, -1].reshape(-1, 1)
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_split, random_state=random_state
         )
