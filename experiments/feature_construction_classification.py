@@ -311,8 +311,9 @@ if __name__ == "__main__":
     }
 
     problems = [
-        "breast_cancer",
-        "diabetes_classification",
+        'Hill_Valley_with_noise', 'Hill_Valley_without_noise', 'clean1'
+        # "breast_cancer",
+        # "diabetes_classification",
     ]
 
     args = sys.argv[1:]
