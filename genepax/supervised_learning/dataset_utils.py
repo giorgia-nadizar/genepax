@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import scipy
 from pmlb import fetch_data
+from pmlb.dataset_lists import df_summary
 from qdax.custom_types import RNGKey
 from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
@@ -159,8 +160,13 @@ def load_dataset(
             y_train = df_train["target"].to_numpy().reshape(-1, 1)
             y_test = df_test["target"].to_numpy().reshape(-1, 1)
         except FileNotFoundError:
-            X, y = fetch_data(dataset_name, return_X_y=True, local_cache_dir="../datasets/regression")
-            y = y.reshape(-1, 1)
+            task = df_summary[df_summary["dataset"] == dataset_name]["task"].tolist()[0]
+            X, y = fetch_data(dataset_name, return_X_y=True, local_cache_dir=f"../datasets/{task}")
+            if task == "regression":
+                y = y.reshape(-1, 1)
+            else:
+                encoder = OneHotEncoder(sparse_output=False)
+                y = encoder.fit_transform(y.reshape(-1, 1))
             X_train, X_test, y_train, y_test = train_test_split(
                 X, y, test_size=test_split, random_state=random_state
             )
