@@ -37,10 +37,10 @@ class JaxFunction:
     """
 
     def __init__(
-        self,
-        op: Callable[[Union[Array, float], Union[Array, float]], Union[Array, float]],
-        arity: int,
-        symbol: str = "",
+            self,
+            op: Callable[[Union[Array, float], Union[Array, float]], Union[Array, float]],
+            arity: int,
+            symbol: str = "",
     ) -> None:
         self.operator = jit(op)
         self.arity = arity
@@ -65,9 +65,9 @@ class JaxFunction:
 
     @classmethod
     def tree_unflatten(
-        cls,
-        aux_data: Dict[str, Any],
-        children: Tuple[Any, ...],
+            cls,
+            aux_data: Dict[str, Any],
+            children: Tuple[Any, ...],
     ) -> "JaxFunction":
         return cls(aux_data["operator"], aux_data["arity"], aux_data["symbol"])
 
@@ -86,8 +86,10 @@ function_set_numeric = {
     "cos": JaxFunction(lambda x, y: jnp.cos(x), 1, "cos"),
     "prot_log": JaxFunction(lambda x, y: jnp.log(jnp.abs(x) + eps), 1, "log"),
     "sqrt": JaxFunction(lambda x, y: jnp.sqrt(jnp.sqrt(x * x + eps) + eps), 1, "sqrt"),
-    "pow": JaxFunction(lambda x, y: jnp.power(x, y), 1, "pow"),
+    "pow": JaxFunction(lambda x, y: jnp.power(x, y), 2, "pow"),
     "identity": JaxFunction(lambda x, y: x, 1, "id"),
+    "square": JaxFunction(lambda x, y: x * x, 1, "square"),
+    "cube": JaxFunction(lambda x, y: x * x * x, 1, "cube"),
     # "lower": JaxFunction(lambda x, y: jnp.add(0.0, x < y), 2, "<"),
     # "greater": JaxFunction(lambda x, y: jnp.add(0.0, x > y), 2, ">"),
 }
@@ -148,8 +150,8 @@ class FunctionSet:
 
     @classmethod
     def tree_unflatten(
-        cls,
-        aux_data: Dict[str, Any],
-        children: Tuple[Any, ...],
+            cls,
+            aux_data: Dict[str, Any],
+            children: Tuple[Any, ...],
     ) -> "FunctionSet":
         return cls(aux_data["function_set"])
