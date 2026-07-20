@@ -3,16 +3,15 @@
 # os.environ["JAX_PLATFORM_NAME"] = "cpu"
 import csv
 import pickle
+import numpy as np
 
-from qdax.core.containers import GARepertoire
+from qdax.baselines.genetic_algorithm import GeneticAlgorithm
 
 from distillation.fit_dataset import fit_dataset
 from distillation.networks.jax_actor import JaxActor
 from distillation.networks.jax_critic import JaxCritic
 from distillation.networks.jax_q_value import JaxQValueEstimator
 from genepax.evolution.custom_emitters import CustomMixingEmitter
-from genepax.evolution.evolution_metrics import custom_ga_metrics
-from genepax.evolution.genetic_algorithm_extra_scores import GeneticAlgorithmWithExtraScores
 from genepax.evolution.tournament_selector import TournamentSelector
 
 import functools
@@ -23,20 +22,21 @@ import jax.numpy as jnp
 
 from brax import envs
 
+from qdax.utils.metrics import default_ga_metrics
+
 from genepax.gp.cartesian_genetic_programming import CGP
+from mixedpolicysearch.intervalled_policy_scoring import intervalled_policy_scoring_fn
 from mixedpolicysearch.mixed_policy_scoring import mixed_policy_scoring_fn
 
 
 def policy_search():
     env_name = "inverted_double_pendulum"
     seed = 0
-    batch_size = 100
+    batch_size = 50
     n_evaluation_seeds = 5
+    n_iterations = 1_500
     sr_generations = 100
     bootstrapping = True
-    beta_schedule = [.3, .2, .1, 0]
-    beta_iterations = 250
-    n_iterations = (len(beta_schedule) + 1) * beta_iterations
 
     neural_model_path = f"../distillation/sac_jax_{env_name}.pkl"
     # Load SAC actor and critic
@@ -99,21 +99,70 @@ def policy_search():
         init_keys = jax.random.split(subkey, batch_size)
         init_population = jax.vmap(cgp_structure.init)(init_keys)
 
-    beta_schedule_idx = 0
-    scoring_function = functools.partial(
-        mixed_policy_scoring_fn,
-        cgp_structure=cgp_structure,
-        actor=actor,
-        actor_params=actor_params,
-        env=env,
-        n_reps=n_evaluation_seeds,
-        beta=beta_schedule[beta_schedule_idx],
-    )
-    eval_key, key = jax.random.split(key)
+    filename = f"{env_name}_{'b' if bootstrapping else 'nb'}_n.csv"
+    arr = np.concatenate((["param"], [f"i_{i}" for i in range(batch_size)]))
+    print(arr)
+    with open(filename, "a") as f:
+        f.write(",".join(arr) + "\n")
+    for int_beta in range(2, 11):
+        trial_scoring_fn = functools.partial(
+            intervalled_policy_scoring_fn,
+            cgp_structure=cgp_structure,
+            actor=actor,
+            actor_params=actor_params,
+            env=env,
+            n_reps=n_evaluation_seeds,
+            n=int_beta,
+        )
+        eval_key, key = jax.random.split(key)
+        rewards, extra_info = trial_scoring_fn(init_population, key)
+        arr = np.array(jnp.ravel(rewards))
+        arr = np.concatenate(([1 / int_beta], arr))
+        print(arr)
+        with open(filename, "a") as f:
+            np.savetxt(f, arr.reshape(1, -1), delimiter=",",)
 
-    metrics_function = functools.partial(
-        custom_ga_metrics, extra_scores_metrics={"test_accuracy": jnp.ravel}
-    )
+        print(int_beta)
+        # print(rewards)
+    arr = np.array(jnp.ravel(extra_info["test_accuracy"]))
+    arr = np.concatenate(([0], arr))
+    with open(filename, "a") as f:
+        np.savetxt(f, arr.reshape(1, -1), delimiter=",")
+
+
+
+    filename = f"{env_name}_{'b' if bootstrapping else 'nb'}_beta.csv"
+    arr = np.concatenate((["param"], [f"i_{i}" for i in range(batch_size)]))
+    with open(filename, "a") as f:
+        f.write(",".join(arr) + "\n")
+    for int_beta in range(11):
+        beta = (10 - int_beta) / 10
+        trial_scoring_fn = functools.partial(
+            mixed_policy_scoring_fn,
+            cgp_structure=cgp_structure,
+            actor=actor,
+            actor_params=actor_params,
+            env=env,
+            n_reps=n_evaluation_seeds,
+            beta=beta,
+        )
+        eval_key, key = jax.random.split(key)
+        rewards, extra_info = trial_scoring_fn(init_population, key)
+        arr = np.array(jnp.ravel(rewards))
+        arr = np.concatenate(([beta], arr))
+        with open(filename, "a") as f:
+            np.savetxt(f, arr.reshape(1, -1), delimiter=",")
+
+        print(beta)
+        # print(rewards)
+    arr = np.array(jnp.ravel(extra_info["test_accuracy"]))
+    arr = np.concatenate(([0], arr))
+    with open(filename, "a") as f:
+        np.savetxt(f, arr.reshape(1, -1), delimiter=",")
+    exit(5)
+    exit(5)
+
+    metrics_function = functools.partial(default_ga_metrics)
     cgp_mutation = functools.partial(cgp_structure.mutate, p_mut_inputs=.2, p_mut_functions=.2)
 
     mutation_fn = jax.jit(jax.vmap(cgp_mutation, in_axes=(0, 0)))
@@ -126,72 +175,27 @@ def policy_search():
         selector=tournament_selector,
     )
 
-    ga = GeneticAlgorithmWithExtraScores(
+    ga = GeneticAlgorithm(
         scoring_function=scoring_function,
         emitter=mixing_emitter,
         metrics_function=metrics_function,
     )
 
-    filename = f"results/mixed_policy_beta_{env_name}_{seed}.csv"
-    with open(filename, "a", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["beta", "iteration", "max_fitness", "max_evaluation"])
-
     key, subkey = jax.random.split(key)
-    repertoire, emitter_state, metrics = ga.init(
+    repertoire, emitter_state, init_metrics = ga.init(
         genotypes=init_population, population_size=batch_size, key=subkey
     )
-    print(metrics)
-    with open(filename, "a", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow([beta_schedule[beta_schedule_idx], 0, metrics["max_fitness"][0], metrics["test_accuracy"][0]])
 
-    for iteration in range(1, n_iterations):
+    for iteration in range(n_iterations):
         start_time = time.time()
 
-        # change beta value
-        if iteration % beta_iterations == 0:
-            beta_schedule_idx += 1
-            print(f"new beta: {beta_schedule[beta_schedule_idx]}")
-            scoring_function = functools.partial(
-                mixed_policy_scoring_fn,
-                cgp_structure=cgp_structure,
-                actor=actor,
-                actor_params=actor_params,
-                env=env,
-                n_reps=n_evaluation_seeds,
-                beta=beta_schedule[beta_schedule_idx],
-            )
-            ga = GeneticAlgorithmWithExtraScores(
-                scoring_function=scoring_function,
-                emitter=mixing_emitter,
-                metrics_function=metrics_function,
-            )
-            repertoire, emitter_state, metrics = ga.init(
-                genotypes=repertoire.genotypes, population_size=batch_size, key=subkey
-            )
-        else:
-            repertoire, emitter_state, metrics = ga.update(
-                repertoire=repertoire,
-                emitter_state=emitter_state,
-                key=subkey,
-            )
+        repertoire, emitter_state, current_metrics = ga.update(
+            repertoire=repertoire,
+            emitter_state=emitter_state,
+            key=subkey,
+        )
         timelapse = time.time() - start_time
-        with open(filename, "a", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow(
-                [beta_schedule[beta_schedule_idx], iteration, metrics["max_fitness"][0], metrics["test_accuracy"][0]])
-        print(iteration, timelapse, metrics)
-        if metrics["test_accuracy"] > 9350:
-            break
-
-    repertoire_to_store = GARepertoire.init(
-        genotypes=repertoire.genotypes,
-        fitnesses=repertoire.fitnesses,
-        population_size=len(repertoire.fitnesses),
-    )
-    with open(filename.replace("csv", "pickle"), "wb") as file:
-        pickle.dump(repertoire_to_store, file)
+        print(iteration, timelapse, current_metrics)
 
 
 if __name__ == '__main__':
