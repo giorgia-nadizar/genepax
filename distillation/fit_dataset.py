@@ -98,8 +98,7 @@ def feature_construction_scoring_fn(genotypes: Genotype, key: RNGKey, X: jnp.nda
 
 
 def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
-                q_value_estimator=None, bootstrap_repertoire=None):
-    n_pop = 100
+                q_value_estimator=None, bootstrap_repertoire=None, n_pop = 100):
     key = jax.random.key(seed)
 
     # Init the population
