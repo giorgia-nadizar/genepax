@@ -1,6 +1,6 @@
-import os
-
-os.environ["JAX_PLATFORM_NAME"] = "cpu"
+# import os
+#
+# os.environ["JAX_PLATFORM_NAME"] = "cpu"
 
 from qdax.baselines.genetic_algorithm import GeneticAlgorithm
 
