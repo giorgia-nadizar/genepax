@@ -31,17 +31,12 @@ class TournamentSelector(Selector):
         ) -> jnp.ndarray:
             indexes = jax.random.choice(
                 sample_key,
-                jnp.arange(start=0, stop=len(genomes)),
+                jnp.arange(start=0, stop=len(fitness_values)),
                 shape=[self.tournament_size],
-                replace=True,
+                replace=False,
             )
-            mask = -jnp.inf * jnp.ones_like(fitness_values)
-            mask = mask.at[indexes].set(1)
-            positive_fitnesses = fitness_values + jnp.abs(
-                jnp.minimum(jnp.min(fitness_values), 0)
-            )
-            fitness_values_for_selection = positive_fitnesses * mask
-            return jnp.argmax(fitness_values_for_selection)
+            winner = indexes[jnp.argmax(fitness_values[indexes])]
+            return winner
 
         sample_keys = jax.random.split(key, num_samples)
         partial_single_tournament = partial(
