@@ -86,7 +86,7 @@ function_set_numeric = {
     "cos": JaxFunction(lambda x, y: jnp.cos(x), 1, "cos"),
     "prot_log": JaxFunction(lambda x, y: jnp.log(jnp.abs(x) + eps), 1, "log"),
     "sqrt": JaxFunction(lambda x, y: jnp.sqrt(jnp.sqrt(x * x + eps) + eps), 1, "sqrt"),
-    "pow": JaxFunction(lambda x, y: jnp.power(x, y), 1, "pow"),
+    "pow": JaxFunction(lambda x, y: jnp.power(x, y), 2, "pow"),
     "identity": JaxFunction(lambda x, y: x, 1, "id"),
     # "lower": JaxFunction(lambda x, y: jnp.add(0.0, x < y), 2, "<"),
     # "greater": JaxFunction(lambda x, y: jnp.add(0.0, x > y), 2, ">"),
