@@ -1,7 +1,7 @@
 # import os
 #
 # os.environ["JAX_PLATFORM_NAME"] = "cpu"
-
+from brax import envs
 from qdax.baselines.genetic_algorithm import GeneticAlgorithm
 
 from genepax.evolution.custom_emitters import CustomMixingEmitter
@@ -23,8 +23,30 @@ from qdax.utils.metrics import default_ga_metrics
 from genepax.gp.cartesian_genetic_programming import CGP
 
 
+def custom_generate_unroll(
+        init_state,
+        policy_params,
+        key,
+        episode_length: int,
+        play_step_fn
+):
+    def _scan_play_step_fn(
+            carry, unused_arg
+    ):
+        env_state, policy_params, key, transitions = play_step_fn(*carry)
+        return (env_state, policy_params, key), transitions
+
+    (state, _, _), transitions = jax.lax.scan(
+        _scan_play_step_fn,
+        (init_state, policy_params, key),
+        (),
+        length=episode_length,
+    )
+    return state, transitions
+
+
 def policy_search():
-    env_name = "hopper"
+    env_name = "inverted_double_pendulum"
     episode_length = 1_000
     seed = 0
     batch_size = 50
@@ -33,6 +55,7 @@ def policy_search():
 
     # Init environment
     env = environments.create(env_name, episode_length=episode_length)
+    # env = envs.get_environment(env_name, backend="generalized")
     reset_fn = jax.jit(env.reset)
 
     # Init a random key
@@ -56,22 +79,23 @@ def policy_search():
             policy_params,
             key,
     ):
-        actions = cgp_structure.apply(policy_params, env_state.obs)
-        next_state = env.step(env_state, actions)
+        # actions = cgp_structure.apply(policy_params, env_state.obs)
+        actions = jnp.asarray([0.])
+        next_state = jax.jit(env.step)(env_state, actions)
 
         transition = Transition(
             obs=env_state.obs,
             next_obs=next_state.obs,
             rewards=next_state.reward,
             dones=next_state.done,
-            truncations=next_state.info["truncation"],
+            truncations=next_state.done,
             actions=actions
         )
 
         return next_state, policy_params, key, transition
 
     unroll_fn = functools.partial(
-        generate_unroll,
+        custom_generate_unroll,
         episode_length=episode_length,
         play_step_fn=play_step_fn,
     )
@@ -109,7 +133,7 @@ def policy_search():
         return averaged_fitnesses, multi_data
 
     metrics_function = functools.partial(default_ga_metrics)
-    cgp_mutation = functools.partial(cgp_structure.mutate, p_mut_inputs=.2, p_mut_functions=.2)
+    cgp_mutation = functools.partial(cgp_structure.mutate)
 
     mutation_fn = jax.jit(jax.vmap(cgp_mutation, in_axes=(0, 0)))
     tournament_selector = TournamentSelector()

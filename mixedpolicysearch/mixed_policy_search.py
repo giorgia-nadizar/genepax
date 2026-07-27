@@ -24,7 +24,7 @@ import jax.numpy as jnp
 from brax import envs
 
 from genepax.gp.cartesian_genetic_programming import CGP
-from mixedpolicysearch.mixed_policy_scoring import mixed_policy_scoring_fn
+from mixedpolicysearch.mixed_policy_scoring import mixed_policy_scoring_fn, symbolic_policy_scoring_fn
 
 
 def policy_search():
@@ -34,9 +34,8 @@ def policy_search():
     n_evaluation_seeds = 5
     sr_generations = 100
     bootstrapping = True
-    beta_schedule = [.3, .2, .1, 0]
-    beta_iterations = 250
-    n_iterations = (len(beta_schedule) + 1) * beta_iterations
+    beta_init_value = .2
+    n_iterations = 500
 
     neural_model_path = f"../distillation/sac_jax_{env_name}.pkl"
     # Load SAC actor and critic
@@ -107,7 +106,7 @@ def policy_search():
         actor_params=actor_params,
         env=env,
         n_reps=n_evaluation_seeds,
-        beta=beta_schedule[beta_schedule_idx],
+        beta=beta_init_value,
     )
     eval_key, key = jax.random.split(key)
 
@@ -144,15 +143,16 @@ def policy_search():
     print(metrics)
     with open(filename, "a", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([beta_schedule[beta_schedule_idx], 0, metrics["max_fitness"][0], metrics["test_accuracy"][0]])
+        writer.writerow([beta_init_value, 0, metrics["max_fitness"][0], metrics["test_accuracy"][0]])
 
+    beta = beta_init_value
     for iteration in range(1, n_iterations):
         start_time = time.time()
 
-        # change beta value
-        if iteration % beta_iterations == 0:
-            beta_schedule_idx += 1
-            print(f"new beta: {beta_schedule[beta_schedule_idx]}")
+        # if the easier task is solved, decay beta
+        if metrics["max_fitness"][0] > 9350:
+            beta = beta / 2
+            print(f"new beta: {beta}")
             scoring_function = functools.partial(
                 mixed_policy_scoring_fn,
                 cgp_structure=cgp_structure,
@@ -160,7 +160,7 @@ def policy_search():
                 actor_params=actor_params,
                 env=env,
                 n_reps=n_evaluation_seeds,
-                beta=beta_schedule[beta_schedule_idx],
+                beta=beta,
             )
             ga = GeneticAlgorithmWithExtraScores(
                 scoring_function=scoring_function,
@@ -180,9 +180,42 @@ def policy_search():
         with open(filename, "a", newline="") as f:
             writer = csv.writer(f)
             writer.writerow(
-                [beta_schedule[beta_schedule_idx], iteration, metrics["max_fitness"][0], metrics["test_accuracy"][0]])
+                [beta, iteration, metrics["max_fitness"][0], metrics["test_accuracy"][0]])
         print(iteration, timelapse, metrics)
-        if metrics["test_accuracy"] > 9350:
+        if metrics["test_accuracy"][0] > 9350:
+            break
+
+    # change scoring fn to only assess the policy
+    scoring_function = functools.partial(
+        symbolic_policy_scoring_fn,
+        cgp_structure=cgp_structure,
+        env=env,
+        n_reps=n_evaluation_seeds,
+    )
+    ga = GeneticAlgorithmWithExtraScores(
+        scoring_function=scoring_function,
+        emitter=mixing_emitter,
+        metrics_function=metrics_function,
+    )
+    repertoire, emitter_state, metrics = ga.init(
+        genotypes=repertoire.genotypes, population_size=batch_size, key=subkey
+    )
+
+    for iteration in range(1, n_iterations):
+        start_time = time.time()
+
+        repertoire, emitter_state, metrics = ga.update(
+            repertoire=repertoire,
+            emitter_state=emitter_state,
+            key=subkey,
+        )
+        timelapse = time.time() - start_time
+        with open(filename, "a", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(
+                [beta, iteration, metrics["max_fitness"][0], metrics["test_accuracy"][0]])
+        print(iteration, timelapse, metrics)
+        if metrics["test_accuracy"][0] > 9350:
             break
 
     repertoire_to_store = GARepertoire.init(

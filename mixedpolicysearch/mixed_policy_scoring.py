@@ -3,6 +3,30 @@ import functools
 import jax
 import jax.numpy as jnp
 
+def symbolic_policy_scoring_fn(
+        genotypes,
+        key,
+        cgp_structure,
+        env,
+        num_steps: int = 1000,
+        n_reps: int = 5
+):
+    key, subkey = jax.random.split(key)
+    keys = jax.random.split(subkey, jax.tree.leaves(genotypes)[0].shape[0])
+    symbolic_scoring_fn = functools.partial(
+        single_mixed_policy_multi_seed_scoring_fn,
+        cgp_structure=cgp_structure,
+        actor=cgp_structure,
+        actor_params=genotypes,
+        env=env,
+        beta=0,
+        num_steps=num_steps,
+        n_reps=n_reps
+    )
+    symbolic_rewards = jax.vmap(symbolic_scoring_fn, in_axes=(0, 0))(genotypes, keys)
+
+    return symbolic_rewards, {"test_accuracy": symbolic_rewards, "updated_params": genotypes}
+
 
 def mixed_policy_scoring_fn(
         genotypes,
