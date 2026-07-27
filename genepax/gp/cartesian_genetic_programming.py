@@ -88,7 +88,7 @@ class CGP(GGP):
                 "inputs2": jnp.floor(random_y * in_mask).astype(int),
                 "functions": jnp.floor(random_f * f_mask).astype(int),
                 "outputs": (
-                    out_mask
+                    out_mask - 1
                     if self.fixed_outputs
                     else jnp.floor(random_out * out_mask).astype(int)
                 ),
