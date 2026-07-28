@@ -12,6 +12,61 @@ from networks.sac_agent import train as sac_train
 # SAC Configurations
 # ============================================================
 
+HOPPER_CONFIG = {
+    # --------------------------------------------------------
+    # Environment
+    # --------------------------------------------------------
+    "environment": {
+        "env_name": "hopper",
+        "backend": "generalized",
+        "episode_length": 1000,
+    },
+
+    # --------------------------------------------------------
+    # Network
+    # --------------------------------------------------------
+    "network": {
+        "hidden_layer_sizes": (256, 256),
+        "activation": "swish",
+        "distribution_type": "tanh_normal",
+        "noise_std_type": "scalar",
+        "init_noise_std": 1.0,
+        "state_dependent_std": False,
+        "policy_network_layer_norm": False,
+        "q_network_layer_norm": False,
+        "normalize_observations": False,
+    },
+
+    # --------------------------------------------------------
+    # SAC
+    # --------------------------------------------------------
+    "sac": {
+        "learning_rate": 1e-4,
+        "discounting": 0.99,
+        "batch_size": 256,
+        "tau": 0.005,
+        "grad_updates_per_step": 128,
+    },
+
+    # --------------------------------------------------------
+    # Training
+    # --------------------------------------------------------
+    "training": {
+        "num_timesteps": 500_000,
+
+        "num_envs": 128,
+        "num_eval_envs": 16,
+
+        "min_replay_size": 10_000,
+        "max_replay_size": 1_000_000,
+
+        "deterministic_eval": True,
+        "num_evals": 20,
+
+        "seed": 0,
+    },
+}
+
 INVERTED_DOUBLE_PENDULUM_CONFIG = {
     # --------------------------------------------------------
     # Environment
@@ -122,7 +177,7 @@ INVERTED_PENDULUM_CONFIG = {
     },
 }
 
-SAC_CONFIG = INVERTED_DOUBLE_PENDULUM_CONFIG
+SAC_CONFIG = HOPPER_CONFIG
 
 
 def save_json(path, data):
