@@ -11,6 +11,77 @@ from networks.sac_agent import train as sac_train
 # ============================================================
 # SAC Configurations
 # ============================================================
+HALFCHEETAH_CONFIG = {
+    # --------------------------------------------------------
+    # Environment
+    # --------------------------------------------------------
+    "environment": {
+        "env_name": "halfcheetah",
+        "backend": "generalized",
+        "episode_length": 1000,
+    },
+
+    # --------------------------------------------------------
+    # Network
+    # --------------------------------------------------------
+    "network": {
+        "hidden_layer_sizes": (256, 256),
+        "activation": "swish",
+        "distribution_type": "tanh_normal",
+        "noise_std_type": "scalar",
+        "init_noise_std": 1.0,
+        "state_dependent_std": False,
+        "policy_network_layer_norm": False,
+        "q_network_layer_norm": False,
+        "normalize_observations": False,
+    },
+
+    # --------------------------------------------------------
+    # SAC
+    # --------------------------------------------------------
+    "sac": {
+        # Slightly higher than before to avoid overly slow adaptation
+        "learning_rate": 1e-4,
+
+        "discounting": 0.99,
+
+        "batch_size": 256,
+
+        # Standard soft target update
+        "tau": 0.005,
+
+        # IMPORTANT:
+        # 64 updates/step appears too aggressive for HalfCheetah.
+        # Start with 16 to reduce critic overfitting / instability.
+        "grad_updates_per_step": 16,
+    },
+
+    # --------------------------------------------------------
+    # Training
+    # --------------------------------------------------------
+    "training": {
+        # Give it enough time to reach the good regime,
+        # but don't rely on the final checkpoint.
+        "num_timesteps": 4_000_000,
+
+        "num_envs": 64,
+        "num_eval_envs": 16,
+
+        # Keep the warmup relatively small.
+        "min_replay_size": 10_000,
+
+        # Large replay buffer helps retain diverse experience.
+        "max_replay_size": 1_000_000,
+
+        "deterministic_eval": True,
+
+        # More frequent evaluation gives you a better chance
+        # to identify the best checkpoint before collapse.
+        "num_evals": 40,
+
+        "seed": 0,
+    },
+}
 
 WALKER2D_CONFIG = {
     # --------------------------------------------------------
@@ -232,7 +303,7 @@ INVERTED_PENDULUM_CONFIG = {
     },
 }
 
-SAC_CONFIG = WALKER2D_CONFIG
+SAC_CONFIG = HALFCHEETAH_CONFIG
 
 
 def save_json(path, data):
