@@ -291,11 +291,114 @@ def load_sac_teacher(checkpoint_path):
 
     return (
         policy_fn,
-        params,
-        training_state,
         model_config,
-        training_config,
     )
+
+
+def load_q_value_estimator(
+        checkpoint_path,
+        use_target=False,
+):
+    checkpoint_path = Path(
+        checkpoint_path
+    ).resolve()
+
+    with open(
+            checkpoint_path / "model_config.json",
+            "r",
+    ) as f:
+        model_config = json.load(f)
+
+    normalize_fn = lambda x, y: x
+
+    if model_config[
+        "normalize_observations"
+    ]:
+        normalize_fn = (
+            running_statistics.normalize
+        )
+
+    sac_network = (
+        sac_networks.make_sac_networks(
+            observation_size=model_config[
+                "observation_size"
+            ],
+            action_size=model_config[
+                "action_size"
+            ],
+            preprocess_observations_fn=normalize_fn,
+        )
+    )
+
+    checkpointer = (
+        ocp.PyTreeCheckpointer()
+    )
+
+    training_state = (
+        checkpointer.restore(
+            str(
+                checkpoint_path
+                / "training_state"
+            )
+        )
+    )
+
+    normalizer_params = (
+        training_state["normalizer_params"]
+    )
+
+    if use_target:
+        q_params = (
+            training_state["target_q_params"]
+        )
+    else:
+        q_params = (
+            training_state["q_params"]
+        )
+
+    q_params = jax.tree_util.tree_map(
+        lambda x: x[0],
+        q_params,
+    )
+
+    q_network = (
+        sac_network.q_network
+    )
+
+    @jax.jit
+    def q_value_estimator(
+            observations,
+            actions,
+    ):
+        observations = jnp.asarray(
+            observations
+        )
+
+        actions = jnp.asarray(
+            actions
+        )
+
+        if observations.ndim == 1:
+            observations = observations[None, :]
+
+        if actions.ndim == 1:
+            actions = actions[None, :]
+
+        q_values = q_network.apply(
+            normalizer_params,
+            q_params,
+            observations,
+            actions,
+        )
+
+        q_value = jnp.min(
+            q_values,
+            axis=-1,
+        )
+
+        return q_value
+
+    return q_value_estimator
 
 
 # ================================================================
@@ -310,10 +413,7 @@ if __name__ == "__main__":
 
     (
         policy_fn,
-        params,
-        training_state,
         model_config,
-        training_config,
     ) = load_sac_teacher(
         checkpoint_path
     )
@@ -333,25 +433,6 @@ if __name__ == "__main__":
         "Action size:",
         model_config["action_size"],
     )
-
-    print(
-        "Environment steps:",
-        training_state["env_steps"],
-    )
-
-    print(
-        "Gradient steps:",
-        training_state["gradient_steps"],
-    )
-
-    print(
-        "Alpha:",
-        jnp.exp(training_state["alpha_params"]),
-    )
-
-    # ============================================================
-    # Test the actor
-    # ============================================================
 
     env = envs.create(
         env_name=model_config["env_name"],
@@ -379,6 +460,27 @@ if __name__ == "__main__":
     print("Policy extras:")
     print(policy_extras)
 
+    # ============================================================
+    # Test the Q value estimator
+    # ============================================================
+
+    q_value_estimator = load_q_value_estimator(
+        checkpoint_path
+    )
+
+    q_value = q_value_estimator(
+        state.obs,
+        action,
+    )
+
+    print()
+    print("Q value for actor action:")
+    print(q_value)
+
+    # ============================================================
+    # Test the actor
+    # ============================================================
+
     print()
     results = evaluate_policy(
         environment=env,
@@ -387,4 +489,5 @@ if __name__ == "__main__":
         episode_duration=1000,
         seed=123,
     )
+
     print(results)
