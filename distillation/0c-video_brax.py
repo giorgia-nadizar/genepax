@@ -1,0 +1,623 @@
+import json
+from pathlib import Path
+
+import jax
+import jax.numpy as jnp
+import orbax.checkpoint as ocp
+
+from brax import envs
+from brax.io import html
+from brax.training.acme import running_statistics
+from brax.training.agents.sac import networks as sac_networks
+
+# ============================================================
+# CONFIG
+# ============================================================
+
+ENV_NAME = "inverted_pendulum"
+BACKEND = "generalized"
+
+CHECKPOINT_PATH = (
+    f"checkpoints/{ENV_NAME}/final"
+)
+
+OUTPUT_HTML = (
+    f"../../../Documents/videos/{ENV_NAME}_policy.html"
+)
+
+EPISODE_DURATION = 1000
+SEED = 123
+
+
+# ============================================================
+# LOAD SAC TEACHER
+# ============================================================
+
+def load_sac_teacher(checkpoint_path):
+    """
+    Load a saved SAC teacher.
+
+    Expected checkpoint structure:
+
+        checkpoint_path/
+            model_config.json
+            training_config.json
+            final_metrics.json
+            training_state/
+
+    Returns:
+        policy_fn
+        params
+        training_state
+        model_config
+        training_config
+    """
+
+    checkpoint_path = Path(
+        checkpoint_path
+    ).resolve()
+
+    print("=" * 60)
+    print("LOADING SAC TEACHER")
+    print("=" * 60)
+
+    # --------------------------------------------------------
+    # Load configurations
+    # --------------------------------------------------------
+
+    with open(
+            checkpoint_path / "model_config.json",
+            "r",
+    ) as f:
+        model_config = json.load(f)
+
+    with open(
+            checkpoint_path / "training_config.json",
+            "r",
+    ) as f:
+        training_config = json.load(f)
+
+    print(
+        "Environment:",
+        model_config["env_name"],
+    )
+
+    print(
+        "Backend:",
+        model_config["backend"],
+    )
+
+    print(
+        "Observation size:",
+        model_config["observation_size"],
+    )
+
+    print(
+        "Action size:",
+        model_config["action_size"],
+    )
+
+    # --------------------------------------------------------
+    # Recreate SAC network
+    # --------------------------------------------------------
+
+    normalize_fn = lambda x, y: x
+
+    if model_config[
+        "normalize_observations"
+    ]:
+        normalize_fn = (
+            running_statistics.normalize
+        )
+
+    sac_network = (
+        sac_networks.make_sac_networks(
+            observation_size=model_config[
+                "observation_size"
+            ],
+            action_size=model_config[
+                "action_size"
+            ],
+            preprocess_observations_fn=normalize_fn,
+        )
+    )
+
+    # --------------------------------------------------------
+    # Create inference function
+    # --------------------------------------------------------
+
+    make_policy = (
+        sac_networks.make_inference_fn(
+            sac_network
+        )
+    )
+
+    # --------------------------------------------------------
+    # Load checkpoint
+    # --------------------------------------------------------
+
+    checkpointer = (
+        ocp.PyTreeCheckpointer()
+    )
+
+    training_state = (
+        checkpointer.restore(
+            str(
+                checkpoint_path
+                / "training_state"
+            )
+        )
+    )
+
+    # --------------------------------------------------------
+    # Extract policy parameters
+    # --------------------------------------------------------
+
+    normalizer_params = (
+        training_state[
+            "normalizer_params"
+        ]
+    )
+
+    policy_params = jax.tree_util.tree_map(
+        lambda x: x[0],
+        training_state[
+            "policy_params"
+        ],
+    )
+
+    params = (
+        normalizer_params,
+        policy_params,
+    )
+
+    # --------------------------------------------------------
+    # Create deterministic policy
+    # --------------------------------------------------------
+
+    policy_fn = make_policy(
+        params,
+        deterministic=True,
+    )
+
+    print()
+    print(
+        "Environment steps:",
+        training_state[
+            "env_steps"
+        ],
+    )
+
+    print(
+        "Gradient steps:",
+        training_state[
+            "gradient_steps"
+        ],
+    )
+
+    print(
+        "Alpha:",
+        jnp.exp(
+            training_state[
+                "alpha_params"
+            ]
+        ),
+    )
+
+    print()
+    print(
+        "SAC teacher loaded successfully."
+    )
+
+    return (
+        policy_fn,
+        params,
+        training_state,
+        model_config,
+        training_config,
+    )
+
+
+# ============================================================
+# RECORD EPISODE
+# ============================================================
+
+def record_episode(
+        environment,
+        policy_fn,
+        episode_duration=1000,
+        seed=0,
+):
+    """
+    Run one deterministic SAC episode using JAX lax.scan.
+
+    The environment is expected to use the desired backend,
+    e.g. backend="generalized".
+
+    Returns:
+        trajectory:
+            Stacked pipeline states with leading time dimension.
+
+        total_reward:
+            Scalar JAX array containing the episode reward.
+
+        episode_length:
+            Scalar JAX array containing the number of active steps.
+    """
+
+    # --------------------------------------------------------
+    # Reset environment
+    # --------------------------------------------------------
+
+    key = jax.random.PRNGKey(seed)
+
+    state = environment.reset(key)
+
+    # --------------------------------------------------------
+    # Scan step
+    # --------------------------------------------------------
+
+    def step_fn(carry, _):
+        state, key, active, total_reward, episode_length = carry
+
+        # ----------------------------------------------------
+        # Store current pipeline state
+        #
+        # This is the state BEFORE taking the action.
+        # ----------------------------------------------------
+
+        pipeline_state = state.pipeline_state
+
+        # ----------------------------------------------------
+        # Split RNG key
+        # ----------------------------------------------------
+
+        key, policy_key = jax.random.split(key)
+
+        # ----------------------------------------------------
+        # Get deterministic policy action
+        # ----------------------------------------------------
+
+        action, _ = policy_fn(
+            state.obs,
+            policy_key,
+        )
+
+        # ----------------------------------------------------
+        # Step environment
+        # ----------------------------------------------------
+
+        next_state = environment.step(
+            state,
+            action,
+        )
+
+        # ----------------------------------------------------
+        # Read reward and done
+        # ----------------------------------------------------
+
+        reward = jnp.asarray(
+            next_state.reward,
+            dtype=jnp.float32,
+        )
+
+        done = jnp.asarray(
+            next_state.done,
+            dtype=jnp.bool_,
+        )
+
+        # ----------------------------------------------------
+        # Only accumulate while episode is active
+        #
+        # This prevents rewards after termination from
+        # contributing to the total.
+        # ----------------------------------------------------
+
+        reward = jnp.where(
+            active,
+            reward,
+            0.0,
+        )
+
+        total_reward = (
+                total_reward + reward
+        )
+
+        episode_length = (
+                episode_length
+                + active.astype(jnp.int32)
+        )
+
+        # ----------------------------------------------------
+        # Once done, remain inactive
+        # ----------------------------------------------------
+
+        next_active = (
+                active & (~done)
+        )
+
+        # ----------------------------------------------------
+        # Carry
+        # ----------------------------------------------------
+
+        next_carry = (
+            next_state,
+            key,
+            next_active,
+            total_reward,
+            episode_length,
+        )
+
+        # ----------------------------------------------------
+        # Output trajectory frame
+        # ----------------------------------------------------
+
+        return (
+            next_carry,
+            pipeline_state,
+        )
+
+    # --------------------------------------------------------
+    # Initial scan carry
+    # --------------------------------------------------------
+
+    active = jnp.asarray(
+        True,
+        dtype=jnp.bool_,
+    )
+
+    total_reward = jnp.asarray(
+        0.0,
+        dtype=jnp.float32,
+    )
+
+    episode_length = jnp.asarray(
+        0,
+        dtype=jnp.int32,
+    )
+
+    initial_carry = (
+        state,
+        key,
+        active,
+        total_reward,
+        episode_length,
+    )
+
+    # --------------------------------------------------------
+    # Run rollout
+    # --------------------------------------------------------
+
+    (
+        final_carry,
+        trajectory,
+    ) = jax.lax.scan(
+        step_fn,
+        initial_carry,
+        xs=None,
+        length=episode_duration,
+    )
+
+    # --------------------------------------------------------
+    # Extract final values
+    # --------------------------------------------------------
+
+    (
+        final_state,
+        final_key,
+        final_active,
+        total_reward,
+        episode_length,
+    ) = final_carry
+
+    return (
+        trajectory,
+        total_reward,
+        episode_length,
+    )
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+if __name__ == "__main__":
+    # --------------------------------------------------------
+    # Load policy
+    # --------------------------------------------------------
+
+    (
+        policy_fn,
+        params,
+        training_state,
+        model_config,
+        training_config,
+    ) = load_sac_teacher(
+        CHECKPOINT_PATH
+    )
+
+    # --------------------------------------------------------
+    # IMPORTANT:
+    #
+    # Recreate the environment using the SAME backend
+    # that was used during training.
+    #
+    # Do not use:
+    #
+    #     backend="spring"
+    #
+    # or:
+    #
+    #     backend="positional"
+    #
+    # We explicitly use:
+    #
+    #     backend="generalized"
+    # --------------------------------------------------------
+
+    env = envs.create(
+        env_name=ENV_NAME,
+        backend=BACKEND,
+    )
+
+    print()
+    print("=" * 60)
+    print("ENVIRONMENT CREATED")
+    print("=" * 60)
+
+    print(
+        "Environment:",
+        ENV_NAME,
+    )
+
+    print(
+        "Backend:",
+        BACKEND,
+    )
+
+    # --------------------------------------------------------
+    # Test initial policy action
+    # --------------------------------------------------------
+
+    key = jax.random.PRNGKey(
+        SEED
+    )
+
+    state = env.reset(
+        key
+    )
+
+    action, policy_extras = (
+        policy_fn(
+            state.obs,
+            key,
+        )
+    )
+
+    print()
+    print(
+        "Initial observation:"
+    )
+
+    print(
+        state.obs
+    )
+
+    print()
+    print(
+        "Initial actor action:"
+    )
+
+    print(
+        action
+    )
+
+    print()
+    print(
+        "Policy extras:"
+    )
+
+    print(
+        policy_extras
+    )
+
+    # --------------------------------------------------------
+    # Record episode
+    # --------------------------------------------------------
+
+    # (
+    #     trajectory,
+    #     total_reward,
+    #     episode_length,
+    # ) = record_episode(
+    #     environment=env,
+    #     policy_fn=policy_fn,
+    #     episode_duration=EPISODE_DURATION,
+    #     seed=SEED,
+    # )
+    record_episode_jit = jax.jit(
+        record_episode,
+        static_argnames=(
+            "environment",
+            "policy_fn",
+            "episode_duration",
+        ),
+    )
+
+    trajectory, total_reward, episode_length = (
+        record_episode_jit(
+            environment=env,
+            policy_fn=policy_fn,
+            episode_duration=1000,
+            seed=123,
+        )
+    )
+
+    # --------------------------------------------------------
+    # Save HTML visualization
+    # --------------------------------------------------------
+
+    # save_html(
+    #     environment=env,
+    #     trajectory=trajectory,
+    #     output_path=OUTPUT_HTML,
+    # )
+
+    trajectory_length = trajectory.x.pos.shape[0]
+
+    trajectory_for_html = [
+        jax.tree_util.tree_map(
+            lambda x, t=t: x[t],
+            trajectory,
+        )
+        for t in range(
+            trajectory_length
+        )
+    ]
+
+    html_string = html.render(
+        env.sys,
+        trajectory_for_html,
+        height=600,
+        # width=1000,
+    )
+
+    output_path = Path(
+        OUTPUT_HTML
+    ).resolve()
+
+    with open(
+            output_path,
+            "w",
+            encoding="utf-8",
+    ) as f:
+        f.write(
+            html_string
+        )
+
+    print()
+    print(
+        "HTML visualization saved to:"
+    )
+
+    print()
+    print("=" * 60)
+    print("DONE")
+    print("=" * 60)
+
+    print(
+        "Reward:",
+        total_reward,
+    )
+
+    print(
+        "Length:",
+        episode_length,
+    )
+
+    print(
+        "Visualization:",
+        Path(
+            OUTPUT_HTML
+        ).resolve(),
+    )
