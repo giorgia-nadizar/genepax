@@ -1,25 +1,22 @@
 import json
 from pathlib import Path
 
-import jax
-import jax.numpy as jnp
 import orbax.checkpoint as ocp
 
 from brax import envs
 from brax.training.acme import running_statistics
 from brax.training.agents.sac import networks as sac_networks
 
-
 import jax
 import jax.numpy as jnp
 
 
 def evaluate_policy(
-    environment,
-    policy_fn,
-    num_episodes=10,
-    episode_duration=1000,
-    seed=0,
+        environment,
+        policy_fn,
+        num_episodes=10,
+        episode_duration=1000,
+        seed=0,
 ):
     """
     Evaluate a deterministic policy over multiple episodes.
@@ -41,7 +38,6 @@ def evaluate_policy(
     # --------------------------------------------------------
 
     def run_episode(key):
-
         reset_key, action_key = jax.random.split(key)
 
         # Reset environment
@@ -59,7 +55,6 @@ def evaluate_policy(
         # ----------------------------------------------------
 
         def step_fn(carry, _):
-
             state, key, active, total_reward, episode_length = carry
 
             key, policy_key = jax.random.split(key)
@@ -109,11 +104,11 @@ def evaluate_policy(
             )
 
             total_reward = (
-                total_reward + reward
+                    total_reward + reward
             )
 
             episode_length = (
-                episode_length + active.astype(jnp.int32)
+                    episode_length + active.astype(jnp.int32)
             )
 
             # Once done, remain inactive.
@@ -308,7 +303,6 @@ def load_sac_teacher(checkpoint_path):
 # ================================================================
 
 if __name__ == "__main__":
-
     env_name = "inverted_double_pendulum"
     checkpoint_path = (
         f"checkpoints/{env_name}/final"
