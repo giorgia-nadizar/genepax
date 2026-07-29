@@ -1,14 +1,11 @@
-import json
 from pathlib import Path
 
 import jax
 import jax.numpy as jnp
-import orbax.checkpoint as ocp
-
 from brax import envs
 from brax.io import html
-from brax.training.acme import running_statistics
-from brax.training.agents.sac import networks as sac_networks
+
+from distillation.networks.sac_utils import load_sac_teacher
 
 # ============================================================
 # CONFIG
@@ -27,195 +24,6 @@ OUTPUT_HTML = (
 
 EPISODE_DURATION = 1000
 SEED = 123
-
-
-# ============================================================
-# LOAD SAC TEACHER
-# ============================================================
-
-def load_sac_teacher(checkpoint_path):
-    """
-    Load a saved SAC teacher.
-
-    Expected checkpoint structure:
-
-        checkpoint_path/
-            model_config.json
-            training_config.json
-            final_metrics.json
-            training_state/
-
-    Returns:
-        policy_fn
-        params
-        training_state
-        model_config
-        training_config
-    """
-
-    checkpoint_path = Path(
-        checkpoint_path
-    ).resolve()
-
-    print("=" * 60)
-    print("LOADING SAC TEACHER")
-    print("=" * 60)
-
-    # --------------------------------------------------------
-    # Load configurations
-    # --------------------------------------------------------
-
-    with open(
-            checkpoint_path / "model_config.json",
-            "r",
-    ) as f:
-        model_config = json.load(f)
-
-    with open(
-            checkpoint_path / "training_config.json",
-            "r",
-    ) as f:
-        training_config = json.load(f)
-
-    print(
-        "Environment:",
-        model_config["env_name"],
-    )
-
-    print(
-        "Backend:",
-        model_config["backend"],
-    )
-
-    print(
-        "Observation size:",
-        model_config["observation_size"],
-    )
-
-    print(
-        "Action size:",
-        model_config["action_size"],
-    )
-
-    # --------------------------------------------------------
-    # Recreate SAC network
-    # --------------------------------------------------------
-
-    normalize_fn = lambda x, y: x
-
-    if model_config[
-        "normalize_observations"
-    ]:
-        normalize_fn = (
-            running_statistics.normalize
-        )
-
-    sac_network = (
-        sac_networks.make_sac_networks(
-            observation_size=model_config[
-                "observation_size"
-            ],
-            action_size=model_config[
-                "action_size"
-            ],
-            preprocess_observations_fn=normalize_fn,
-        )
-    )
-
-    # --------------------------------------------------------
-    # Create inference function
-    # --------------------------------------------------------
-
-    make_policy = (
-        sac_networks.make_inference_fn(
-            sac_network
-        )
-    )
-
-    # --------------------------------------------------------
-    # Load checkpoint
-    # --------------------------------------------------------
-
-    checkpointer = (
-        ocp.PyTreeCheckpointer()
-    )
-
-    training_state = (
-        checkpointer.restore(
-            str(
-                checkpoint_path
-                / "training_state"
-            )
-        )
-    )
-
-    # --------------------------------------------------------
-    # Extract policy parameters
-    # --------------------------------------------------------
-
-    normalizer_params = (
-        training_state[
-            "normalizer_params"
-        ]
-    )
-
-    policy_params = jax.tree_util.tree_map(
-        lambda x: x[0],
-        training_state[
-            "policy_params"
-        ],
-    )
-
-    params = (
-        normalizer_params,
-        policy_params,
-    )
-
-    # --------------------------------------------------------
-    # Create deterministic policy
-    # --------------------------------------------------------
-
-    policy_fn = make_policy(
-        params,
-        deterministic=True,
-    )
-
-    print()
-    print(
-        "Environment steps:",
-        training_state[
-            "env_steps"
-        ],
-    )
-
-    print(
-        "Gradient steps:",
-        training_state[
-            "gradient_steps"
-        ],
-    )
-
-    print(
-        "Alpha:",
-        jnp.exp(
-            training_state[
-                "alpha_params"
-            ]
-        ),
-    )
-
-    print()
-    print(
-        "SAC teacher loaded successfully."
-    )
-
-    return (
-        policy_fn,
-        params,
-        training_state,
-        model_config,
-        training_config,
-    )
 
 
 # ============================================================
@@ -426,34 +234,7 @@ if __name__ == "__main__":
     # Load policy
     # --------------------------------------------------------
 
-    (
-        policy_fn,
-        params,
-        training_state,
-        model_config,
-        training_config,
-    ) = load_sac_teacher(
-        CHECKPOINT_PATH
-    )
-
-    # --------------------------------------------------------
-    # IMPORTANT:
-    #
-    # Recreate the environment using the SAME backend
-    # that was used during training.
-    #
-    # Do not use:
-    #
-    #     backend="spring"
-    #
-    # or:
-    #
-    #     backend="positional"
-    #
-    # We explicitly use:
-    #
-    #     backend="generalized"
-    # --------------------------------------------------------
+    policy_fn, model_config = load_sac_teacher(CHECKPOINT_PATH)
 
     env = envs.create(
         env_name=ENV_NAME,
@@ -525,16 +306,6 @@ if __name__ == "__main__":
     # Record episode
     # --------------------------------------------------------
 
-    # (
-    #     trajectory,
-    #     total_reward,
-    #     episode_length,
-    # ) = record_episode(
-    #     environment=env,
-    #     policy_fn=policy_fn,
-    #     episode_duration=EPISODE_DURATION,
-    #     seed=SEED,
-    # )
     record_episode_jit = jax.jit(
         record_episode,
         static_argnames=(
@@ -556,12 +327,6 @@ if __name__ == "__main__":
     # --------------------------------------------------------
     # Save HTML visualization
     # --------------------------------------------------------
-
-    # save_html(
-    #     environment=env,
-    #     trajectory=trajectory,
-    #     output_path=OUTPUT_HTML,
-    # )
 
     trajectory_length = trajectory.x.pos.shape[0]
 
