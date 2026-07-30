@@ -5,7 +5,7 @@ import numpy as np
 
 from brax import envs
 
-from distillation.networks.sac_utils import load_sac_teacher
+from distillation.networks.sac_utils import load_sac_actor
 
 
 def generate_expert_dataset(
@@ -64,7 +64,7 @@ def generate_expert_dataset(
     # ============================================================
 
     policy_fn, model_config = (
-        load_sac_teacher(
+        load_sac_actor(
             checkpoint_path
         )
     )
