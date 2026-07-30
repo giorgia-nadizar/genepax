@@ -5,7 +5,7 @@ import jax.numpy as jnp
 from brax import envs
 from brax.io import html
 
-from distillation.networks.sac_utils import load_sac_teacher
+from distillation.networks.sac_utils import load_sac_actor
 
 # ============================================================
 # CONFIG
@@ -234,7 +234,7 @@ if __name__ == "__main__":
     # Load policy
     # --------------------------------------------------------
 
-    policy_fn, model_config = load_sac_teacher(CHECKPOINT_PATH)
+    policy_fn, model_config = load_sac_actor(CHECKPOINT_PATH)
 
     env = envs.create(
         env_name=ENV_NAME,

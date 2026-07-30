@@ -10,7 +10,50 @@ import jax
 import jax.numpy as jnp
 
 
-def load_sac_teacher(checkpoint_path):
+def _make_sac_network(model_config, preprocess_observations_fn):
+    """Recreates the exact network architecture recorded in a checkpoint."""
+    # Checkpoints created before ``network_factory_configured`` existed were
+    # trained with ``make_sac_networks`` defaults.  Their JSON contains the
+    # desired config, not the architecture actually used.
+    if not model_config.get("network_factory_configured", False):
+        return sac_networks.make_sac_networks(
+            observation_size=model_config["observation_size"],
+            action_size=model_config["action_size"],
+            preprocess_observations_fn=preprocess_observations_fn,
+        )
+
+    activation_name = model_config["activation"]
+    activation_fns = {
+        "relu": jax.nn.relu,
+        "swish": jax.nn.swish,
+        "tanh": jax.nn.tanh,
+    }
+    try:
+        activation = activation_fns[activation_name]
+    except KeyError as error:
+        raise ValueError(f"Unsupported checkpoint activation: {activation_name}") from error
+
+    return sac_networks.make_sac_networks(
+        observation_size=model_config["observation_size"],
+        action_size=model_config["action_size"],
+        preprocess_observations_fn=preprocess_observations_fn,
+        hidden_layer_sizes=tuple(model_config["hidden_layer_sizes"]),
+        activation=activation,
+        policy_network_layer_norm=model_config["policy_network_layer_norm"],
+        q_network_layer_norm=model_config["q_network_layer_norm"],
+        distribution_type=model_config["distribution_type"],
+        noise_std_type=model_config["noise_std_type"],
+        init_noise_std=model_config["init_noise_std"],
+        state_dependent_std=model_config["state_dependent_std"],
+    )
+
+
+def _unreplicate(tree):
+    """Removes the leading pmap device axis saved in TrainingState."""
+    return jax.tree_util.tree_map(lambda x: x[0], tree)
+
+
+def load_sac_actor(checkpoint_path):
     """
     Load a saved SAC teacher.
 
@@ -47,18 +90,12 @@ def load_sac_teacher(checkpoint_path):
     # Recreate SAC network
     # ============================================================
 
-    network_factory = sac_networks.make_sac_networks
-
     normalize_fn = lambda x, y: x
 
     if model_config["normalize_observations"]:
         normalize_fn = running_statistics.normalize
 
-    sac_network = network_factory(
-        observation_size=model_config["observation_size"],
-        action_size=model_config["action_size"],
-        preprocess_observations_fn=normalize_fn,
-    )
+    sac_network = _make_sac_network(model_config, normalize_fn)
 
     # ============================================================
     # Recreate policy inference function
@@ -82,11 +119,8 @@ def load_sac_teacher(checkpoint_path):
     # Extract policy parameters
     # ============================================================
 
-    normalizer_params = training_state["normalizer_params"]
-    policy_params = jax.tree_util.tree_map(
-        lambda x: x[0],
-        training_state["policy_params"],
-    )
+    normalizer_params = _unreplicate(training_state["normalizer_params"])
+    policy_params = _unreplicate(training_state["policy_params"])
 
     params = (
         normalizer_params,
@@ -156,17 +190,7 @@ def load_q_value_estimator(
             running_statistics.normalize
         )
 
-    sac_network = (
-        sac_networks.make_sac_networks(
-            observation_size=model_config[
-                "observation_size"
-            ],
-            action_size=model_config[
-                "action_size"
-            ],
-            preprocess_observations_fn=normalize_fn,
-        )
-    )
+    sac_network = _make_sac_network(model_config, normalize_fn)
 
     checkpointer = (
         ocp.PyTreeCheckpointer()
@@ -181,9 +205,7 @@ def load_q_value_estimator(
         )
     )
 
-    normalizer_params = (
-        training_state["normalizer_params"]
-    )
+    normalizer_params = _unreplicate(training_state["normalizer_params"])
 
     if use_target:
         q_params = (
@@ -194,10 +216,7 @@ def load_q_value_estimator(
             training_state["q_params"]
         )
 
-    q_params = jax.tree_util.tree_map(
-        lambda x: x[0],
-        q_params,
-    )
+    q_params = _unreplicate(q_params)
 
     q_network = (
         sac_network.q_network

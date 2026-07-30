@@ -3,7 +3,7 @@ from brax import envs
 import jax
 import jax.numpy as jnp
 
-from distillation.networks.sac_utils import load_sac_teacher, load_q_value_estimator
+from distillation.networks.sac_utils import load_sac_actor, load_q_value_estimator
 
 
 def evaluate_policy(
@@ -177,12 +177,12 @@ evaluate_policy_jit = jax.jit(
 # ================================================================
 
 if __name__ == "__main__":
-    env_name = "inverted_double_pendulum"
+    env_name = "inverted_pendulum"
     checkpoint_path = (
         f"checkpoints/{env_name}/final"
     )
 
-    policy_fn, model_config = load_sac_teacher(checkpoint_path)
+    policy_fn, model_config = load_sac_actor(checkpoint_path)
 
     print("Loaded SAC teacher")
     print(

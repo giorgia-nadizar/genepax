@@ -1,10 +1,12 @@
 import json
 import time
+from functools import partial
 from pathlib import Path
 
 import jax
 import orbax.checkpoint as ocp
 from brax import envs
+from brax.training.agents.sac import networks as sac_networks
 
 from networks.sac_agent import train as sac_train
 
@@ -303,7 +305,36 @@ INVERTED_PENDULUM_CONFIG = {
     },
 }
 
-SAC_CONFIG = HALFCHEETAH_CONFIG
+SAC_CONFIG = INVERTED_PENDULUM_CONFIG
+
+
+def make_network_factory(network_config):
+    """Builds the SAC factory whose settings are persisted in model_config."""
+    activation_fns = {
+        "relu": jax.nn.relu,
+        "swish": jax.nn.swish,
+        "tanh": jax.nn.tanh,
+    }
+    try:
+        activation = activation_fns[network_config["activation"]]
+    except KeyError as error:
+        raise ValueError(
+            f"Unsupported activation: {network_config['activation']}"
+        ) from error
+
+    return partial(
+        sac_networks.make_sac_networks,
+        hidden_layer_sizes=tuple(network_config["hidden_layer_sizes"]),
+        activation=activation,
+        policy_network_layer_norm=network_config[
+            "policy_network_layer_norm"
+        ],
+        q_network_layer_norm=network_config["q_network_layer_norm"],
+        distribution_type=network_config["distribution_type"],
+        noise_std_type=network_config["noise_std_type"],
+        init_noise_std=network_config["init_noise_std"],
+        state_dependent_std=network_config["state_dependent_std"],
+    )
 
 
 def save_json(path, data):
@@ -503,6 +534,9 @@ if __name__ == '__main__':
         ),
 
         **network_config,
+        # Older checkpoints lack this marker and were trained with Brax's
+        # default network factory, irrespective of the recorded config.
+        "network_factory_configured": True,
     }
 
     # ========================================================
@@ -686,6 +720,10 @@ if __name__ == '__main__':
         normalize_observations=network_config[
             "normalize_observations"
         ],
+
+        # Keep training and loading tied to the exact architecture saved in
+        # model_config.json.
+        network_factory=make_network_factory(network_config),
 
         # ----------------------------------------------------
         # Evaluation
