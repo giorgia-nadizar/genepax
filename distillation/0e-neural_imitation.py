@@ -114,7 +114,9 @@ def evaluate_student_policy(seed, trainer, env, num_steps=1000):
     return jnp.sum(rewards)
 
 
-def save_student_checkpoint(path, trainer, obs_size, action_size, hidden_sizes):
+def save_student_checkpoint(
+        path, trainer, obs_size, action_size, hidden_sizes, env_name=None,
+):
     """Persists the selected BC policy and sufficient reconstruction metadata."""
     path = Path(path)
     path.mkdir(parents=True, exist_ok=True)
@@ -126,6 +128,7 @@ def save_student_checkpoint(path, trainer, obs_size, action_size, hidden_sizes):
         "hidden_sizes": list(hidden_sizes),
         "activation": "relu",
         "output_activation": "tanh",
+        "env_name": env_name,
     }
     (path / "metadata.json").write_text(json.dumps(metadata, indent=2, sort_keys=True))
 
@@ -150,7 +153,8 @@ if __name__ == '__main__':
     print(f"best validation action MSE: {min(history['validation_loss']):.6f}")
     checkpoint_path = Path("student_checkpoints") / env_name / "final"
     save_student_checkpoint(
-        checkpoint_path, trainer, expert_X.shape[1], expert_y.shape[1], hidden_sizes
+        checkpoint_path, trainer, expert_X.shape[1], expert_y.shape[1],
+        hidden_sizes, env_name=env_name,
     )
     print(f"saved student checkpoint: {checkpoint_path}")
 
