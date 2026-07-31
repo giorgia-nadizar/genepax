@@ -176,9 +176,8 @@ if __name__ == '__main__':
         elite_size = 10
         n_offsprings = n_pop - elite_size
 
-        # TODO find a suitable beta schedule
         if env_name in ["hopper", "walker2d"]:
-            beta = .5
+            beta = .6
         else:
             beta = .8
 
@@ -204,8 +203,11 @@ if __name__ == '__main__':
         init_keys = random.split(init_key, n_pop)
         genomes = vmap(cgp_structure.init)(init_keys)
 
+        n_steps = ((1.1 - beta) * 10)
+        step_size = int(n_generations / n_steps)
+
         for _generation in range(n_generations):
-            if (_generation + 1) % 250 == 0:
+            if (_generation + 1) % step_size == 0:
                 beta += .1
                 beta = min(beta, 1)
 
