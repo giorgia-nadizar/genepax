@@ -53,7 +53,7 @@ def generate_expert_dataset(
             return (
                 next_state,
                 key,
-                active & jnp.logical_not(state.done),
+                active & jnp.logical_not(next_state.done),
             ), (state.obs, actions, active)
 
         _, (observations, actions, valid) = jax.lax.scan(
