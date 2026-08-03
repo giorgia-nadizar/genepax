@@ -1,0 +1,12 @@
+{
+  "action_size": 1,
+  "activation": "relu",
+  "format_version": 1,
+  "hidden_sizes": [
+    128,
+    128,
+    128
+  ],
+  "observation_size": 4,
+  "output_activation": "tanh"
+}

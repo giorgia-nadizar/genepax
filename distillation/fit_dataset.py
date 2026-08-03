@@ -23,12 +23,11 @@ def single_genome_scoring_fn(
         X: jnp.ndarray,
         y: jnp.ndarray,
         cgp_structure: CGP,
-        q_value_estimator
+        q_value_estimator,
+        valid_mask: jnp.ndarray | None = None,
 ) -> Tuple:
     # Construct features
-    y_pred = jax.jit(
-        jax.vmap(cgp_structure.apply, in_axes=(None, 0))
-    )(genotype, X)
+    y_pred = jax.vmap(cgp_structure.apply, in_axes=(None, 0))(genotype, X)
 
     # Sanitization
     y_pred = jnp.nan_to_num(
@@ -37,19 +36,22 @@ def single_genome_scoring_fn(
         posinf=1e3,
         neginf=-1e3,
     )
-    # # MSE imitation loss
-    mse = jnp.mean(
-        jnp.square(
-            y - y_pred
-        )
-    )
+    y_pred = jnp.clip(y_pred, -1.0, 1.0)
+    if valid_mask is None:
+        valid_mask = jnp.ones((X.shape[0],), dtype=jnp.float32)
+    else:
+        valid_mask = valid_mask.astype(jnp.float32)
+    normalizer = jnp.maximum(jnp.sum(valid_mask), 1.0)
+
+    # Per-sample losses allow the final padded chunk to be masked correctly.
+    mse_per_sample = jnp.mean(jnp.square(y - y_pred), axis=-1)
 
     # DAGGER loss
-    expert_q = q_value_estimator.batched_q(
+    expert_q = q_value_estimator(
         X,
         y,
     )
-    symbolic_q = q_value_estimator.batched_q(
+    symbolic_q = q_value_estimator(
         X,
         y_pred,
     )
@@ -57,25 +59,26 @@ def single_genome_scoring_fn(
     #       jnp.isfinite(expert_q).all())
     # print("finite symbolic:",
     #       jnp.isfinite(symbolic_q).all())
-    q_values_difference = expert_q - symbolic_q
+    # Penalize only regressions against the teacher action.  A raw signed
+    # difference can be negative, which made the old geometric-mean loss
+    # undefined and rewarded numerical artefacts.
+    q_values_difference = jax.nn.relu(expert_q - symbolic_q)
     q_values_difference = jnp.nan_to_num(
         q_values_difference,
         nan=0.0,
         posinf=1e3,
         neginf=-1e3,
     )
-    q_loss = jnp.mean(
-        q_values_difference
-    )
+    q_loss_per_sample = q_values_difference
 
-    eps = .1
-    alpha = 1
-    # geometric mean of losses
-    loss = jnp.sqrt((mse + eps) * (q_loss + alpha))
-    loss = jnp.nan_to_num(loss, nan=-jnp.inf)
+    mse = jnp.sum(mse_per_sample * valid_mask) / normalizer
+    q_loss = jnp.sum(q_loss_per_sample * valid_mask) / normalizer
+
+    loss = mse + 0.1 * q_loss
 
     # GA maximizes fitness
     fitness = -loss
+    fitness = jnp.nan_to_num(fitness, nan=-jnp.inf)
 
     return jnp.asarray([fitness]), {
         "test_accuracy": fitness,
@@ -83,11 +86,57 @@ def single_genome_scoring_fn(
     }
 
 
-def feature_construction_scoring_fn(genotypes: Genotype, key: RNGKey, X: jnp.ndarray, y: jnp.ndarray,
-                                    cgp_structure: CGP, q_value_estimator
-                                    ) -> Tuple[jnp.ndarray, jnp.ndarray]:
-    sng = partial(single_genome_scoring_fn, X=X, y=y, cgp_structure=cgp_structure, q_value_estimator=q_value_estimator)
-    return jax.jit(jax.vmap(sng))(genotypes)
+def feature_construction_scoring_fn(
+        genotypes: Genotype,
+        key: RNGKey,
+        X: jnp.ndarray,
+        y: jnp.ndarray,
+        cgp_structure: CGP,
+        q_value_estimator,
+        dataset_batch_size: int,
+) -> Tuple[jnp.ndarray, jnp.ndarray]:
+    """Scores a population in chunks to bound peak device memory."""
+    del key
+    n_samples = X.shape[0]
+    n_chunks = (n_samples + dataset_batch_size - 1) // dataset_batch_size
+    padded_size = n_chunks * dataset_batch_size
+    pad_count = padded_size - n_samples
+    X = jnp.pad(X, ((0, pad_count), (0, 0)))
+    y = jnp.pad(y, ((0, pad_count), (0, 0)))
+    valid = jnp.concatenate(
+        [jnp.ones((n_samples,)), jnp.zeros((pad_count,))]
+    )
+    X = X.reshape(n_chunks, dataset_batch_size, X.shape[-1])
+    y = y.reshape(n_chunks, dataset_batch_size, y.shape[-1])
+    valid = valid.reshape(n_chunks, dataset_batch_size)
+
+    def score_chunk(carry, chunk):
+        X_chunk, y_chunk, valid_chunk = chunk
+        scoring_fn = partial(
+            single_genome_scoring_fn,
+            X=X_chunk,
+            y=y_chunk,
+            cgp_structure=cgp_structure,
+            q_value_estimator=q_value_estimator,
+            valid_mask=valid_chunk,
+        )
+        fitness, extra_scores = jax.vmap(scoring_fn)(genotypes)
+        weight = jnp.sum(valid_chunk)
+        return carry + fitness * weight, extra_scores
+
+    initial_fitness = jnp.zeros((genotypes["genes"]["inputs1"].shape[0], 1))
+    fitness, extra_scores = jax.lax.scan(
+        score_chunk,
+        initial_fitness,
+        (X, y, valid),
+    )
+    # scan returns the final carry and per-chunk extra scores.  Recompute the
+    # scalar extra score from the population fitness for GA logging.
+    fitness = fitness / n_samples
+    return fitness, {
+        "test_accuracy": fitness[:, 0],
+        "updated_params": genotypes,
+    }
 
 
 # def process_metrics_mtr(metrics: Dict, headers: List) -> Dict:
@@ -98,13 +147,23 @@ def feature_construction_scoring_fn(genotypes: Genotype, key: RNGKey, X: jnp.nda
 
 
 def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
-                q_value_estimator=None, bootstrap_repertoire=None, n_pop = 100):
+                q_value_estimator=None, bootstrap_repertoire=None, n_pop=100,
+                dataset_batch_size=4096):
+    if q_value_estimator is None:
+        raise ValueError("SPID scoring requires a Q-value estimator")
+    if bootstrap_repertoire is not None and len(bootstrap_repertoire.fitnesses) != n_pop:
+        raise ValueError("Bootstrap repertoire size must match n_pop")
     key = jax.random.key(seed)
 
-    # Init the population
+    # Init from the previous best population when available.  It must be
+    # rescored on the newly aggregated DAgger data; simply overwriting a
+    # repertoire after ``ga.init`` leaves stale fitness values behind.
     key, subkey = jax.random.split(key)
-    init_keys = jax.random.split(key, n_pop)
-    init_population = jax.jit(jax.vmap(cgp_structure.init))(init_keys)
+    if bootstrap_repertoire is None:
+        init_keys = jax.random.split(key, n_pop)
+        init_population = jax.jit(jax.vmap(cgp_structure.init))(init_keys)
+    else:
+        init_population = bootstrap_repertoire.genotypes
 
     # Define a metrics function
     metrics_function = functools.partial(
@@ -126,7 +185,8 @@ def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
     scoring_fn = partial(
         feature_construction_scoring_fn,
         X=X, y=y, cgp_structure=cgp_structure,
-        q_value_estimator=q_value_estimator
+        q_value_estimator=q_value_estimator,
+        dataset_batch_size=dataset_batch_size,
     )
     # Instantiate GA
     ga = GeneticAlgorithmWithExtraScores(
@@ -140,9 +200,6 @@ def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
     repertoire, emitter_state, init_metrics = ga.init(
         genotypes=init_population, population_size=n_pop, key=subkey
     )
-    if bootstrap_repertoire is not None:
-        repertoire = bootstrap_repertoire
-
     metrics = {
         k: jnp.array([])
         for k in ["iteration", "max_fitness", "time"]
@@ -164,6 +221,8 @@ def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
     # Log initial metrics
     # csv_logger.log(jax.tree.map(lambda x: x[-1], init_metrics))
     # csv_logger.log(process_metrics_mtr(init_metrics, test_accuracy_header))
+
+    current_metrics = init_metrics
 
     # Iterations
     for iteration in range(1, n_gens):
@@ -194,4 +253,5 @@ def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
         fitnesses=repertoire.fitnesses,
         population_size=len(repertoire.fitnesses),
     )
-    return repertoire_to_store, unwrapped_metrics["max_fitness"]
+    max_fitness = jnp.ravel(current_metrics["max_fitness"])[0]
+    return repertoire_to_store, -max_fitness

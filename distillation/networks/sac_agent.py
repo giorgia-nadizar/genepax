@@ -151,7 +151,6 @@ def train(
     randomization_fn: Optional[
         Callable[[base.System, jnp.ndarray], Tuple[base.System, base.System]]
     ] = None,
-    checkpoint_logdir: Optional[str] = None,
     restore_checkpoint_path: Optional[str] = None,
 ):
   """SAC training."""
@@ -586,18 +585,6 @@ def train(
 
     # Eval and logging
     if process_id == 0:
-      if checkpoint_logdir:
-        params = _unpmap(
-            (training_state.normalizer_params, training_state.policy_params)
-        )
-        ckpt_config = checkpoint.network_config(
-            observation_size=obs_size,
-            action_size=env.action_size,
-            normalize_observations=normalize_observations,
-            network_factory=network_factory,
-        )
-        checkpoint.save(checkpoint_logdir, current_step, params, ckpt_config)
-
       # Run evals.
       metrics = evaluator.run_evaluation(
           _unpmap(

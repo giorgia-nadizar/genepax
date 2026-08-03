@@ -1,5 +1,10 @@
+import json
+from pathlib import Path
+
+import jax
 import flax.linen as nn
 import jax.numpy as jnp
+from flax import serialization
 
 
 class StudentPolicy(nn.Module):
@@ -8,7 +13,6 @@ class StudentPolicy(nn.Module):
 
     @nn.compact
     def __call__(self, obs: jnp.ndarray) -> jnp.ndarray:
-
         x = obs
 
         for hidden_size in self.hidden_sizes:
