@@ -97,6 +97,12 @@ if __name__ == '__main__':
             "Useful for exactly replaying an older run."
         ),
     )
+    parser.add_argument(
+        "--search-seed-stride",
+        type=positive_int,
+        default=10_000,
+        help="Distance between CGP/reservoir RNG streams for consecutive seeds.",
+    )
     parser.add_argument("--num-seeds", type=positive_int, default=10)
     parser.add_argument("--iterations", type=positive_int, default=200)
     parser.add_argument("--sr-generations", type=positive_int, default=50)
@@ -177,9 +183,10 @@ if __name__ == '__main__':
 
     for SEED in range(args.seed_start, args.seed_start + args.num_seeds):
         search_seed_base = (
-            SEED * 10_000
+            SEED * args.search_seed_stride
             if args.search_seed_base is None
-            else args.search_seed_base + (SEED - args.seed_start) * 10_000
+            else args.search_seed_base
+            + (SEED - args.seed_start) * args.search_seed_stride
         )
         eval_env = envs.get_environment(
             env_name=ENV_NAME,
