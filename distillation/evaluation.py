@@ -9,7 +9,7 @@ def collect_mixed_policy_dataset(
         cgp_structure,
         actor,
         env,
-        beta: float = 0.5,
+        expert_weight: float = 0.5,
         num_steps: int = 1000,
         seed: int = 0,
         n_seeds: int = 10
@@ -22,7 +22,7 @@ def collect_mixed_policy_dataset(
             cgp_structure,
             actor,
             env,
-            beta,
+            expert_weight,
             num_steps,
             s,
         )
@@ -46,7 +46,7 @@ def single_collect_mixed_policy_dataset(
         cgp_structure,
         actor,
         env,
-        beta: float = 0.5,
+        expert_weight: float = 0.5,
         num_steps: int = 1000,
         seed: int = 0,
 ):
@@ -55,7 +55,10 @@ def single_collect_mixed_policy_dataset(
     def mixed_action(observation, action_key, _step):
         expert_action, _ = actor(observation, action_key)
         symbolic_action = cgp_structure.apply(genotype, observation)
-        action = beta * symbolic_action + (1.0 - beta) * expert_action
+        action = (
+            expert_weight * expert_action
+            + (1.0 - expert_weight) * symbolic_action
+        )
         return action, expert_action
 
     X, y, rewards, dones = rollout(env, key, mixed_action, num_steps)

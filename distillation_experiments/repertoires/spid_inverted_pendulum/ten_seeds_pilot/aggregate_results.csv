@@ -1,0 +1,11 @@
+seed,best_iteration,best_validation_reward,last_iteration,solved
+0,5,1000.0,5,true
+1,4,258.6000061035156,9,false
+2,4,239.3000030517578,9,false
+3,1,1000.0,1,true
+4,1,1000.0,1,true
+5,1,1000.0,1,true
+6,1,198.8000030517578,9,false
+7,4,1000.0,4,true
+8,1,1000.0,1,true
+9,7,755.2000122070312,9,false

@@ -16,6 +16,28 @@ python -m distillation_experiments.scripts.policy_search_gp --seed 0
 python -m distillation_experiments.scripts.policy_search_mixed --seed 0
 ```
 
+For a small inverted-pendulum SPID smoke test:
+
+```bash
+python -m distillation_experiments.scripts.spid \
+  --env inverted_pendulum \
+  --run-name smoke \
+  --num-seeds 1 \
+  --iterations 3 \
+  --sr-generations 3 \
+  --population-size 10 \
+  --rollout-steps 200 \
+  --evaluation-trajectories 2 \
+  --max-dataset-size 5000 \
+  --trajectories-per-iteration 2
+```
+
+SPID writes each run below `repertoires/spid_<environment>/<run-name>/`.
+Every seed has its own metrics, summary, best-validation genotype, and the
+population repertoire from which it was selected. Load `best_genotype.pickle`
+with `pickle.load` when evaluating a saved controller. An existing run name is
+never overwritten. Omit `--run-name` to use a UTC timestamp.
+
 Artifact directories are resolved relative to this directory, not the current
 working directory.
 

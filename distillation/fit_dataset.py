@@ -1,5 +1,4 @@
 import functools
-import pickle
 import time
 from functools import partial
 from typing import Tuple
@@ -18,12 +17,59 @@ from genepax.evolution.tournament_selector import TournamentSelector
 from genepax.gp.cartesian_genetic_programming import CGP
 
 
+def gm_dagger_loss(
+        expert_actions: jnp.ndarray,
+        symbolic_actions: jnp.ndarray,
+        expert_q: jnp.ndarray,
+        symbolic_q: jnp.ndarray,
+        alpha: float,
+        epsilon: float,
+        valid_mask: jnp.ndarray | None = None,
+) -> tuple[jnp.ndarray, dict[str, jnp.ndarray]]:
+    """Computes the paper's per-state geometric-mean DAGGER loss.
+
+    ``expert_q`` is used as the deterministic-teacher approximation of
+    :math:`V^*(s)`. The paper assumes an optimal teacher, hence a non-negative
+    Q gap. ``relu`` enforces that assumption when an imperfect learned critic
+    happens to rank the symbolic action above the teacher action.
+    """
+    if alpha <= 0 or epsilon <= 0:
+        raise ValueError("GM-DAGGER alpha and epsilon must be positive")
+
+    q_gap = jnp.nan_to_num(
+        expert_q - symbolic_q,
+        nan=0.0,
+        posinf=1e6,
+        neginf=0.0,
+    )
+    performance_gap = jax.nn.relu(q_gap) + alpha
+    fidelity_gap = (
+        jnp.linalg.norm(symbolic_actions - expert_actions, axis=-1) + epsilon
+    )
+    per_sample_loss = jnp.sqrt(performance_gap * fidelity_gap)
+
+    if valid_mask is None:
+        valid_mask = jnp.ones_like(per_sample_loss)
+    valid_mask = valid_mask.astype(per_sample_loss.dtype)
+    normalizer = jnp.maximum(jnp.sum(valid_mask), 1.0)
+
+    def masked_mean(values):
+        return jnp.sum(values * valid_mask) / normalizer
+
+    return masked_mean(per_sample_loss), {
+        "performance_gap": masked_mean(performance_gap),
+        "fidelity_gap": masked_mean(fidelity_gap),
+    }
+
+
 def single_genome_scoring_fn(
         genotype: Genotype,
         X: jnp.ndarray,
         y: jnp.ndarray,
         cgp_structure: CGP,
         q_value_estimator,
+        alpha: float,
+        epsilon: float,
         valid_mask: jnp.ndarray | None = None,
 ) -> Tuple:
     # Construct features
@@ -37,16 +83,8 @@ def single_genome_scoring_fn(
         neginf=-1e3,
     )
     y_pred = jnp.clip(y_pred, -1.0, 1.0)
-    if valid_mask is None:
-        valid_mask = jnp.ones((X.shape[0],), dtype=jnp.float32)
-    else:
-        valid_mask = valid_mask.astype(jnp.float32)
-    normalizer = jnp.maximum(jnp.sum(valid_mask), 1.0)
-
-    # Per-sample losses allow the final padded chunk to be masked correctly.
-    mse_per_sample = jnp.mean(jnp.square(y - y_pred), axis=-1)
-
-    # DAGGER loss
+    # The teacher action's Q-value approximates V*(s) for the deterministic
+    # SAC policy used by this implementation.
     expert_q = q_value_estimator(
         X,
         y,
@@ -55,26 +93,15 @@ def single_genome_scoring_fn(
         X,
         y_pred,
     )
-    # print("finite expert:",
-    #       jnp.isfinite(expert_q).all())
-    # print("finite symbolic:",
-    #       jnp.isfinite(symbolic_q).all())
-    # Penalize only regressions against the teacher action.  A raw signed
-    # difference can be negative, which made the old geometric-mean loss
-    # undefined and rewarded numerical artefacts.
-    q_values_difference = jax.nn.relu(expert_q - symbolic_q)
-    q_values_difference = jnp.nan_to_num(
-        q_values_difference,
-        nan=0.0,
-        posinf=1e3,
-        neginf=-1e3,
+    loss, loss_components = gm_dagger_loss(
+        expert_actions=y,
+        symbolic_actions=y_pred,
+        expert_q=expert_q,
+        symbolic_q=symbolic_q,
+        alpha=alpha,
+        epsilon=epsilon,
+        valid_mask=valid_mask,
     )
-    q_loss_per_sample = q_values_difference
-
-    mse = jnp.sum(mse_per_sample * valid_mask) / normalizer
-    q_loss = jnp.sum(q_loss_per_sample * valid_mask) / normalizer
-
-    loss = mse + 0.1 * q_loss
 
     # GA maximizes fitness
     fitness = -loss
@@ -83,6 +110,7 @@ def single_genome_scoring_fn(
     return jnp.asarray([fitness]), {
         "test_accuracy": fitness,
         "updated_params": genotype,
+        **loss_components,
     }
 
 
@@ -94,6 +122,8 @@ def feature_construction_scoring_fn(
         cgp_structure: CGP,
         q_value_estimator,
         dataset_batch_size: int,
+        alpha: float,
+        epsilon: float,
 ) -> Tuple[jnp.ndarray, jnp.ndarray]:
     """Scores a population in chunks to bound peak device memory."""
     del key
@@ -118,6 +148,8 @@ def feature_construction_scoring_fn(
             y=y_chunk,
             cgp_structure=cgp_structure,
             q_value_estimator=q_value_estimator,
+            alpha=alpha,
+            epsilon=epsilon,
             valid_mask=valid_chunk,
         )
         fitness, extra_scores = jax.vmap(scoring_fn)(genotypes)
@@ -148,7 +180,7 @@ def feature_construction_scoring_fn(
 
 def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
                 q_value_estimator=None, bootstrap_repertoire=None, n_pop=100,
-                dataset_batch_size=4096):
+                dataset_batch_size=4096, alpha=0.1, epsilon=0.1):
     if q_value_estimator is None:
         raise ValueError("SPID scoring requires a Q-value estimator")
     if bootstrap_repertoire is not None and len(bootstrap_repertoire.fitnesses) != n_pop:
@@ -187,6 +219,8 @@ def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
         X=X, y=y, cgp_structure=cgp_structure,
         q_value_estimator=q_value_estimator,
         dataset_batch_size=dataset_batch_size,
+        alpha=alpha,
+        epsilon=epsilon,
     )
     # Instantiate GA
     ga = GeneticAlgorithmWithExtraScores(
