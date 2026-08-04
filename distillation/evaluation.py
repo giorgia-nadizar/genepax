@@ -1,7 +1,12 @@
 import jax
 import jax.numpy as jnp
 
-from distillation.rollouts import masked_return, rollout, valid_transition_mask
+from distillation.rollouts import (
+    masked_return,
+    rollout,
+    sanitize_action,
+    valid_transition_mask,
+)
 
 
 def finite_transition_mask(X, y):
@@ -72,7 +77,9 @@ def single_collect_mixed_policy_dataset(
 
     def mixed_action(observation, action_key, _step):
         expert_action, _ = actor(observation, action_key)
-        symbolic_action = cgp_structure.apply(genotype, observation)
+        symbolic_action = sanitize_action(
+            cgp_structure.apply(genotype, observation)
+        )
         action = (
             expert_weight * expert_action
             + (1.0 - expert_weight) * symbolic_action
@@ -134,7 +141,7 @@ def evaluate_symbolic_policy_single(
     key = jax.random.key(seed)
 
     def symbolic_action(observation, _key, _step):
-        action = cgp_structure.apply(genotype, observation)
+        action = sanitize_action(cgp_structure.apply(genotype, observation))
         return action, action
 
     _, _, rewards, dones = rollout(env, key, symbolic_action, num_steps)

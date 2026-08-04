@@ -5,7 +5,7 @@ from functools import partial
 import jax
 import jax.numpy as jnp
 
-from distillation.rollouts import masked_return, rollout
+from distillation.rollouts import masked_return, rollout, sanitize_action
 
 
 def single_mixed_policy_scoring_fn(
@@ -14,7 +14,9 @@ def single_mixed_policy_scoring_fn(
     """Scores one rollout; ``beta`` is the symbolic-policy weight."""
     def action_fn(observation, action_key, _step):
         expert_action, _ = actor(observation, action_key)
-        symbolic_action = cgp_structure.apply(genotype, observation)
+        symbolic_action = sanitize_action(
+            cgp_structure.apply(genotype, observation)
+        )
         action = beta * symbolic_action + (1.0 - beta) * expert_action
         return action, expert_action
 
@@ -65,7 +67,9 @@ def symbolic_policy_scoring_fn(
 
         def score_seed(seed_key):
             def action_fn(observation, _action_key, _step):
-                action = cgp_structure.apply(genotype, observation)
+                action = sanitize_action(
+                    cgp_structure.apply(genotype, observation)
+                )
                 return action, action
 
             _, _, rewards, dones = rollout(env, seed_key, action_fn, num_steps)

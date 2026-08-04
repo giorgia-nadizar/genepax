@@ -15,6 +15,7 @@ from genepax.evolution.genetic_algorithm_extra_scores import (
 )
 from genepax.evolution.tournament_selector import TournamentSelector
 from genepax.gp.cartesian_genetic_programming import CGP
+from distillation.rollouts import sanitize_action
 
 
 def gm_dagger_loss(
@@ -77,13 +78,7 @@ def single_genome_scoring_fn(
     y_pred = jax.vmap(cgp_structure.apply, in_axes=(None, 0))(genotype, X)
 
     # Sanitization
-    y_pred = jnp.nan_to_num(
-        y_pred,
-        nan=0.0,
-        posinf=1e3,
-        neginf=-1e3,
-    )
-    y_pred = jnp.clip(y_pred, -1.0, 1.0)
+    y_pred = sanitize_action(y_pred)
     # The teacher action's Q-value approximates V*(s) for the deterministic
     # SAC policy used by this implementation.
     expert_q = q_value_estimator(

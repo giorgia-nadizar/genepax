@@ -5,7 +5,7 @@ from functools import partial
 import jax
 import jax.numpy as jnp
 
-from distillation.rollouts import masked_return, rollout
+from distillation.rollouts import masked_return, rollout, sanitize_action
 from distillation.policy_search.mixed_policy_scoring import (
     single_mixed_policy_multi_seed_scoring_fn,
 )
@@ -19,7 +19,9 @@ def single_intervalled_policy_scoring_fn(
 
     def action_fn(observation, action_key, step):
         expert_action, _ = actor(observation, action_key)
-        symbolic_action = cgp_structure.apply(genotype, observation)
+        symbolic_action = sanitize_action(
+            cgp_structure.apply(genotype, observation)
+        )
         action = jax.lax.select(step % n == 0, expert_action, symbolic_action)
         return action, expert_action
 

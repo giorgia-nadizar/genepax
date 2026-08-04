@@ -4,7 +4,7 @@ from functools import partial
 
 import jax
 
-from distillation.rollouts import masked_return, rollout
+from distillation.rollouts import masked_return, rollout, sanitize_action
 
 
 def evaluate_genome(
@@ -13,7 +13,9 @@ def evaluate_genome(
 ):
     def evaluate_once(seed_key):
         def action_fn(observation, action_key, _step):
-            symbolic = cgp_structure.apply(genome, observation)
+            symbolic = sanitize_action(
+                cgp_structure.apply(genome, observation)
+            )
             if actor_fn is None:
                 return symbolic, symbolic
             expert, _ = actor_fn(observation, action_key)

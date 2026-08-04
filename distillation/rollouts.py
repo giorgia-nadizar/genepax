@@ -6,6 +6,12 @@ import jax
 import jax.numpy as jnp
 
 
+def sanitize_action(action: jax.Array) -> jax.Array:
+    """Maps a policy action to the finite normalized Brax action domain."""
+    action = jnp.nan_to_num(action, nan=0.0, posinf=1.0, neginf=-1.0)
+    return jnp.clip(action, -1.0, 1.0)
+
+
 def valid_transition_mask(dones: jax.Array) -> jax.Array:
     """Returns a mask that excludes transitions after the first terminal one."""
     prior_dones = jnp.concatenate([jnp.zeros_like(dones[:1]), dones[:-1]])
@@ -34,7 +40,7 @@ def rollout(
         state, key = carry
         key, action_key = jax.random.split(key)
         action, label = action_fn(state.obs, action_key, step)
-        next_state = env.step(state, jnp.clip(action, -1.0, 1.0))
+        next_state = env.step(state, sanitize_action(action))
         return (next_state, key), (
             state.obs, label, next_state.reward, next_state.done
         )
@@ -43,4 +49,3 @@ def rollout(
         step_fn, (state, key), jnp.arange(num_steps), length=num_steps
     )
     return trace
-
