@@ -54,7 +54,8 @@ def gm_dagger_loss(
     normalizer = jnp.maximum(jnp.sum(valid_mask), 1.0)
 
     def masked_mean(values):
-        return jnp.sum(values * valid_mask) / normalizer
+        # Multiplication is not a safe mask: NaN * 0 is still NaN.
+        return jnp.sum(jnp.where(valid_mask > 0, values, 0.0)) / normalizer
 
     return masked_mean(per_sample_loss), {
         "performance_gap": masked_mean(performance_gap),
@@ -154,12 +155,23 @@ def feature_construction_scoring_fn(
         )
         fitness, extra_scores = jax.vmap(scoring_fn)(genotypes)
         weight = jnp.sum(valid_chunk)
-        return carry + fitness * weight, extra_scores
+        fitness_total, performance_total, fidelity_total = carry
+        updated_carry = (
+            fitness_total + fitness * weight,
+            performance_total + extra_scores["performance_gap"] * weight,
+            fidelity_total + extra_scores["fidelity_gap"] * weight,
+        )
+        return updated_carry, None
 
-    initial_fitness = jnp.zeros((genotypes["genes"]["inputs1"].shape[0], 1))
-    fitness, extra_scores = jax.lax.scan(
+    population_size = genotypes["genes"]["inputs1"].shape[0]
+    initial_carry = (
+        jnp.zeros((population_size, 1)),
+        jnp.zeros((population_size,)),
+        jnp.zeros((population_size,)),
+    )
+    (fitness, performance_gap, fidelity_gap), _ = jax.lax.scan(
         score_chunk,
-        initial_fitness,
+        initial_carry,
         (X, y, valid),
     )
     # scan returns the final carry and per-chunk extra scores.  Recompute the
@@ -168,6 +180,8 @@ def feature_construction_scoring_fn(
     return fitness, {
         "test_accuracy": fitness[:, 0],
         "updated_params": genotypes,
+        "performance_gap": performance_gap / n_samples,
+        "fidelity_gap": fidelity_gap / n_samples,
     }
 
 
@@ -183,6 +197,16 @@ def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
                 dataset_batch_size=4096, alpha=0.1, epsilon=0.1):
     if q_value_estimator is None:
         raise ValueError("SPID scoring requires a Q-value estimator")
+    if len(X) == 0:
+        raise ValueError("SPID scoring requires a non-empty dataset")
+    finite_rows = jnp.all(jnp.isfinite(X), axis=-1) & jnp.all(
+        jnp.isfinite(y), axis=-1
+    )
+    invalid_rows = int(jnp.sum(~finite_rows))
+    if invalid_rows:
+        raise ValueError(
+            f"SPID dataset contains {invalid_rows} non-finite transitions"
+        )
     if bootstrap_repertoire is not None and len(bootstrap_repertoire.fitnesses) != n_pop:
         raise ValueError("Bootstrap repertoire size must match n_pop")
     key = jax.random.key(seed)
@@ -288,4 +312,20 @@ def fit_dataset(X, y, cgp_structure, seed=0, n_gens=100,
         population_size=len(repertoire.fitnesses),
     )
     max_fitness = jnp.ravel(current_metrics["max_fitness"])[0]
-    return repertoire_to_store, -max_fitness
+    finite_fitness = jnp.isfinite(repertoire.fitnesses)
+    best_idx = jnp.argmax(repertoire.fitnesses[:, 0])
+    diagnostics = {
+        "finite_fitness_fraction": jnp.mean(finite_fitness),
+        "best_performance_gap": repertoire.extra_scores[
+            "performance_gap"
+        ][best_idx],
+        "best_fidelity_gap": repertoire.extra_scores[
+            "fidelity_gap"
+        ][best_idx],
+    }
+    if not bool(jnp.all(finite_fitness)):
+        raise FloatingPointError(
+            "Non-finite CGP fitness detected; "
+            f"finite fraction={float(diagnostics['finite_fitness_fraction']):.3f}"
+        )
+    return repertoire_to_store, -max_fitness, diagnostics

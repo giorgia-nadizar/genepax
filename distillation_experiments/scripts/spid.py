@@ -89,6 +89,14 @@ if __name__ == '__main__':
     parser.add_argument("--backend", default="generalized")
     parser.add_argument("--run-name")
     parser.add_argument("--seed-start", type=int, default=0)
+    parser.add_argument(
+        "--search-seed-base",
+        type=int,
+        help=(
+            "Optional CGP/reservoir RNG base for the first training seed. "
+            "Useful for exactly replaying an older run."
+        ),
+    )
     parser.add_argument("--num-seeds", type=positive_int, default=10)
     parser.add_argument("--iterations", type=positive_int, default=200)
     parser.add_argument("--sr-generations", type=positive_int, default=50)
@@ -168,6 +176,11 @@ if __name__ == '__main__':
     # target_reward = 9000
 
     for SEED in range(args.seed_start, args.seed_start + args.num_seeds):
+        search_seed_base = (
+            SEED * 10_000
+            if args.search_seed_base is None
+            else args.search_seed_base + (SEED - args.seed_start) * 10_000
+        )
         eval_env = envs.get_environment(
             env_name=ENV_NAME,
             backend=args.backend,
@@ -218,10 +231,12 @@ if __name__ == '__main__':
                 "iteration", "gm_loss", "symbolic_reward",
                 "mixed_reward", "expert_weight", "dataset_size",
                 "expert_samples", "dagger_samples",
+                "finite_fitness_fraction", "performance_gap",
+                "fidelity_gap", "invalid_collected_transitions",
             ])
 
         # Dataset initialization: fit pi_hat_0 only on teacher demonstrations.
-        repertoire, loss = fit_dataset(
+        repertoire, loss, fit_diagnostics = fit_dataset(
             X,
             y,
             cgp_structure,
@@ -232,7 +247,7 @@ if __name__ == '__main__':
             dataset_batch_size=args.dataset_batch_size,
             alpha=args.gm_alpha,
             epsilon=args.gm_epsilon,
-            seed=SEED * args.iterations,
+            seed=search_seed_base,
         )
         best_idx = jnp.argmax(repertoire.fitnesses)
         best_genotype = jax.tree.map(
@@ -254,6 +269,10 @@ if __name__ == '__main__':
             csv.writer(f).writerow([
                 0, loss, evaluation_result, "", "",
                 len(X), len(expert_X), len(dagger_X),
+                fit_diagnostics["finite_fitness_fraction"],
+                fit_diagnostics["best_performance_gap"],
+                fit_diagnostics["best_fidelity_gap"],
+                "",
             ])
         print(f"0 gm_loss {loss} evaluation {evaluation_result}")
 
@@ -269,7 +288,7 @@ if __name__ == '__main__':
                 args.expert_weight_start,
                 expert_weight_end,
             )
-            X_new, y_new, mixed_evaluation_reward = (
+            X_new, y_new, mixed_evaluation_reward, collection_diagnostics = (
                 collect_mixed_policy_dataset(
                     best_genotype,
                     cgp_structure,
@@ -293,13 +312,13 @@ if __name__ == '__main__':
                 X_new,
                 y_new,
                 dagger_budget,
-                jax.random.key(SEED * args.iterations + iteration),
+                jax.random.key(search_seed_base + iteration),
             )
             X, y = combine_datasets(
                 expert_X, expert_y, dagger_X, dagger_y
             )
 
-            repertoire, loss = fit_dataset(
+            repertoire, loss, fit_diagnostics = fit_dataset(
                 X,
                 y,
                 cgp_structure,
@@ -310,7 +329,7 @@ if __name__ == '__main__':
                 dataset_batch_size=args.dataset_batch_size,
                 alpha=args.gm_alpha,
                 epsilon=args.gm_epsilon,
-                seed=SEED * args.iterations + iteration,
+                seed=search_seed_base + iteration,
             )
             best_idx = jnp.argmax(repertoire.fitnesses)
             best_genotype = jax.tree.map(
@@ -345,6 +364,10 @@ if __name__ == '__main__':
                     len(X),
                     len(expert_X),
                     len(dagger_X),
+                    fit_diagnostics["finite_fitness_fraction"],
+                    fit_diagnostics["best_performance_gap"],
+                    fit_diagnostics["best_fidelity_gap"],
+                    collection_diagnostics["invalid_transitions"],
                 ])
             if evaluation_result >= args.target_reward:
                 print("ENV SOLVED")
