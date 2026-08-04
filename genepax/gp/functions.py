@@ -73,21 +73,59 @@ class JaxFunction:
 
 
 eps = 1e-6
+max_abs_value = 1e6
+
+
+def _finite_value(value: jnp.ndarray) -> jnp.ndarray:
+    """Keeps intermediate GP values finite and numerically bounded."""
+    value = jnp.nan_to_num(
+        value,
+        nan=0.0,
+        posinf=max_abs_value,
+        neginf=-max_abs_value,
+    )
+    return jnp.clip(value, -max_abs_value, max_abs_value)
+
+
+def _protected_division(x: jnp.ndarray, y: jnp.ndarray) -> jnp.ndarray:
+    x, y = _finite_value(x), _finite_value(y)
+    safe_denominator = jnp.where(jnp.abs(y) < eps, 1.0, y)
+    quotient = x / safe_denominator
+    return _finite_value(jnp.where(jnp.abs(y) < eps, 0.0, quotient))
+
+
+def _protected_power(x: jnp.ndarray, y: jnp.ndarray) -> jnp.ndarray:
+    """A bounded real-valued power that supports negative bases."""
+    x, y = _finite_value(x), _finite_value(y)
+    log_magnitude = y * jnp.log(jnp.abs(x) + eps)
+    log_bound = jnp.log(max_abs_value)
+    magnitude = jnp.exp(jnp.clip(log_magnitude, -log_bound, log_bound))
+    return _finite_value(jnp.sign(x) * magnitude)
+
+
 function_set_numeric = {
-    "plus": JaxFunction(lambda x, y: x + y, 2, "+"),
-    "minus": JaxFunction(lambda x, y: x - y, 2, "-"),
-    "times": JaxFunction(lambda x, y: x * y, 2, "*"),
-    "prot_div": JaxFunction(
-        lambda x, y: jnp.where(jnp.abs(y) < eps, 0.0, x / y), 2, "/"
+    "plus": JaxFunction(lambda x, y: _finite_value(_finite_value(x) + _finite_value(y)), 2, "+"),
+    "minus": JaxFunction(lambda x, y: _finite_value(_finite_value(x) - _finite_value(y)), 2, "-"),
+    "times": JaxFunction(lambda x, y: _finite_value(_finite_value(x) * _finite_value(y)), 2, "*"),
+    "prot_div": JaxFunction(_protected_division, 2, "/"),
+    "abs": JaxFunction(lambda x, y: jnp.abs(_finite_value(x)), 1, "abs"),
+    "safe_exp": JaxFunction(
+        lambda x, y: _finite_value(jnp.exp(jnp.clip(_finite_value(x), -20, 20))),
+        1,
+        "exp",
     ),
-    "abs": JaxFunction(lambda x, y: jnp.sqrt(x * x + eps), 1, "abs"),
-    "safe_exp": JaxFunction(lambda x, y: jnp.exp(jnp.clip(x, -50, 50)), 1, "exp"),
-    "sin": JaxFunction(lambda x, y: jnp.sin(x), 1, "sin"),
-    "cos": JaxFunction(lambda x, y: jnp.cos(x), 1, "cos"),
-    "prot_log": JaxFunction(lambda x, y: jnp.log(jnp.abs(x) + eps), 1, "log"),
-    "sqrt": JaxFunction(lambda x, y: jnp.sqrt(jnp.sqrt(x * x + eps) + eps), 1, "sqrt"),
-    "pow": JaxFunction(lambda x, y: jnp.power(x, y), 2, "pow"),
-    "identity": JaxFunction(lambda x, y: x, 1, "id"),
+    "sin": JaxFunction(lambda x, y: jnp.sin(_finite_value(x)), 1, "sin"),
+    "cos": JaxFunction(lambda x, y: jnp.cos(_finite_value(x)), 1, "cos"),
+    "prot_log": JaxFunction(
+        lambda x, y: _finite_value(jnp.log(jnp.abs(_finite_value(x)) + eps)),
+        1,
+        "log",
+    ),
+    "sqrt": JaxFunction(
+        lambda x, y: jnp.sqrt(jnp.abs(_finite_value(x)) + eps), 1, "sqrt"
+    ),
+    "pow": JaxFunction(_protected_power, 2, "pow"),
+    "identity": JaxFunction(lambda x, y: _finite_value(x), 1, "id"),
     # "lower": JaxFunction(lambda x, y: jnp.add(0.0, x < y), 2, "<"),
     # "greater": JaxFunction(lambda x, y: jnp.add(0.0, x > y), 2, ">"),
 }
