@@ -1,9 +1,0 @@
-{
-  "brax": "0.14.2",
-  "git_commit": "ab6e929000f6349494a5441afc8cdb220715d01b",
-  "jax": "0.10.2",
-  "jaxlib": "0.10.2",
-  "orbax-checkpoint": "0.11.33",
-  "python": "3.11.15",
-  "qdax": "0.5.1"
-}

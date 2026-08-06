@@ -1,0 +1,19 @@
+{
+  "seed": 9,
+  "iteration": 2,
+  "dataset_size": 16547,
+  "population_size": 100,
+  "evaluation_trajectories": 20,
+  "evaluation_seed": 490000,
+  "pearson_loss_reward": -0.3345707152161592,
+  "spearman_loss_reward": 0.10301393645581026,
+  "pearson_performance_gap_reward": -0.5835936475034832,
+  "spearman_performance_gap_reward": -0.30281814365258214,
+  "best_reward": 288.95001220703125,
+  "best_reward_loss_rank": 1,
+  "best_loss_reward": 288.95001220703125,
+  "best_loss": 0.11119812726974487,
+  "reward_min": 218.25,
+  "reward_median": 240.85000610351562,
+  "reward_max": 288.95001220703125
+}

@@ -1,7 +1,0 @@
-{
-  "backend": "generalized",
-  "environment": "inverted_pendulum",
-  "n_inputs": 4,
-  "n_outputs": 1,
-  "reconstruction": "CGP(n_inputs=4, n_outputs=1)"
-}

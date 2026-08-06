@@ -1,0 +1,19 @@
+{
+  "seed": 6,
+  "iteration": 9,
+  "dataset_size": 17278,
+  "population_size": 100,
+  "evaluation_trajectories": 20,
+  "evaluation_seed": 460000,
+  "pearson_loss_reward": null,
+  "spearman_loss_reward": null,
+  "pearson_performance_gap_reward": null,
+  "spearman_performance_gap_reward": null,
+  "best_reward": 1000.0,
+  "best_reward_loss_rank": 1,
+  "best_loss_reward": 1000.0,
+  "best_loss": 0.12794016301631927,
+  "reward_min": 1000.0,
+  "reward_median": 1000.0,
+  "reward_max": 1000.0
+}

@@ -1,3 +1,0 @@
-iteration,gm_loss,symbolic_reward,mixed_reward,expert_weight,dataset_size,expert_samples,dagger_samples
-0,0.1068596,113.6,,,5000,5000,0
-1,0.14761823,1000.0,1000.0,0.5,10000,5000,5000

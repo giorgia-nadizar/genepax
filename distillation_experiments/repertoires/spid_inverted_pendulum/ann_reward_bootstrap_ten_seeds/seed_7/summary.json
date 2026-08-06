@@ -1,0 +1,10 @@
+{
+  "seed": 7,
+  "best_iteration": 9,
+  "best_validation_reward": 244.3000030517578,
+  "last_iteration": 14,
+  "solved": false,
+  "expert_samples": 5000,
+  "dagger_samples": 11250,
+  "recovery_samples": 1355
+}
