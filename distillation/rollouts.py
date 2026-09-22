@@ -19,7 +19,9 @@ def valid_transition_mask(dones: jax.Array) -> jax.Array:
 
 
 def masked_return(rewards: jax.Array, dones: jax.Array) -> jax.Array:
-    return jnp.sum(rewards * valid_transition_mask(dones))
+    # Scans keep stepping after termination; 0 * NaN would contaminate an
+    # otherwise valid episode return. Preserve invalid values before termination.
+    return jnp.sum(jnp.where(valid_transition_mask(dones) > 0, rewards, 0))
 
 
 def rollout(
