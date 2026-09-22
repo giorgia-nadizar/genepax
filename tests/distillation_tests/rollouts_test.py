@@ -1,24 +1,17 @@
+import jax
 import jax.numpy as jnp
+import numpy as np
 
-from distillation.rollouts import sanitize_action, valid_transition_mask
-
-
-def test_sanitize_action_replaces_non_finite_values_and_clips_range():
-    action = jnp.asarray([jnp.nan, jnp.inf, -jnp.inf, 2.0, -2.0, 0.25])
-
-    sanitized = sanitize_action(action)
-
-    assert jnp.array_equal(
-        sanitized,
-        jnp.asarray([0.0, 1.0, -1.0, 1.0, -1.0, 0.25]),
-    )
+from distillation.rollouts import masked_return
 
 
-def test_valid_transition_mask_keeps_terminal_transition_only():
-    dones = jnp.asarray([False, False, True, True, True])
+def test_return_ignores_nonfinite_rewards_after_terminal_transition():
+    rewards = jnp.array([1., 2., jnp.nan, jnp.inf])
+    dones = jnp.array([0., 1., 0., jnp.nan])
+    assert float(jax.jit(masked_return)(rewards, dones)) == 3.
 
-    mask = valid_transition_mask(dones)
 
-    # The action that leads to termination is valid; transitions attempted
-    # from the terminal state afterward are not.
-    assert jnp.array_equal(mask, jnp.asarray([1, 1, 1, 0, 0]))
+def test_return_preserves_nonfinite_reward_in_valid_episode():
+    rewards = jnp.array([1., jnp.nan, 3.])
+    dones = jnp.array([0., 1., 0.])
+    assert np.isnan(float(jax.jit(masked_return)(rewards, dones)))
