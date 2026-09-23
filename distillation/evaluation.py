@@ -1,5 +1,14 @@
+from collections.abc import Callable
+from typing import Any, Tuple, Dict
+
+from brax.envs.base import Env
+from qdax.custom_types import Genotype, RNGKey
+
 import jax
 import jax.numpy as jnp
+
+from distillation.fit_imitation import scaled_cgp_action
+from genepax.gp.cartesian_genetic_programming import CGP
 
 from distillation.rollouts import (
     masked_return,
@@ -9,27 +18,28 @@ from distillation.rollouts import (
 )
 
 
-def finite_transition_mask(X, y):
+def finite_transition_mask(X: jax.Array, y: jax.Array) -> jax.Array:
     """Selects transitions with finite observations and teacher actions."""
     return jnp.all(jnp.isfinite(X), axis=-1) & jnp.all(jnp.isfinite(y), axis=-1)
 
 
-def finite_prefix_mask(X, y):
+def finite_prefix_mask(X: jax.Array, y: jax.Array) -> jax.Array:
     """Stops a trajectory at its first non-finite transition."""
     finite = finite_transition_mask(X, y)
     return jnp.cumprod(finite.astype(jnp.int32), axis=-1).astype(bool)
 
 
 def collect_mixed_policy_dataset(
-        genotype,
-        cgp_structure,
-        actor,
-        env,
+        genotype: Genotype,
+        cgp_structure: CGP,
+        actor: Callable[[jax.Array, RNGKey], tuple[jax.Array, dict[str, Any]]],
+        env: Env,
         expert_weight: float = 0.5,
         num_steps: int = 1000,
         seed: int = 0,
-        n_seeds: int = 10
-):
+        n_seeds: int = 10,
+        linear_scaling: bool = False,
+) -> tuple[jax.Array, jax.Array, jax.Array, dict[str, jax.Array]]:
     seeds = seed + jnp.arange(n_seeds)
 
     X, y, masks, returns = jax.vmap(
@@ -41,6 +51,7 @@ def collect_mixed_policy_dataset(
             expert_weight,
             num_steps,
             s,
+            linear_scaling,
         )
     )(seeds)
     finite_masks = finite_transition_mask(X, y)
@@ -65,24 +76,29 @@ def collect_mixed_policy_dataset(
 
 
 def single_collect_mixed_policy_dataset(
-        genotype,
-        cgp_structure,
-        actor,
-        env,
+        genotype: Genotype,
+        cgp_structure: CGP,
+        actor: Callable[[jax.Array, RNGKey], Tuple[jax.Array, Dict[str, Any]]],
+        env: Env,
         expert_weight: float = 0.5,
         num_steps: int = 1000,
         seed: int = 0,
-):
+        linear_scaling: bool = False,
+) -> Tuple[jax.Array, jax.Array, jax.Array, jax.Array]:
     key = jax.random.key(seed)
 
-    def mixed_action(observation, action_key, _step):
+    def mixed_action(
+        observation: jax.Array, action_key: RNGKey, _step: jax.Array
+    ) -> Tuple[jax.Array, jax.Array]:
         expert_action, _ = actor(observation, action_key)
-        symbolic_action = sanitize_action(
-            cgp_structure.apply(genotype, observation)
+        symbolic_action = (
+            scaled_cgp_action(genotype, cgp_structure, observation)
+            if linear_scaling
+            else sanitize_action(cgp_structure.apply(genotype, observation))
         )
         action = (
-            expert_weight * expert_action
-            + (1.0 - expert_weight) * symbolic_action
+                expert_weight * expert_action
+                + (1.0 - expert_weight) * symbolic_action
         )
         return action, expert_action
 
@@ -95,13 +111,14 @@ def single_collect_mixed_policy_dataset(
 
 
 def evaluate_symbolic_policy(
-        genotype,
-        cgp_structure,
-        env,
+        genotype: Genotype,
+        cgp_structure: CGP,
+        env: Env,
         num_steps: int = 1000,
         seed: int = 0,
         n_seeds: int = 10,
-):
+        linear_scaling: bool = False,
+) -> jax.Array:
     seeds = seed + jnp.arange(n_seeds)
 
     rewards = jax.vmap(
@@ -111,6 +128,7 @@ def evaluate_symbolic_policy(
             env,
             num_steps,
             s,
+            linear_scaling,
         )
     )(seeds)
 
@@ -118,12 +136,13 @@ def evaluate_symbolic_policy(
 
 
 def evaluate_symbolic_policy_single(
-        genotype,
-        cgp_structure,
-        env,
+        genotype: Genotype,
+        cgp_structure: CGP,
+        env: Env,
         num_steps: int = 1000,
         seed: int = 0,
-):
+        linear_scaling: bool = False,
+) -> jax.Array:
     """
     Evaluate a symbolic controller.
 
@@ -140,8 +159,14 @@ def evaluate_symbolic_policy_single(
 
     key = jax.random.key(seed)
 
-    def symbolic_action(observation, _key, _step):
-        action = sanitize_action(cgp_structure.apply(genotype, observation))
+    def symbolic_action(
+        observation: jax.Array, _key: RNGKey, _step: jax.Array
+    ) -> Tuple[jax.Array, jax.Array]:
+        action = (
+            scaled_cgp_action(genotype, cgp_structure, observation)
+            if linear_scaling
+            else sanitize_action(cgp_structure.apply(genotype, observation))
+        )
         return action, action
 
     _, _, rewards, dones = rollout(env, key, symbolic_action, num_steps)
