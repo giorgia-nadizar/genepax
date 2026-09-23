@@ -1,0 +1,19 @@
+{
+  "action_size": 1,
+  "activation": "swish",
+  "backend": "generalized",
+  "distribution_type": "tanh_normal",
+  "env_name": "inverted_pendulum",
+  "hidden_layer_sizes": [
+    256,
+    256
+  ],
+  "init_noise_std": 1.0,
+  "network_factory_configured": true,
+  "noise_std_type": "scalar",
+  "normalize_observations": false,
+  "observation_size": 4,
+  "policy_network_layer_norm": false,
+  "q_network_layer_norm": false,
+  "state_dependent_std": false
+}

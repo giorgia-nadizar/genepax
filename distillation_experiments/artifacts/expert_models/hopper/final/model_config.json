@@ -1,0 +1,18 @@
+{
+  "action_size": 3,
+  "activation": "swish",
+  "backend": "generalized",
+  "distribution_type": "tanh_normal",
+  "env_name": "hopper",
+  "hidden_layer_sizes": [
+    256,
+    256
+  ],
+  "init_noise_std": 1.0,
+  "noise_std_type": "scalar",
+  "normalize_observations": false,
+  "observation_size": 11,
+  "policy_network_layer_norm": false,
+  "q_network_layer_norm": false,
+  "state_dependent_std": false
+}

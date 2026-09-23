@@ -1,0 +1,16 @@
+{
+  "eval/avg_episode_length": 1000.0,
+  "eval/episode_reward": 4679.88134765625,
+  "eval/episode_reward_std": 0.012553078122437,
+  "eval/epoch_eval_time": 20.80347228050232,
+  "eval/sps": 769.1023779235023,
+  "eval/std_episode_length": 0.0,
+  "eval/walltime": 436.9954059123993,
+  "training/actor_loss": -893.3515014648438,
+  "training/alpha": 0.11376538127660751,
+  "training/alpha_loss": -0.0001023886798066087,
+  "training/buffer_current_size": 488512.0,
+  "training/critic_loss": 0.44854769110679626,
+  "training/sps": 3321.0958553369715,
+  "training/walltime": 177.32980751991272
+}
