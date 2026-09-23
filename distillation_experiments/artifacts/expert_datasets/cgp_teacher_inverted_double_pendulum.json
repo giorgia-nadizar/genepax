@@ -1,0 +1,15 @@
+{
+  "backend": "generalized",
+  "collection_seed": 2000000,
+  "environment": "inverted_double_pendulum",
+  "max_teacher_return": 9359.171875,
+  "mean_teacher_return": 9261.01171875,
+  "median_teacher_return": 9357.796875,
+  "min_teacher_return": 6283.7744140625,
+  "policy_path": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/policy_search/baselines/inverted_double_pendulum/seed_0_heldout50_mean9350_min9300/best_individual.pickle",
+  "rollout_steps": 1000,
+  "samples": 98979,
+  "state_weighting": "uniform",
+  "teacher": "direct-policy-search CGP",
+  "trajectories": 100
+}

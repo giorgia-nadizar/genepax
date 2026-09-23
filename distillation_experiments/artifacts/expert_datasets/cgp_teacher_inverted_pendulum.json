@@ -1,0 +1,15 @@
+{
+  "backend": "generalized",
+  "collection_seed": 2000000,
+  "environment": "inverted_pendulum",
+  "max_teacher_return": 1000.0,
+  "mean_teacher_return": 1000.0,
+  "median_teacher_return": 1000.0,
+  "min_teacher_return": 1000.0,
+  "policy_path": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/policy_search/baselines/inverted_pendulum/seed_0_protected_actions/best_individual.pickle",
+  "rollout_steps": 1000,
+  "samples": 100000,
+  "state_weighting": "uniform",
+  "teacher": "direct-policy-search CGP",
+  "trajectories": 100
+}
