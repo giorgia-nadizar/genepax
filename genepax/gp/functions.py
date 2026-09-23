@@ -104,9 +104,15 @@ def _protected_power(x: jnp.ndarray, y: jnp.ndarray) -> jnp.ndarray:
 
 
 function_set_numeric = {
-    "plus": JaxFunction(lambda x, y: _finite_value(_finite_value(x) + _finite_value(y)), 2, "+"),
-    "minus": JaxFunction(lambda x, y: _finite_value(_finite_value(x) - _finite_value(y)), 2, "-"),
-    "times": JaxFunction(lambda x, y: _finite_value(_finite_value(x) * _finite_value(y)), 2, "*"),
+    "plus": JaxFunction(
+        lambda x, y: _finite_value(_finite_value(x) + _finite_value(y)), 2, "+"
+    ),
+    "minus": JaxFunction(
+        lambda x, y: _finite_value(_finite_value(x) - _finite_value(y)), 2, "-"
+    ),
+    "times": JaxFunction(
+        lambda x, y: _finite_value(_finite_value(x) * _finite_value(y)), 2, "*"
+    ),
     "prot_div": JaxFunction(_protected_division, 2, "/"),
     "abs": JaxFunction(lambda x, y: jnp.abs(_finite_value(x)), 1, "abs"),
     "safe_exp": JaxFunction(
