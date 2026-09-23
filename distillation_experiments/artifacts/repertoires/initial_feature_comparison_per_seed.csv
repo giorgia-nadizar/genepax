@@ -1,0 +1,181 @@
+environment_key,environment,model,weighting,seed,reward,train_mse,test_mse,reward_corrected
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Uniform,0,9359.8623046875,0.0007059492636471987,0.0009956250432878733,False
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Uniform,1,9359.869140625,0.000719372765161097,0.0011211511446163058,False
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Uniform,2,9359.8779296875,0.0006958190351724625,0.0005457280785776675,False
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Uniform,3,9359.8662109375,0.0006716139032505453,0.0009526332723908126,False
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Uniform,4,9359.8740234375,0.0007730406941846013,0.00048533244989812374,False
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Q-DAgger,0,9359.8798828125,0.0012664032401517034,0.0015411823987960815,False
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Q-DAgger,1,9359.869140625,0.0013102958910167217,0.0022168185096234083,False
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Q-DAgger,2,9359.888671875,0.0013281366555020213,0.0009881507139652967,False
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Q-DAgger,3,9359.869140625,0.001339305192232132,0.0015667256666347384,False
+inverted_double_pendulum,Inverted double pendulum,Linear regression,Q-DAgger,4,9359.8779296875,0.0014972644858062267,0.001095054903998971,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Uniform,0,792.4623413085938,0.000320837163599208,0.0006199517520144582,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Q-DAgger,0,810.4910278320312,0.000505083124153316,0.0007685741293244064,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Uniform,1,699.2889404296875,0.0006683029350824654,0.00030237025930546224,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Q-DAgger,1,1276.9775390625,0.0008880719542503357,0.0003972332924604416,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Uniform,2,730.2108154296875,0.00043168896809220314,0.0003423015878070146,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Q-DAgger,2,858.4550170898438,0.0005265268264338374,0.0002764106902759522,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Uniform,3,835.0095825195312,0.00042472549830563366,0.0005569721688516438,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Q-DAgger,3,918.9031372070312,0.0008773925364948809,0.0010457467287778854,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Uniform,4,791.88037109375,0.00042075468809343874,0.00021930421644356102,False
+inverted_double_pendulum,Inverted double pendulum,32×32 ANN,Q-DAgger,4,725.55224609375,0.0007342897006310523,0.0005990068893879652,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Uniform,0,4259.1943359375,,0.0010034056613221765,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Q-DAgger,0,3705.283935546875,,0.000845849746838212,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Uniform,1,2517.122802734375,,0.0011394709581509233,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Q-DAgger,1,3736.1953125,,0.0009015740943141282,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Uniform,2,4346.47900390625,,0.00020954372303094715,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Q-DAgger,2,3495.12158203125,,0.0004588805022649467,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Uniform,3,4824.36328125,,0.0009393694344907999,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Q-DAgger,3,3673.714599609375,,0.000797807180788368,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Uniform,4,4462.00830078125,,0.0007881361525505781,False
+inverted_double_pendulum,Inverted double pendulum,Operon,Q-DAgger,4,5431.4658203125,,0.001183371408842504,False
+hopper,Hopper,Linear regression,Uniform,0,1325.1209716796875,0.09374579042196274,0.0961247906088829,False
+hopper,Hopper,Linear regression,Uniform,1,671.4091796875,0.09316922724246979,0.09021677821874619,False
+hopper,Hopper,Linear regression,Uniform,2,1153.8095703125,0.09659741818904877,0.0993591845035553,False
+hopper,Hopper,Linear regression,Uniform,3,1086.3558349609375,0.09600598365068436,0.09289491921663284,False
+hopper,Hopper,Linear regression,Uniform,4,1413.8623046875,0.09538067877292633,0.09185813367366791,False
+hopper,Hopper,Linear regression,Q-DAgger,0,761.9747924804688,0.09490317106246948,0.09949322044849396,False
+hopper,Hopper,Linear regression,Q-DAgger,1,566.0142822265625,0.09410126507282257,0.09185434877872467,False
+hopper,Hopper,Linear regression,Q-DAgger,2,2602.773681640625,0.09836523234844208,0.10110852867364883,False
+hopper,Hopper,Linear regression,Q-DAgger,3,800.1031494140625,0.09655261039733887,0.09295244514942169,False
+hopper,Hopper,Linear regression,Q-DAgger,4,664.9830322265625,0.09664404392242432,0.09768372774124146,False
+hopper,Hopper,32×32 ANN,Uniform,0,657.6085815429688,0.026028772816061974,0.028145264834165573,False
+hopper,Hopper,32×32 ANN,Q-DAgger,0,522.1867065429688,0.025737741962075233,0.027452345937490463,False
+hopper,Hopper,32×32 ANN,Uniform,1,138.8553009033203,0.02618962712585926,0.02767234854400158,False
+hopper,Hopper,32×32 ANN,Q-DAgger,1,82.60087585449219,0.022875087335705757,0.024165740236639977,False
+hopper,Hopper,32×32 ANN,Uniform,2,1324.3841552734375,0.02528049238026142,0.02684018202126026,False
+hopper,Hopper,32×32 ANN,Q-DAgger,2,447.2633972167969,0.02463618665933609,0.026171991601586342,False
+hopper,Hopper,32×32 ANN,Uniform,3,772.7885131835938,0.02506697177886963,0.027323635295033455,False
+hopper,Hopper,32×32 ANN,Q-DAgger,3,153.3651885986328,0.0255640409886837,0.027198968455195427,False
+hopper,Hopper,32×32 ANN,Uniform,4,142.0631561279297,0.026911308988928795,0.028799163177609444,False
+hopper,Hopper,32×32 ANN,Q-DAgger,4,319.8701477050781,0.02132410928606987,0.02325715310871601,False
+hopper,Hopper,Operon,Uniform,0,925.7150268554688,,0.07957092300057411,False
+hopper,Hopper,Operon,Q-DAgger,0,511.57666015625,,0.07805008937915166,False
+hopper,Hopper,Operon,Uniform,1,370.2497253417969,,0.07733329633871715,False
+hopper,Hopper,Operon,Q-DAgger,1,37.1693115234375,,0.07572221507628758,False
+hopper,Hopper,Operon,Uniform,2,195.85037231445312,,0.08585454771916072,False
+hopper,Hopper,Operon,Q-DAgger,2,621.74072265625,,0.07989372809727986,False
+hopper,Hopper,Operon,Uniform,3,712.0939331054688,,0.08503160625696182,False
+hopper,Hopper,Operon,Q-DAgger,3,352.8549499511719,,0.08355983098347981,False
+hopper,Hopper,Operon,Uniform,4,347.1087341308594,,0.08865760266780853,False
+hopper,Hopper,Operon,Q-DAgger,4,108.33629608154297,,0.08551988005638123,False
+walker2d,Walker2d,Linear regression,Uniform,0,167.08316040039062,0.15207092463970184,0.15248499810695648,False
+walker2d,Walker2d,Linear regression,Uniform,1,48.37949752807617,0.1552302986383438,0.15920084714889526,False
+walker2d,Walker2d,Linear regression,Uniform,2,74.75345611572266,0.1528480350971222,0.1498056948184967,False
+walker2d,Walker2d,Linear regression,Uniform,3,99.21412658691406,0.15155324339866638,0.15368184447288513,False
+walker2d,Walker2d,Linear regression,Uniform,4,60.98249435424805,0.1508987694978714,0.15317119657993317,False
+walker2d,Walker2d,Linear regression,Q-DAgger,0,166.56478881835938,0.1480283886194229,0.15325133502483368,False
+walker2d,Walker2d,Linear regression,Q-DAgger,1,49.641815185546875,0.1522156000137329,0.16495007276535034,False
+walker2d,Walker2d,Linear regression,Q-DAgger,2,100.98725891113281,0.14930470287799835,0.15077228844165802,False
+walker2d,Walker2d,Linear regression,Q-DAgger,3,126.76985168457031,0.1455124020576477,0.14993180334568024,False
+walker2d,Walker2d,Linear regression,Q-DAgger,4,63.787391662597656,0.1491628885269165,0.14714202284812927,False
+walker2d,Walker2d,32×32 ANN,Uniform,0,54.46975326538086,0.03373504802584648,0.037759363651275635,False
+walker2d,Walker2d,32×32 ANN,Q-DAgger,0,160.11428833007812,0.0326596163213253,0.03828711435198784,False
+walker2d,Walker2d,32×32 ANN,Uniform,1,58.34202194213867,0.036325447261333466,0.03870164230465889,False
+walker2d,Walker2d,32×32 ANN,Q-DAgger,1,244.56607055664062,0.037070903927087784,0.038764338940382004,False
+walker2d,Walker2d,32×32 ANN,Uniform,2,101.41401672363281,0.03889143466949463,0.04145484417676926,False
+walker2d,Walker2d,32×32 ANN,Q-DAgger,2,57.79682540893555,0.03180087357759476,0.038519810885190964,False
+walker2d,Walker2d,32×32 ANN,Uniform,3,38.92862319946289,0.03848091512918472,0.04162795841693878,False
+walker2d,Walker2d,32×32 ANN,Q-DAgger,3,68.44591522216797,0.0320429690182209,0.03967192396521568,False
+walker2d,Walker2d,32×32 ANN,Uniform,4,-2.4172115325927734,0.040461305528879166,0.03957853838801384,False
+walker2d,Walker2d,32×32 ANN,Q-DAgger,4,48.0869026184082,0.03338579088449478,0.03232375904917717,False
+walker2d,Walker2d,Operon,Uniform,0,60.18757247924805,,0.12253913780053456,False
+walker2d,Walker2d,Operon,Q-DAgger,0,57.65167236328125,,0.10493474826216698,False
+walker2d,Walker2d,Operon,Uniform,1,106.8931884765625,,0.12039980664849281,False
+walker2d,Walker2d,Operon,Q-DAgger,1,13.73375415802002,,0.10647238666812579,False
+walker2d,Walker2d,Operon,Uniform,2,50.28013229370117,,0.1232867253323396,False
+walker2d,Walker2d,Operon,Q-DAgger,2,27.55924415588379,,0.10047175611058871,False
+walker2d,Walker2d,Operon,Uniform,3,50.5235481262207,,0.121614674727122,True
+walker2d,Walker2d,Operon,Q-DAgger,3,108.96581268310547,,0.10140284275015195,False
+walker2d,Walker2d,Operon,Uniform,4,44.240474700927734,,0.12175902103384335,False
+walker2d,Walker2d,Operon,Q-DAgger,4,61.643890380859375,,0.11257325982054074,True
+inverted_pendulum,Inverted pendulum,Linear regression,Uniform,0,1000.0,0.0021143273916095,0.002969606546685,False
+inverted_pendulum,Inverted pendulum,Linear regression,Uniform,1,1000.0,0.0026004204992204,0.0025923014618456,False
+inverted_pendulum,Inverted pendulum,Linear regression,Uniform,2,1000.0,0.0022261759731918,0.0019239278044551,False
+inverted_pendulum,Inverted pendulum,Linear regression,Uniform,3,1000.0,0.0024109808728098,0.0020317249000072,False
+inverted_pendulum,Inverted pendulum,Linear regression,Uniform,4,1000.0,0.0021862157154828,0.0021872436627745,False
+inverted_pendulum,Inverted pendulum,Linear regression,Q-DAgger,0,1000.0,0.0282041039317846,0.0345692783594131,False
+inverted_pendulum,Inverted pendulum,Linear regression,Q-DAgger,1,1000.0,0.0343005061149597,0.0260819233953952,False
+inverted_pendulum,Inverted pendulum,Linear regression,Q-DAgger,2,1000.0,0.0233723539859056,0.0240527763962745,False
+inverted_pendulum,Inverted pendulum,Linear regression,Q-DAgger,3,1000.0,0.0195961445569992,0.0474678613245487,False
+inverted_pendulum,Inverted pendulum,Linear regression,Q-DAgger,4,101.20000457763672,0.0234325062483549,0.0402508415281772,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Uniform,0,1000.0,0.00025398083380423486,0.0005261253099888563,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Q-DAgger,0,25.100000381469727,0.02622866816818714,0.034248705953359604,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Uniform,1,1000.0,0.00020045088604092598,0.00021902100706938654,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Q-DAgger,1,69.5999984741211,0.010727129876613617,0.008179588243365288,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Uniform,2,1000.0,0.00028128328267484903,0.0001981675741262734,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Q-DAgger,2,112.5999984741211,0.00588215934112668,0.0060217962600290775,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Uniform,3,738.2000122070312,0.0002761637733783573,0.0003375292872078717,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Q-DAgger,3,323.1000061035156,0.006440469529479742,0.010822595097124577,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Uniform,4,43.10000228881836,0.0001689228811301291,0.00024414065410383046,False
+inverted_pendulum,Inverted pendulum,32×32 ANN,Q-DAgger,4,55.79999923706055,0.006288658827543259,0.01613459177315235,False
+inverted_pendulum,Inverted pendulum,Operon,Uniform,0,891.0,,0.0027627788949757814,False
+inverted_pendulum,Inverted pendulum,Operon,Q-DAgger,0,1000.0,,0.03964782506227493,False
+inverted_pendulum,Inverted pendulum,Operon,Uniform,1,1000.0,,0.00283576687797904,False
+inverted_pendulum,Inverted pendulum,Operon,Q-DAgger,1,1000.0,,0.005423403810709715,False
+inverted_pendulum,Inverted pendulum,Operon,Uniform,2,717.5,,0.0014056742656975985,False
+inverted_pendulum,Inverted pendulum,Operon,Q-DAgger,2,1000.0,,0.0052640680223703384,False
+inverted_pendulum,Inverted pendulum,Operon,Uniform,3,1000.0,,0.002633176976814866,False
+inverted_pendulum,Inverted pendulum,Operon,Q-DAgger,3,1000.0,,0.010337933897972107,False
+inverted_pendulum,Inverted pendulum,Operon,Uniform,4,1000.0,,0.002679434372112155,False
+inverted_pendulum,Inverted pendulum,Operon,Q-DAgger,4,1000.0,,0.01164237316697836,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Uniform,0,1000.0,0.0007767830393277109,0.0009077181457541883,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Uniform,1,1000.0,0.0008590244688093662,0.000988256186246872,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Uniform,2,613.7999877929688,0.0006804657750762999,0.0007512413430958986,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Uniform,3,23.30000114440918,0.0008724123472347856,0.0009221103391610086,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Uniform,4,24.899999618530273,0.0007200613617897034,0.0011201425222679973,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Q-DAgger,0,81.5,0.005759860388934612,0.031987544149160385,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Q-DAgger,1,90.20000457763672,0.0067833708599209785,0.014757825993001461,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Q-DAgger,2,30.5,0.005686527583748102,0.007076399400830269,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Q-DAgger,3,250.10000610351562,0.005652581341564655,0.004676470533013344,False
+inverted_pendulum,Inverted pendulum,CGP features + LR (k=8),Q-DAgger,4,36.29999923706055,0.005462163593620062,0.019371189177036285,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Uniform,0,347.5858459472656,0.0003091014514211565,0.0005756370374001563,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Uniform,1,9359.1015625,0.0003316477232147008,0.00041276661795563996,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Uniform,2,8628.6982421875,0.0002634254051372409,0.0003618891059886664,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Uniform,3,9354.423828125,0.00036825449205935,0.0004338026337791234,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Uniform,4,1021.4149780273438,0.0002855297934729606,0.00023047284048516303,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Q-DAgger,0,1631.7227783203125,0.0005769928684458137,0.0006125339423306286,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Q-DAgger,1,8762.6435546875,0.0006811950006522238,0.0013442604104056954,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Q-DAgger,2,1389.0701904296875,0.0005364407552406192,0.0012653684243559837,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Q-DAgger,3,700.212646484375,0.0005739028565585613,0.0011925450526177883,False
+inverted_double_pendulum,Inverted double pendulum,CGP features + LR (k=8),Q-DAgger,4,925.1408081054688,0.0005498346872627735,0.000750073988456279,False
+hopper,Hopper,CGP features + LR (k=8),Uniform,0,232.7788848876953,0.09167364239692688,0.09181494265794754,False
+hopper,Hopper,CGP features + LR (k=8),Uniform,1,239.17666625976562,0.08835116028785706,0.08656459301710129,False
+hopper,Hopper,CGP features + LR (k=8),Uniform,2,244.3941650390625,0.09496466815471649,0.09735365957021713,False
+hopper,Hopper,CGP features + LR (k=8),Uniform,3,236.8999481201172,0.08913681656122208,0.08985913544893265,False
+hopper,Hopper,CGP features + LR (k=8),Uniform,4,547.3814697265625,0.09133470058441162,0.09062660485506058,False
+hopper,Hopper,CGP features + LR (k=8),Q-DAgger,0,145.86322021484375,0.08675600588321686,0.08607693761587143,False
+hopper,Hopper,CGP features + LR (k=8),Q-DAgger,1,100.4666748046875,0.087887242436409,0.08675992488861084,False
+hopper,Hopper,CGP features + LR (k=8),Q-DAgger,2,88.5869369506836,0.08885390311479568,0.0901089683175087,False
+hopper,Hopper,CGP features + LR (k=8),Q-DAgger,3,139.7300567626953,0.0891544446349144,0.0899299904704094,False
+hopper,Hopper,CGP features + LR (k=8),Q-DAgger,4,338.560302734375,0.09130539745092392,0.08602236956357956,False
+walker2d,Walker2d,CGP features + LR (k=8),Uniform,0,36.60163497924805,0.14993435144424438,0.1578943431377411,True
+walker2d,Walker2d,CGP features + LR (k=8),Uniform,1,242.1899871826172,0.1586134135723114,0.1606990396976471,False
+walker2d,Walker2d,CGP features + LR (k=8),Uniform,2,1.8320763111114502,0.15395604074001312,0.1547485589981079,False
+walker2d,Walker2d,CGP features + LR (k=8),Uniform,3,0.8587972521781921,0.15759170055389404,0.15323787927627563,False
+walker2d,Walker2d,CGP features + LR (k=8),Uniform,4,42.53571701049805,0.15657825767993927,0.15286535024642944,False
+walker2d,Walker2d,CGP features + LR (k=8),Q-DAgger,0,-2.309870958328247,0.13565479218959808,0.1405872255563736,False
+walker2d,Walker2d,CGP features + LR (k=8),Q-DAgger,1,43.45667266845703,0.14417876303195953,0.15155021846294403,True
+walker2d,Walker2d,CGP features + LR (k=8),Q-DAgger,2,34.35152816772461,0.14335548877716064,0.1471806764602661,False
+walker2d,Walker2d,CGP features + LR (k=8),Q-DAgger,3,6.433630466461182,0.1449204534292221,0.13992419838905334,False
+walker2d,Walker2d,CGP features + LR (k=8),Q-DAgger,4,47.51908493041992,0.1432386338710785,0.14241592586040497,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Uniform,0,1117.9085693359375,0.07890352606773376,0.0794372409582138,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Uniform,1,717.3796997070312,0.078830786049366,0.07897110283374786,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Uniform,2,644.29150390625,0.08042381703853607,0.08309251070022583,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Uniform,3,842.21826171875,0.08019338548183441,0.08191192895174026,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Uniform,4,100.19738006591797,0.08029857277870178,0.07838664948940277,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Q-DAgger,0,672.6415405273438,0.07651492208242416,0.08021999150514603,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Q-DAgger,1,237.263427734375,0.07274842262268066,0.07468554377555847,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Q-DAgger,2,146.98252868652344,0.0775090679526329,0.07828310877084732,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Q-DAgger,3,220.9109649658203,0.07315423339605331,0.07490622252225876,False
+hopper,Hopper,Multi-CGP + LR (8 features/action),Q-DAgger,4,265.3728942871094,0.07485264539718628,0.07055621594190598,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Uniform,0,54.75265121459961,0.11605049669742584,0.12207853049039841,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Uniform,1,65.15251922607422,0.11670038849115372,0.11977088451385498,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Uniform,2,54.39809036254883,0.11048297584056854,0.11016529053449631,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Uniform,3,80.47490692138672,0.11119504272937775,0.10673531889915466,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Uniform,4,126.09111785888672,0.11579512804746628,0.11543401330709457,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Q-DAgger,0,4.501985549926758,0.09804223477840424,0.09965494275093079,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Q-DAgger,1,170.95062255859375,0.10275227576494217,0.10802850872278214,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Q-DAgger,2,158.02113342285156,0.10052314400672913,0.09748353809118271,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Q-DAgger,3,79.82530212402344,0.10042945295572281,0.09596160054206848,False
+walker2d,Walker2d,Multi-CGP + LR (8 features/action),Q-DAgger,4,203.310546875,0.10200346261262894,0.10241623222827911,False

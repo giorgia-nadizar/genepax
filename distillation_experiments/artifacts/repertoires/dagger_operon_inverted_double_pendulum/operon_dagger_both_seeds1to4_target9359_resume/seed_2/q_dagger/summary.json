@@ -1,0 +1,16 @@
+{
+  "seed": 2,
+  "mode": "q_dagger",
+  "last_iteration": 9,
+  "final_reward": 1035.7772216796875,
+  "final_validation_mse": 0.00280343578197062,
+  "best_observed_reward": 5738.3203125,
+  "best_observed_iteration": 1,
+  "solved": false,
+  "dataset_size": 49331,
+  "test_dataset_size": 2000,
+  "final_expressions": [
+    "(0.024786 + ((-7.271436) * (0.606033 * X3)))"
+  ],
+  "weight_effective_sample_size": 25871.15625
+}

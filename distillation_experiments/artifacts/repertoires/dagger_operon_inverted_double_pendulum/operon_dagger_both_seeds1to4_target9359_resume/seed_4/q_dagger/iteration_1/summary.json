@@ -1,0 +1,16 @@
+{
+  "iteration": 1,
+  "expressions": [
+    "(0.152591 + (0.916312 * tanh(tanh(((tanh(((-186.079163) * X1)) / (sqrt(1 + (-7.743478) ^ 2))) + (tanh(((-0.978159) * X6)) - ((-0.618752) * X7)))))))"
+  ],
+  "selected_positions": [
+    8
+  ],
+  "per_action_validation_mse": [
+    0.006343275774270296
+  ],
+  "validation_mse": 0.006343275774270296,
+  "reward": 299.85723876953125,
+  "dataset_size": 15156,
+  "fit_samples": 10000
+}

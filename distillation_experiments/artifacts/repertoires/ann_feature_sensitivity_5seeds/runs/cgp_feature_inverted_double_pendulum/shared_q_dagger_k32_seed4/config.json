@@ -1,0 +1,31 @@
+{
+  "env": "inverted_double_pendulum",
+  "backend": "generalized",
+  "dataset_path": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/expert_inverted_double_pendulum.npz",
+  "output_root": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/repertoires/ann_feature_sensitivity_5seeds/runs",
+  "run_name": "shared_q_dagger_k32_seed4",
+  "reference_run": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/repertoires/cgp_feature_inverted_double_pendulum/ann_initial_q_dagger_k8_5seeds",
+  "k": 32,
+  "n_nodes": 50,
+  "generations": 100,
+  "population_size": 100,
+  "expert_samples": 10000,
+  "validation_fraction": 0.2,
+  "seed_start": 4,
+  "num_seeds": 1,
+  "rollout_steps": 1000,
+  "evaluation_trajectories": 10,
+  "state_weighting": "q_dagger",
+  "q_action_grid_size": 101,
+  "q_batch_size": 1000,
+  "n_inputs": 8,
+  "n_actions": 1,
+  "n_custom_weights": 33,
+  "readout_layout": "row-major (k+1, n_actions); final row is intercept",
+  "feature_transform": "nan_to_num then clip to [-1000, 1000]",
+  "selection": "minimum training clipped-action MSE using the requested state weighting",
+  "regression": "least squares with intercept; independent action columns over shared k features",
+  "devices": [
+    "cuda:0"
+  ]
+}

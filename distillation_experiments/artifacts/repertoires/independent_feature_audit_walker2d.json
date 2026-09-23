@@ -1,0 +1,202 @@
+[
+  {
+    "environment": "walker2d",
+    "weighting": "uniform",
+    "seed": 0,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "mean_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.12207850813865662,
+    "validation_weighted_mse": 0.12207850813865662
+  },
+  {
+    "environment": "walker2d",
+    "weighting": "uniform",
+    "seed": 1,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "mean_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.11977089196443558,
+    "validation_weighted_mse": 0.11977089196443558
+  },
+  {
+    "environment": "walker2d",
+    "weighting": "uniform",
+    "seed": 2,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "mean_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.11016528308391571,
+    "validation_weighted_mse": 0.11016528308391571
+  },
+  {
+    "environment": "walker2d",
+    "weighting": "uniform",
+    "seed": 3,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "mean_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.10673528909683228,
+    "validation_weighted_mse": 0.10673528909683228
+  },
+  {
+    "environment": "walker2d",
+    "weighting": "uniform",
+    "seed": 4,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "mean_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.11543399840593338,
+    "validation_weighted_mse": 0.11543399840593338
+  },
+  {
+    "environment": "walker2d",
+    "weighting": "q_dagger",
+    "seed": 0,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.001995861530303955,
+      "validation_weights": 0.0007629990577697754
+    },
+    "mean_weight_differences": {
+      "train_weights": 4.610200448951218e-06,
+      "validation_weights": 3.0700564366270555e-06
+    },
+    "passed": true,
+    "validation_mse": 0.12992048263549805,
+    "validation_weighted_mse": 0.09965494275093079
+  },
+  {
+    "environment": "walker2d",
+    "weighting": "q_dagger",
+    "seed": 1,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0024822354316711426,
+      "validation_weights": 0.00160980224609375
+    },
+    "mean_weight_differences": {
+      "train_weights": 5.598030838882551e-06,
+      "validation_weights": 4.39895711679128e-06
+    },
+    "passed": true,
+    "validation_mse": 0.13121391832828522,
+    "validation_weighted_mse": 0.10802852362394333
+  },
+  {
+    "environment": "walker2d",
+    "weighting": "q_dagger",
+    "seed": 2,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.003395378589630127,
+      "validation_weights": 0.00164794921875
+    },
+    "mean_weight_differences": {
+      "train_weights": 5.946464625594672e-06,
+      "validation_weights": 4.81132428831188e-06
+    },
+    "passed": true,
+    "validation_mse": 0.1222873404622078,
+    "validation_weighted_mse": 0.09749326854944229
+  },
+  {
+    "environment": "walker2d",
+    "weighting": "q_dagger",
+    "seed": 3,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0026509761810302734,
+      "validation_weights": 0.0009469985961914062
+    },
+    "mean_weight_differences": {
+      "train_weights": 5.067308393336134e-06,
+      "validation_weights": 3.4744255117402645e-06
+    },
+    "passed": true,
+    "validation_mse": 0.1226276084780693,
+    "validation_weighted_mse": 0.09596160799264908
+  },
+  {
+    "environment": "walker2d",
+    "weighting": "q_dagger",
+    "seed": 4,
+    "graphs": 6,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0024589598178863525,
+      "validation_weights": 0.0009028911590576172
+    },
+    "mean_weight_differences": {
+      "train_weights": 4.8270271690853406e-06,
+      "validation_weights": 3.7738009268650785e-06
+    },
+    "passed": true,
+    "validation_mse": 0.12526574730873108,
+    "validation_weighted_mse": 0.10241623967885971
+  }
+]

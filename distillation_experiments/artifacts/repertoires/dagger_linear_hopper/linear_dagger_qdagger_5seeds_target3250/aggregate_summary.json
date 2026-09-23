@@ -1,0 +1,77 @@
+{
+  "completed_seeds": 5,
+  "requested_seeds": 5,
+  "solved_seeds": 0,
+  "seeds": [
+    {
+      "seed": 0,
+      "last_iteration": 9,
+      "final_reward": 77.32537841796875,
+      "final_imitation_loss": 0.29111218452453613,
+      "final_test_imitation_loss": 0.1475629210472107,
+      "best_observed_reward": 774.3523559570312,
+      "best_observed_iteration": 7,
+      "solved": false,
+      "dataset_size": 49116,
+      "test_dataset_size": 2000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 28369.0859375
+    },
+    {
+      "seed": 1,
+      "last_iteration": 9,
+      "final_reward": 575.451171875,
+      "final_imitation_loss": 0.25007280707359314,
+      "final_test_imitation_loss": 0.15037193894386292,
+      "best_observed_reward": 1243.5738525390625,
+      "best_observed_iteration": 5,
+      "solved": false,
+      "dataset_size": 60518,
+      "test_dataset_size": 2000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 35049.609375
+    },
+    {
+      "seed": 2,
+      "last_iteration": 9,
+      "final_reward": 864.9127197265625,
+      "final_imitation_loss": 0.24778765439987183,
+      "final_test_imitation_loss": 0.1610129326581955,
+      "best_observed_reward": 2679.670654296875,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 68725,
+      "test_dataset_size": 2000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 31742.67578125
+    },
+    {
+      "seed": 3,
+      "last_iteration": 9,
+      "final_reward": 582.0772094726562,
+      "final_imitation_loss": 0.2788686752319336,
+      "final_test_imitation_loss": 0.15206816792488098,
+      "best_observed_reward": 798.7899780273438,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 45882,
+      "test_dataset_size": 2000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 25946.83203125
+    },
+    {
+      "seed": 4,
+      "last_iteration": 9,
+      "final_reward": 661.8270874023438,
+      "final_imitation_loss": 0.2594659924507141,
+      "final_test_imitation_loss": 0.15603798627853394,
+      "best_observed_reward": 933.94091796875,
+      "best_observed_iteration": 7,
+      "solved": false,
+      "dataset_size": 49388,
+      "test_dataset_size": 2000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 27203.345703125
+    }
+  ]
+}

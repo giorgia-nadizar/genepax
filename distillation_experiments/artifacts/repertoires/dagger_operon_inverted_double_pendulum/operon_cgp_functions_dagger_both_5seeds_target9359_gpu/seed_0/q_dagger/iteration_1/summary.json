@@ -1,0 +1,16 @@
+{
+  "iteration": 1,
+  "expressions": [
+    "((-0.017669) + (1.089548 * ((sqrt(abs((0.004446 * X6))) * abs(log(abs((0.636745 * X8))))) - ((-2.596492) * X2))))"
+  ],
+  "selected_positions": [
+    7
+  ],
+  "per_action_validation_mse": [
+    0.004030473064631224
+  ],
+  "validation_mse": 0.004030473064631224,
+  "reward": 382.5361328125,
+  "dataset_size": 18740,
+  "fit_samples": 10000
+}

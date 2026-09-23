@@ -1,0 +1,51 @@
+model,mode,seed,best_iteration,best_reward,last_iteration,source
+Linear regression,uniform,0,0,1288.4031982421875,9,dagger_linear_hopper/linear_dagger_uniform_5seeds_target3250/seed_0/metrics.csv
+Linear regression,uniform,1,6,1299.0491943359375,9,dagger_linear_hopper/linear_dagger_uniform_5seeds_target3250/seed_1/metrics.csv
+Linear regression,uniform,2,0,1156.4705810546875,9,dagger_linear_hopper/linear_dagger_uniform_5seeds_target3250/seed_2/metrics.csv
+Linear regression,uniform,3,1,1086.3187255859375,9,dagger_linear_hopper/linear_dagger_uniform_5seeds_target3250/seed_3/metrics.csv
+Linear regression,uniform,4,0,1356.0682373046875,9,dagger_linear_hopper/linear_dagger_uniform_5seeds_target3250/seed_4/metrics.csv
+Linear regression,q_dagger,0,7,774.3523559570312,9,dagger_linear_hopper/linear_dagger_qdagger_5seeds_target3250/seed_0/metrics.csv
+Linear regression,q_dagger,1,5,1243.5738525390625,9,dagger_linear_hopper/linear_dagger_qdagger_5seeds_target3250/seed_1/metrics.csv
+Linear regression,q_dagger,2,0,2679.670654296875,9,dagger_linear_hopper/linear_dagger_qdagger_5seeds_target3250/seed_2/metrics.csv
+Linear regression,q_dagger,3,0,798.7899780273438,9,dagger_linear_hopper/linear_dagger_qdagger_5seeds_target3250/seed_3/metrics.csv
+Linear regression,q_dagger,4,7,933.94091796875,9,dagger_linear_hopper/linear_dagger_qdagger_5seeds_target3250/seed_4/metrics.csv
+Small ANN,uniform,0,6,3214.88818359375,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_0/uniform/metrics.csv
+Small ANN,uniform,1,6,3232.038330078125,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_1/uniform/metrics.csv
+Small ANN,uniform,2,2,3189.876708984375,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_2/uniform/metrics.csv
+Small ANN,uniform,3,6,3188.365966796875,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_3/uniform/metrics.csv
+Small ANN,uniform,4,9,3251.716064453125,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_4/uniform/metrics.csv
+Small ANN,q_dagger,0,3,3237.781494140625,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_0/q_dagger/metrics.csv
+Small ANN,q_dagger,1,2,3242.980224609375,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_1/q_dagger/metrics.csv
+Small ANN,q_dagger,2,6,3191.60791015625,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_2/q_dagger/metrics.csv
+Small ANN,q_dagger,3,3,3221.962646484375,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_3/q_dagger/metrics.csv
+Small ANN,q_dagger,4,9,3220.77294921875,9,dagger_neural_hopper/small_ann_32x32_dagger_both_5seeds_target3250/seed_4/q_dagger/metrics.csv
+Operon,uniform,0,6,1193.9525146484375,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_0/uniform/metrics.csv
+Operon,uniform,1,8,897.7410278320312,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_1/uniform/metrics.csv
+Operon,uniform,2,8,987.8171997070312,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_2/uniform/metrics.csv
+Operon,uniform,3,2,939.9796752929688,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_3/uniform/metrics.csv
+Operon,uniform,4,0,982.1412353515624,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_4/uniform/metrics.csv
+Operon,q_dagger,0,8,1463.6123046875,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_0/q_dagger/metrics.csv
+Operon,q_dagger,1,4,1049.258056640625,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_1/q_dagger/metrics.csv
+Operon,q_dagger,2,8,1328.8363037109375,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_2/q_dagger/metrics.csv
+Operon,q_dagger,3,6,1859.6826171875,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_3/q_dagger/metrics.csv
+Operon,q_dagger,4,0,986.4190673828124,9,dagger_operon_hopper/operon_dagger_both_5seeds_target3250/seed_4/q_dagger/metrics.csv
+Single CGP (k=16),uniform,0,3,2520.17431640625,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_0/uniform/metrics.csv
+Single CGP (k=16),uniform,1,9,1012.0402221679688,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_1/uniform/metrics.csv
+Single CGP (k=16),uniform,2,0,1175.3253173828125,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_2/uniform/metrics.csv
+Single CGP (k=16),uniform,3,5,1862.548828125,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_3/uniform/metrics.csv
+Single CGP (k=16),uniform,4,0,2374.77001953125,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_4/uniform/metrics.csv
+Single CGP (k=16),q_dagger,0,3,2923.233154296875,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_0/q_dagger/metrics.csv
+Single CGP (k=16),q_dagger,1,8,1228.6458740234375,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_1/q_dagger/metrics.csv
+Single CGP (k=16),q_dagger,2,1,3154.033447265625,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_2/q_dagger/metrics.csv
+Single CGP (k=16),q_dagger,3,8,1047.645751953125,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_3/q_dagger/metrics.csv
+Single CGP (k=16),q_dagger,4,9,2878.05615234375,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/shared/seed_4/q_dagger/metrics.csv
+CGP per action (k=16),uniform,0,9,1118.4163818359375,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_0/uniform/metrics.csv
+CGP per action (k=16),uniform,1,4,2440.2265625,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_1/uniform/metrics.csv
+CGP per action (k=16),uniform,2,9,1534.713134765625,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_2/uniform/metrics.csv
+CGP per action (k=16),uniform,3,2,874.98193359375,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_3/uniform/metrics.csv
+CGP per action (k=16),uniform,4,8,1207.8419189453125,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_4/uniform/metrics.csv
+CGP per action (k=16),q_dagger,0,8,926.8448486328124,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_0/q_dagger/metrics.csv
+CGP per action (k=16),q_dagger,1,9,1643.1402587890625,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_1/q_dagger/metrics.csv
+CGP per action (k=16),q_dagger,2,5,1649.834228515625,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_2/q_dagger/metrics.csv
+CGP per action (k=16),q_dagger,3,7,2052.726806640625,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_3/q_dagger/metrics.csv
+CGP per action (k=16),q_dagger,4,9,3054.328125,9,dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/independent/seed_4/q_dagger/metrics.csv

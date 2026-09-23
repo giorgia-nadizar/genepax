@@ -1,0 +1,135 @@
+{
+  "completed_variants": 8,
+  "requested_variants": 8,
+  "solved_variants": 0,
+  "variants": [
+    {
+      "seed": 1,
+      "mode": "uniform",
+      "last_iteration": 9,
+      "final_reward": 662.3916015625,
+      "final_validation_mse": 0.001323847915045917,
+      "best_observed_reward": 9346.212890625,
+      "best_observed_iteration": 5,
+      "solved": false,
+      "dataset_size": 44227,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.008011 + (4.354714 * ((-0.068786) * X8)))"
+      ],
+      "weight_effective_sample_size": 44227.0
+    },
+    {
+      "seed": 1,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 968.1459350585938,
+      "final_validation_mse": 0.005165220238268375,
+      "best_observed_reward": 4544.09130859375,
+      "best_observed_iteration": 3,
+      "solved": false,
+      "dataset_size": 43151,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.033262 + ((-6.240590) * (0.756937 * X3)))"
+      ],
+      "weight_effective_sample_size": 20742.677734375
+    },
+    {
+      "seed": 2,
+      "mode": "uniform",
+      "last_iteration": 9,
+      "final_reward": 858.53125,
+      "final_validation_mse": 0.0060200816951692104,
+      "best_observed_reward": 2303.656494140625,
+      "best_observed_iteration": 5,
+      "solved": false,
+      "dataset_size": 27726,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.084034 + (1.135608 * ((tanh(((-12.094073) * X3)) - tanh((0.499888 * X1))) - ((-1.106458) * X3))))"
+      ],
+      "weight_effective_sample_size": 27725.998046875
+    },
+    {
+      "seed": 2,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 1035.7772216796875,
+      "final_validation_mse": 0.00280343578197062,
+      "best_observed_reward": 5738.3203125,
+      "best_observed_iteration": 1,
+      "solved": false,
+      "dataset_size": 49331,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.024786 + ((-7.271436) * (0.606033 * X3)))"
+      ],
+      "weight_effective_sample_size": 25871.15625
+    },
+    {
+      "seed": 3,
+      "mode": "uniform",
+      "last_iteration": 9,
+      "final_reward": 242.286865234375,
+      "final_validation_mse": 0.010656842030584812,
+      "best_observed_reward": 4690.638671875,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 29508,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.087389 + (0.522008 * ((-2.669915) * X3)))"
+      ],
+      "weight_effective_sample_size": 29508.0
+    },
+    {
+      "seed": 3,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 1230.948486328125,
+      "final_validation_mse": 0.004428030923008919,
+      "best_observed_reward": 5956.96923828125,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 31934,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "((-0.014009) + (4.210467 * ((-0.948503) * X3)))"
+      ],
+      "weight_effective_sample_size": 16349.642578125
+    },
+    {
+      "seed": 4,
+      "mode": "uniform",
+      "last_iteration": 9,
+      "final_reward": 397.6690368652344,
+      "final_validation_mse": 0.001902030548080802,
+      "best_observed_reward": 5807.87841796875,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 25108,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "((-0.020282) + (0.438656 * ((-0.411891) * X8)))"
+      ],
+      "weight_effective_sample_size": 25108.0
+    },
+    {
+      "seed": 4,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 915.3256225585938,
+      "final_validation_mse": 0.004683659877628088,
+      "best_observed_reward": 5554.5234375,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 37977,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.040886 + (3.551858 * ((-1.384874) * X3)))"
+      ],
+      "weight_effective_sample_size": 17441.1875
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "seed": 2,
+  "mode": "uniform",
+  "candidate_count": 18,
+  "action_count": 1,
+  "selected_positions": [
+    10
+  ],
+  "expressions": [
+    "(0.000586 + (1.000251 * (((((-1.671796) * X8) / (sqrt(1 + (17.119755 * X3) ^ 2))) + (((-12.954719) * X3) + ((-0.973231) * X7))) / (sqrt(1 + (((-70.464973) * X3) + ((24.829071 * X7) + (18.077087 * X8))) ^ 2)))))"
+  ],
+  "per_action_validation_mse": [
+    0.00020954372303094715
+  ],
+  "validation_mse": 0.00020954372303094715,
+  "reward": 4346.47900390625,
+  "solved": false,
+  "weight_effective_sample_size": 10000.0,
+  "q_weight_implementation": "not_applicable"
+}

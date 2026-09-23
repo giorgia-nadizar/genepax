@@ -1,0 +1,18 @@
+{
+  "algorithm": "DAgger",
+  "backend": "generalized",
+  "env": "inverted_pendulum",
+  "evaluation_trajectories": 10,
+  "expert_bootstrap_samples": 10000,
+  "iterations": 10,
+  "num_seeds": 5,
+  "rollout_steps": 1000,
+  "run_name": "linear_5seeds_fixed20",
+  "script": "distillation_experiments.scripts.experiments.dagger_linear",
+  "seed_start": 0,
+  "stop_when_solved": true,
+  "student": "LinearRegression",
+  "student_objective": "mean_squared_expert_action_error",
+  "target_reward": 999.0,
+  "trajectories_per_iteration": 20
+}

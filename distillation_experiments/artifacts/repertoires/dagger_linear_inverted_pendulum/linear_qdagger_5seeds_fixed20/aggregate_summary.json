@@ -1,0 +1,67 @@
+{
+  "completed_seeds": 5,
+  "requested_seeds": 5,
+  "solved_seeds": 5,
+  "seeds": [
+    {
+      "seed": 0,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.029035110026597977,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 10000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 149.30523681640625
+    },
+    {
+      "seed": 1,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.032393645495176315,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 10000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 152.15562438964844
+    },
+    {
+      "seed": 2,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.023385845124721527,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 10000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 140.79510498046875
+    },
+    {
+      "seed": 3,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.024090377613902092,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 10000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 139.3186492919922
+    },
+    {
+      "seed": 4,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.026247449219226837,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 10000,
+      "state_weighting": "q_dagger",
+      "weight_effective_sample_size": 132.99417114257812
+    }
+  ]
+}

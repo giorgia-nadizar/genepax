@@ -1,0 +1,2 @@
+iteration,imitation_loss,raw_imitation_loss,student_reward,behavior_policy,behavior_reward,dataset_size,new_samples,collection_trajectories,invalid_transitions,finite_fitness_fraction,scaling_weights
+0,0.0030757386703044176,0.5146554112434387,89.9000015258789,expert,,10000,10000,,,1.0,"[0.9196135997772217, 0.657686710357666]"

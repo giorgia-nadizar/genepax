@@ -1,0 +1,28 @@
+{
+  "variants": [
+    {
+      "seed": 0,
+      "mode": "uniform",
+      "candidate_count": 18,
+      "selected_position": 15,
+      "equation": "(tanh(tanh(x3)) * ((x2 + ((x1 + x2) + 0.5036721)) + x3)) + (1.9021411 * x1)",
+      "validation_mse": 0.0030079055577516556,
+      "reward": 252.40000915527344,
+      "best_candidate_reward": 310.8999938964844,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0
+    },
+    {
+      "seed": 0,
+      "mode": "q_dagger",
+      "candidate_count": 18,
+      "selected_position": 17,
+      "equation": "tanh(tanh((0.053552702 / (x2 + 0.5923014)) + ((((x1 / 0.129647) - x0) + x3) * ((0.3952376 - x0) + 0.04199868))))",
+      "validation_mse": 0.033278293907642365,
+      "reward": 54.70000076293945,
+      "best_candidate_reward": 359.0,
+      "solved": false,
+      "weight_effective_sample_size": 149.30520629882812
+    }
+  ]
+}

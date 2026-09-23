@@ -1,0 +1,14 @@
+{
+  "seed": 2,
+  "mode": "uniform",
+  "last_iteration": 9,
+  "final_reward": 3116.259521484375,
+  "final_imitation_loss": 0.017611192539334297,
+  "final_test_imitation_loss": 0.01428490225225687,
+  "best_observed_reward": 3189.876708984375,
+  "best_observed_iteration": 2,
+  "solved": false,
+  "dataset_size": 155689,
+  "test_dataset_size": 2000,
+  "weight_effective_sample_size": 155689.0
+}

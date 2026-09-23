@@ -1,0 +1,142 @@
+[
+  {
+    "position": 0,
+    "repertoire_index": 91,
+    "train_mse_before": 0.0028301840648055077,
+    "validation_mse_before": 0.001796797150745988,
+    "reward_before": 932.5,
+    "train_mse_after": 0.0027960853185504675,
+    "validation_mse_after": 0.00179044040851295,
+    "reward_after": 925.6000366210938,
+    "scaling_weights_after": [
+      10.633487701416016,
+      -8.096860885620117
+    ]
+  },
+  {
+    "position": 1,
+    "repertoire_index": 92,
+    "train_mse_before": 0.0028301840648055077,
+    "validation_mse_before": 0.001796797150745988,
+    "reward_before": 932.5,
+    "train_mse_after": 0.0027960853185504675,
+    "validation_mse_after": 0.00179044040851295,
+    "reward_after": 925.6000366210938,
+    "scaling_weights_after": [
+      10.633487701416016,
+      -8.096860885620117
+    ]
+  },
+  {
+    "position": 2,
+    "repertoire_index": 93,
+    "train_mse_before": 0.0028301840648055077,
+    "validation_mse_before": 0.001796797150745988,
+    "reward_before": 932.5,
+    "train_mse_after": 0.0027960853185504675,
+    "validation_mse_after": 0.00179044040851295,
+    "reward_after": 925.6000366210938,
+    "scaling_weights_after": [
+      10.633487701416016,
+      -8.096860885620117
+    ]
+  },
+  {
+    "position": 3,
+    "repertoire_index": 94,
+    "train_mse_before": 0.0028301840648055077,
+    "validation_mse_before": 0.001796797150745988,
+    "reward_before": 932.5,
+    "train_mse_after": 0.0027960853185504675,
+    "validation_mse_after": 0.00179044040851295,
+    "reward_after": 925.6000366210938,
+    "scaling_weights_after": [
+      10.633487701416016,
+      -8.096860885620117
+    ]
+  },
+  {
+    "position": 4,
+    "repertoire_index": 95,
+    "train_mse_before": 0.0028301840648055077,
+    "validation_mse_before": 0.001796797150745988,
+    "reward_before": 932.5,
+    "train_mse_after": 0.0027960853185504675,
+    "validation_mse_after": 0.00179044040851295,
+    "reward_after": 925.6000366210938,
+    "scaling_weights_after": [
+      10.633487701416016,
+      -8.096860885620117
+    ]
+  },
+  {
+    "position": 5,
+    "repertoire_index": 96,
+    "train_mse_before": 0.0028301840648055077,
+    "validation_mse_before": 0.001796797150745988,
+    "reward_before": 932.5,
+    "train_mse_after": 0.0027960853185504675,
+    "validation_mse_after": 0.00179044040851295,
+    "reward_after": 925.6000366210938,
+    "scaling_weights_after": [
+      10.633487701416016,
+      -8.096860885620117
+    ]
+  },
+  {
+    "position": 6,
+    "repertoire_index": 97,
+    "train_mse_before": 0.0028301840648055077,
+    "validation_mse_before": 0.001796797150745988,
+    "reward_before": 932.5,
+    "train_mse_after": 0.0027960853185504675,
+    "validation_mse_after": 0.00179044040851295,
+    "reward_after": 925.6000366210938,
+    "scaling_weights_after": [
+      10.633487701416016,
+      -8.096860885620117
+    ]
+  },
+  {
+    "position": 7,
+    "repertoire_index": 98,
+    "train_mse_before": 0.0028301840648055077,
+    "validation_mse_before": 0.001796797150745988,
+    "reward_before": 932.5,
+    "train_mse_after": 0.0027960853185504675,
+    "validation_mse_after": 0.00179044040851295,
+    "reward_after": 925.6000366210938,
+    "scaling_weights_after": [
+      10.633487701416016,
+      -8.096860885620117
+    ]
+  },
+  {
+    "position": 8,
+    "repertoire_index": 99,
+    "train_mse_before": 0.0028301840648055077,
+    "validation_mse_before": 0.001796797150745988,
+    "reward_before": 932.5,
+    "train_mse_after": 0.0027960853185504675,
+    "validation_mse_after": 0.00179044040851295,
+    "reward_after": 925.6000366210938,
+    "scaling_weights_after": [
+      10.633487701416016,
+      -8.096860885620117
+    ]
+  },
+  {
+    "position": 9,
+    "repertoire_index": 0,
+    "train_mse_before": 0.002829143078997731,
+    "validation_mse_before": 0.0018780544633045793,
+    "reward_before": 936.5,
+    "train_mse_after": 0.002774436492472887,
+    "validation_mse_after": 0.0017657647840678692,
+    "reward_after": 927.2000122070312,
+    "scaling_weights_after": [
+      9.455326080322266,
+      -7.191035270690918
+    ]
+  }
+]

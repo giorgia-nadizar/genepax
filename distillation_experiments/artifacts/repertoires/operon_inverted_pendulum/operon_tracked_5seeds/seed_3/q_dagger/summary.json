@@ -1,0 +1,13 @@
+{
+  "seed": 3,
+  "mode": "q_dagger",
+  "candidate_count": 23,
+  "selected_position": 11,
+  "expression": "(0.002449 + (1.114335 * tanh(((((4.597971 * X3) - (((-9.933225) * X2) - (1.930080 * X4))) / (sqrt(1 + (((-6.179408) * X3) + ((-32.452900) * X1)) ^ 2))) + ((-0.666347) * X3)))))",
+  "validation_mse": 0.010337933897972107,
+  "reward": 1000.0,
+  "best_candidate_reward": 1000.0,
+  "solved": true,
+  "weight_effective_sample_size": 139.31849670410156,
+  "q_weight_implementation": "fixed_size_weighted_bootstrap"
+}

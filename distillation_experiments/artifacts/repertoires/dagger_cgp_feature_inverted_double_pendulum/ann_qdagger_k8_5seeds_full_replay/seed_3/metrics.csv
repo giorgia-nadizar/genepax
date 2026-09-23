@@ -1,0 +1,2 @@
+iteration,student_reward,train_weighted_mse,train_mse,validation_weighted_mse,validation_mse,dataset_size,fit_seconds,weight_effective_sample_size,behavior_reward,new_samples,invalid_transitions
+0,9359.57421875,0.0007253612275235355,0.0005626864149235189,0.0014113730285316706,0.0004635283548850566,8000,30.801506719988538,6745.3369140625,,8000,0

@@ -1,0 +1,77 @@
+{
+  "completed_seeds": 5,
+  "requested_seeds": 5,
+  "solved_seeds": 5,
+  "seeds": [
+    {
+      "seed": 0,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.0021143273916095495,
+      "final_test_imitation_loss": 0.0029696065466850996,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 8000,
+      "test_dataset_size": 2000,
+      "state_weighting": "uniform",
+      "weight_effective_sample_size": 8000.00048828125
+    },
+    {
+      "seed": 1,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.0026004204992204905,
+      "final_test_imitation_loss": 0.0025923014618456364,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 8000,
+      "test_dataset_size": 2000,
+      "state_weighting": "uniform",
+      "weight_effective_sample_size": 8000.00048828125
+    },
+    {
+      "seed": 2,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.0022261759731918573,
+      "final_test_imitation_loss": 0.001923927804455161,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 8000,
+      "test_dataset_size": 2000,
+      "state_weighting": "uniform",
+      "weight_effective_sample_size": 8000.00048828125
+    },
+    {
+      "seed": 3,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.002410980872809887,
+      "final_test_imitation_loss": 0.002031724900007248,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 8000,
+      "test_dataset_size": 2000,
+      "state_weighting": "uniform",
+      "weight_effective_sample_size": 8000.00048828125
+    },
+    {
+      "seed": 4,
+      "last_iteration": 0,
+      "final_reward": 1000.0,
+      "final_imitation_loss": 0.002186215715482831,
+      "final_test_imitation_loss": 0.002187243662774563,
+      "best_observed_reward": 1000.0,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "dataset_size": 8000,
+      "test_dataset_size": 2000,
+      "state_weighting": "uniform",
+      "weight_effective_sample_size": 8000.00048828125
+    }
+  ]
+}

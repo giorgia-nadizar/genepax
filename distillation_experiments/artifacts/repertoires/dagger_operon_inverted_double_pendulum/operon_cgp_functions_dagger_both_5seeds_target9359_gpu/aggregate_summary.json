@@ -1,0 +1,167 @@
+{
+  "completed_variants": 10,
+  "requested_variants": 10,
+  "solved_variants": 0,
+  "variants": [
+    {
+      "seed": 0,
+      "mode": "uniform",
+      "last_iteration": 9,
+      "final_reward": 373.4837341308594,
+      "final_validation_mse": 0.002846411196514964,
+      "best_observed_reward": 5134.1162109375,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 22798,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.032336 + (1.044791 * ((-0.224347) * X8)))"
+      ],
+      "weight_effective_sample_size": 22798.0
+    },
+    {
+      "seed": 0,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 3056.296142578125,
+      "final_validation_mse": 0.001871999935247004,
+      "best_observed_reward": 4076.96875,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 37400,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.004238 + (0.959946 * (((-0.517360) * X7) + (sin(((-6.709723) * X3)) - (0.605402 * X8)))))"
+      ],
+      "weight_effective_sample_size": 17956.451171875
+    },
+    {
+      "seed": 1,
+      "mode": "uniform",
+      "last_iteration": 9,
+      "final_reward": 1777.602783203125,
+      "final_validation_mse": 0.0029881810769438744,
+      "best_observed_reward": 2972.62158203125,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 34465,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.036715 + (0.919946 * (((((-1.838829) * X2) + ((-1.733383) * X3)) - sin((5.502797 * X3))) + ((-0.091389) * X8))))"
+      ],
+      "weight_effective_sample_size": 34465.0
+    },
+    {
+      "seed": 1,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 3959.796142578125,
+      "final_validation_mse": 0.0034375712275505066,
+      "best_observed_reward": 3959.796142578125,
+      "best_observed_iteration": 9,
+      "solved": false,
+      "dataset_size": 33268,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.020504 + (1.197553 * sin(((((-5.466910) * X2) - (13.159029 * X3)) - (0.165421 * X8)))))"
+      ],
+      "weight_effective_sample_size": 13532.7158203125
+    },
+    {
+      "seed": 2,
+      "mode": "uniform",
+      "last_iteration": 9,
+      "final_reward": 340.4478454589844,
+      "final_validation_mse": 0.003673690604045987,
+      "best_observed_reward": 1801.8509521484375,
+      "best_observed_iteration": 8,
+      "solved": false,
+      "dataset_size": 25758,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.040673 + (1.027972 * ((-1.436131) * X3)))"
+      ],
+      "weight_effective_sample_size": 25758.0
+    },
+    {
+      "seed": 2,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 183.0004425048828,
+      "final_validation_mse": 0.005947922356426716,
+      "best_observed_reward": 4769.671875,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 32367,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.021726 + ((-1.005830) * (2.357938 * X2)))"
+      ],
+      "weight_effective_sample_size": 16371.5009765625
+    },
+    {
+      "seed": 3,
+      "mode": "uniform",
+      "last_iteration": 9,
+      "final_reward": 248.58299255371094,
+      "final_validation_mse": 0.005064176861196756,
+      "best_observed_reward": 6641.7666015625,
+      "best_observed_iteration": 4,
+      "solved": false,
+      "dataset_size": 47159,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.048317 + (0.954300 * ((-0.079119) * X8)))"
+      ],
+      "weight_effective_sample_size": 47159.0
+    },
+    {
+      "seed": 3,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 1375.9404296875,
+      "final_validation_mse": 0.003628445789217949,
+      "best_observed_reward": 8422.125,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 41060,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "(0.002716 + (1.369496 * sin(sin(((-6.372547) * X3)))))"
+      ],
+      "weight_effective_sample_size": 19563.078125
+    },
+    {
+      "seed": 4,
+      "mode": "uniform",
+      "last_iteration": 9,
+      "final_reward": 1456.7376708984375,
+      "final_validation_mse": 0.0014317346503958106,
+      "best_observed_reward": 6245.47021484375,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 47014,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "((-0.011244) + (1.082801 * sin((((-0.125498) * X8) + sin(((-5.729093) * X3))))))"
+      ],
+      "weight_effective_sample_size": 47014.0
+    },
+    {
+      "seed": 4,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 1942.4488525390625,
+      "final_validation_mse": 0.002847944851964712,
+      "best_observed_reward": 5221.27734375,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 35509,
+      "test_dataset_size": 2000,
+      "final_expressions": [
+        "((-0.005573) + ((-2.770678) * (1.591050 * X3)))"
+      ],
+      "weight_effective_sample_size": 18387.677734375
+    }
+  ]
+}

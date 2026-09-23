@@ -1,0 +1,22 @@
+{
+  "backend": "generalized",
+  "batch_size": 256,
+  "env": "hopper",
+  "epochs": 2,
+  "evaluation_trajectories": 1,
+  "expert_samples": 1000,
+  "hidden_sizes": [
+    32,
+    32
+  ],
+  "learning_rate": 0.0003,
+  "num_seeds": 1,
+  "patience": 2,
+  "q_action_grid_size": 101,
+  "q_batch_size": 1000,
+  "rollout_steps": 10,
+  "run_name": "debug_small_ann",
+  "seed_start": 0,
+  "state_weighting": "uniform",
+  "validation_fraction": 0.2
+}

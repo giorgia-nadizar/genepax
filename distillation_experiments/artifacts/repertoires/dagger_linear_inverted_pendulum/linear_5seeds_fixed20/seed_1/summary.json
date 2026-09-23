@@ -1,0 +1,10 @@
+{
+  "seed": 1,
+  "last_iteration": 0,
+  "final_reward": 1000.0,
+  "final_imitation_loss": 0.002583749359473586,
+  "best_observed_reward": 1000.0,
+  "best_observed_iteration": 0,
+  "solved": true,
+  "dataset_size": 10000
+}

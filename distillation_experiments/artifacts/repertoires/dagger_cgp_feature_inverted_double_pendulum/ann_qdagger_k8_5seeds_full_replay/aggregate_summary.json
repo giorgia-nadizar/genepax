@@ -1,0 +1,69 @@
+{
+  "variants": [
+    {
+      "seed": 0,
+      "k": 8,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 4098.88525390625,
+      "best_observed_reward": 8055.9921875,
+      "best_observed_iteration": 3,
+      "solved": false,
+      "final_validation_mse": 0.00566193088889122,
+      "final_validation_weighted_mse": 0.005875358358025551,
+      "dataset_size": 75735
+    },
+    {
+      "seed": 1,
+      "k": 8,
+      "mode": "q_dagger",
+      "last_iteration": 4,
+      "final_reward": 9359.7548828125,
+      "best_observed_reward": 9359.7548828125,
+      "best_observed_iteration": 4,
+      "solved": true,
+      "final_validation_mse": 0.012041626498103142,
+      "final_validation_weighted_mse": 0.01332965586334467,
+      "dataset_size": 18551
+    },
+    {
+      "seed": 2,
+      "k": 8,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 4417.859375,
+      "best_observed_reward": 7920.98974609375,
+      "best_observed_iteration": 5,
+      "solved": false,
+      "final_validation_mse": 0.02525496296584606,
+      "final_validation_weighted_mse": 0.027208080515265465,
+      "dataset_size": 75768
+    },
+    {
+      "seed": 3,
+      "k": 8,
+      "mode": "q_dagger",
+      "last_iteration": 0,
+      "final_reward": 9359.57421875,
+      "best_observed_reward": 9359.57421875,
+      "best_observed_iteration": 0,
+      "solved": true,
+      "final_validation_mse": 0.0004635283548850566,
+      "final_validation_weighted_mse": 0.0014113730285316706,
+      "dataset_size": 8000
+    },
+    {
+      "seed": 4,
+      "k": 8,
+      "mode": "q_dagger",
+      "last_iteration": 9,
+      "final_reward": 3409.507080078125,
+      "best_observed_reward": 8987.2177734375,
+      "best_observed_iteration": 4,
+      "solved": false,
+      "final_validation_mse": 0.02980860322713852,
+      "final_validation_weighted_mse": 0.029507609084248543,
+      "dataset_size": 59790
+    }
+  ]
+}

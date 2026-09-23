@@ -1,0 +1,13 @@
+{
+  "seed": 4,
+  "k": 8,
+  "mode": "q_dagger",
+  "last_iteration": 9,
+  "final_reward": 3409.507080078125,
+  "best_observed_reward": 8987.2177734375,
+  "best_observed_iteration": 4,
+  "solved": false,
+  "final_validation_mse": 0.02980860322713852,
+  "final_validation_weighted_mse": 0.029507609084248543,
+  "dataset_size": 59790
+}

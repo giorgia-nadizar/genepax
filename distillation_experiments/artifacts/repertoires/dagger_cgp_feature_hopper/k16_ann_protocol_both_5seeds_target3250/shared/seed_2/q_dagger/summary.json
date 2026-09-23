@@ -1,0 +1,11 @@
+{
+  "seed": 2,
+  "architecture": "shared",
+  "mode": "q_dagger",
+  "k": 16,
+  "last_iteration": 9,
+  "final_reward": 404.242919921875,
+  "solved": false,
+  "dataset_size": 73494,
+  "best_observed_reward": 3154.033447265625
+}

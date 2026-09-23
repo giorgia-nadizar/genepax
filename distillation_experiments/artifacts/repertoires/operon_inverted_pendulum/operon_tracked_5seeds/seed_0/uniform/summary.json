@@ -1,0 +1,13 @@
+{
+  "seed": 0,
+  "mode": "uniform",
+  "candidate_count": 19,
+  "selected_position": 7,
+  "expression": "((-0.059427) + (1.439145 * ((2.588969 * X2) + ((((0.823526 * X1) + (0.894348 * X4)) / (sqrt(1 + ((-15.900647) * X1) ^ 2))) / (sqrt(1 + ((-6.130664) * X3) ^ 2))))))",
+  "validation_mse": 0.0027627788949757814,
+  "reward": 891.0,
+  "best_candidate_reward": 1000.0,
+  "solved": false,
+  "weight_effective_sample_size": 10000.0,
+  "q_weight_implementation": "not_applicable"
+}

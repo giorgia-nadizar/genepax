@@ -1,0 +1,10 @@
+{
+  "seed": 3,
+  "mode": "q_dagger",
+  "best_epoch": 199,
+  "epochs_completed": 200,
+  "reward": 68.44591522216797,
+  "train_loss": 0.0320429690182209,
+  "validation_loss": 0.03967192396521568,
+  "weight_effective_sample_size": 3661.6376953125
+}

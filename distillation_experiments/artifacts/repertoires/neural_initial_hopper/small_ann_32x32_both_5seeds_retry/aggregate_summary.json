@@ -1,0 +1,106 @@
+{
+  "completed_variants": 10,
+  "requested_variants": 10,
+  "variants": [
+    {
+      "seed": 0,
+      "mode": "uniform",
+      "best_epoch": 199,
+      "epochs_completed": 200,
+      "reward": 657.6085815429688,
+      "train_loss": 0.026028772816061974,
+      "validation_loss": 0.028145264834165573,
+      "weight_effective_sample_size": 8000.00048828125
+    },
+    {
+      "seed": 0,
+      "mode": "q_dagger",
+      "best_epoch": 198,
+      "epochs_completed": 200,
+      "reward": 522.1867065429688,
+      "train_loss": 0.025737741962075233,
+      "validation_loss": 0.027452345937490463,
+      "weight_effective_sample_size": 5062.298828125
+    },
+    {
+      "seed": 1,
+      "mode": "uniform",
+      "best_epoch": 198,
+      "epochs_completed": 200,
+      "reward": 138.8553009033203,
+      "train_loss": 0.02618962712585926,
+      "validation_loss": 0.02767234854400158,
+      "weight_effective_sample_size": 8000.00048828125
+    },
+    {
+      "seed": 1,
+      "mode": "q_dagger",
+      "best_epoch": 199,
+      "epochs_completed": 200,
+      "reward": 82.60087585449219,
+      "train_loss": 0.022875087335705757,
+      "validation_loss": 0.024165740236639977,
+      "weight_effective_sample_size": 5103.6728515625
+    },
+    {
+      "seed": 2,
+      "mode": "uniform",
+      "best_epoch": 199,
+      "epochs_completed": 200,
+      "reward": 1324.3841552734375,
+      "train_loss": 0.02528049238026142,
+      "validation_loss": 0.02684018202126026,
+      "weight_effective_sample_size": 8000.00048828125
+    },
+    {
+      "seed": 2,
+      "mode": "q_dagger",
+      "best_epoch": 198,
+      "epochs_completed": 200,
+      "reward": 447.2633972167969,
+      "train_loss": 0.02463618665933609,
+      "validation_loss": 0.026171991601586342,
+      "weight_effective_sample_size": 5049.47265625
+    },
+    {
+      "seed": 3,
+      "mode": "uniform",
+      "best_epoch": 198,
+      "epochs_completed": 200,
+      "reward": 772.7885131835938,
+      "train_loss": 0.02506697177886963,
+      "validation_loss": 0.027323635295033455,
+      "weight_effective_sample_size": 8000.00048828125
+    },
+    {
+      "seed": 3,
+      "mode": "q_dagger",
+      "best_epoch": 197,
+      "epochs_completed": 200,
+      "reward": 153.3651885986328,
+      "train_loss": 0.0255640409886837,
+      "validation_loss": 0.027198968455195427,
+      "weight_effective_sample_size": 5124.76806640625
+    },
+    {
+      "seed": 4,
+      "mode": "uniform",
+      "best_epoch": 199,
+      "epochs_completed": 200,
+      "reward": 142.0631561279297,
+      "train_loss": 0.026911308988928795,
+      "validation_loss": 0.028799163177609444,
+      "weight_effective_sample_size": 8000.00048828125
+    },
+    {
+      "seed": 4,
+      "mode": "q_dagger",
+      "best_epoch": 198,
+      "epochs_completed": 200,
+      "reward": 319.8701477050781,
+      "train_loss": 0.02132410928606987,
+      "validation_loss": 0.02325715310871601,
+      "weight_effective_sample_size": 5210.033203125
+    }
+  ]
+}

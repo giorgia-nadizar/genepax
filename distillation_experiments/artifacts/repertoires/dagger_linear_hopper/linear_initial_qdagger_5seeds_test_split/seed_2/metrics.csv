@@ -1,0 +1,2 @@
+iteration,imitation_loss,test_imitation_loss,student_reward,behavior_reward,dataset_size,new_samples,collection_trajectories,invalid_transitions
+0,0.09836523234844208,0.10110852867364883,2602.773681640625,,8000,10000,,

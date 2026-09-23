@@ -1,0 +1,104 @@
+{
+  "variants": [
+    {
+      "seed": 0,
+      "mode": "uniform",
+      "candidate_count": 16,
+      "action_count": 1,
+      "selected_positions": [
+        0
+      ],
+      "expressions": [
+        "(0.002768 + (1.923915 * (0.868234 * X2)))"
+      ],
+      "per_action_validation_mse": [
+        1.2733681614918169e-05
+      ],
+      "validation_mse": 1.2733681614918169e-05,
+      "reward": 994.5,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0,
+      "q_weight_implementation": "not_applicable"
+    },
+    {
+      "seed": 1,
+      "mode": "uniform",
+      "candidate_count": 18,
+      "action_count": 1,
+      "selected_positions": [
+        0
+      ],
+      "expressions": [
+        "(0.002834 + ((-1461.991211) * ((-0.001144) * X2)))"
+      ],
+      "per_action_validation_mse": [
+        1.301178417634219e-05
+      ],
+      "validation_mse": 1.301178417634219e-05,
+      "reward": 992.2999877929688,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0,
+      "q_weight_implementation": "not_applicable"
+    },
+    {
+      "seed": 2,
+      "mode": "uniform",
+      "candidate_count": 20,
+      "action_count": 1,
+      "selected_positions": [
+        0
+      ],
+      "expressions": [
+        "(0.002743 + (0.739554 * (2.261186 * X2)))"
+      ],
+      "per_action_validation_mse": [
+        1.2757744116242975e-05
+      ],
+      "validation_mse": 1.2757744116242975e-05,
+      "reward": 990.4000244140625,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0,
+      "q_weight_implementation": "not_applicable"
+    },
+    {
+      "seed": 3,
+      "mode": "uniform",
+      "candidate_count": 16,
+      "action_count": 1,
+      "selected_positions": [
+        0
+      ],
+      "expressions": [
+        "(0.002729 + (1.255236 * (1.336147 * X2)))"
+      ],
+      "per_action_validation_mse": [
+        1.2427271940396167e-05
+      ],
+      "validation_mse": 1.2427271940396167e-05,
+      "reward": 970.4000244140625,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0,
+      "q_weight_implementation": "not_applicable"
+    },
+    {
+      "seed": 4,
+      "mode": "uniform",
+      "candidate_count": 20,
+      "action_count": 1,
+      "selected_positions": [
+        0
+      ],
+      "expressions": [
+        "(0.002715 + (1.287093 * (1.243997 * X2)))"
+      ],
+      "per_action_validation_mse": [
+        1.2840118870371953e-05
+      ],
+      "validation_mse": 1.2840118870371953e-05,
+      "reward": 949.0,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0,
+      "q_weight_implementation": "not_applicable"
+    }
+  ]
+}

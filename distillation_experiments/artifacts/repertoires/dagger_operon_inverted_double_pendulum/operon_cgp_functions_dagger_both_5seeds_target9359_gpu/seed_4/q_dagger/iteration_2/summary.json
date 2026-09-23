@@ -1,0 +1,16 @@
+{
+  "iteration": 2,
+  "expressions": [
+    "((-0.017588) + (1.088575 * cos(log(abs(((exp((10.231809 * X3)) / 0.184038) - ((((25.049109 * X2) + (13.911604 * X3)) - 0.174450) * log(abs(sqrt(abs((0.086422 * X8))))))))))))"
+  ],
+  "selected_positions": [
+    10
+  ],
+  "per_action_validation_mse": [
+    0.004823393188416958
+  ],
+  "validation_mse": 0.004823393188416958,
+  "reward": 858.3070678710938,
+  "dataset_size": 20321,
+  "fit_samples": 10000
+}

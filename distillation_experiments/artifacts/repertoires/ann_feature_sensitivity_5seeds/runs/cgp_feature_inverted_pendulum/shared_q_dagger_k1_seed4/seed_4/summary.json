@@ -1,0 +1,32 @@
+{
+  "seed": 4,
+  "k": 1,
+  "state_weighting": "q_dagger",
+  "train_mse": 0.004139705095440149,
+  "train_weighted_mse": 0.01680001989006996,
+  "validation_weighted_mse": 0.05393538996577263,
+  "validation_mse": 0.004396516364067793,
+  "reward": 12.0,
+  "trajectory_returns": [
+    11.0,
+    11.0,
+    12.0,
+    13.0,
+    13.0,
+    14.0,
+    11.0,
+    10.0,
+    14.0,
+    11.0
+  ],
+  "readout": [
+    [
+      -0.3690849542617798
+    ],
+    [
+      0.04302489757537842
+    ]
+  ],
+  "fit_seconds": 38.42851578799309,
+  "evaluation_seconds": 32.14298220697674
+}

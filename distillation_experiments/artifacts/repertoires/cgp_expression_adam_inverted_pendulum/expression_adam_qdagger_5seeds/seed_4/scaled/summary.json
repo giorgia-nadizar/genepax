@@ -1,0 +1,15 @@
+{
+  "seed": 4,
+  "mode": "scaled",
+  "state_weighting": "q_dagger",
+  "selected_position": 6,
+  "best_reward_before_adam": 184.8000030517578,
+  "best_reward_after_adam": 392.5,
+  "best_validation_mse_before_adam": 0.01832425594329834,
+  "best_validation_mse_after_adam": 0.01769275777041912,
+  "solved": false,
+  "weight_effective_sample_size": 132.99417114257812,
+  "weight_min": 0.06923318654298782,
+  "weight_median": 0.29701167345046997,
+  "weight_max": 149.2852325439453
+}

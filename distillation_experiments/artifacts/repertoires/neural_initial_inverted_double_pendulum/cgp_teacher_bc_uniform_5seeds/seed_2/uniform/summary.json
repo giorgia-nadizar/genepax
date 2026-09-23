@@ -1,0 +1,10 @@
+{
+  "seed": 2,
+  "mode": "uniform",
+  "best_epoch": 199,
+  "epochs_completed": 200,
+  "reward": 9357.080078125,
+  "train_loss": 3.778452446567826e-05,
+  "validation_loss": 6.014903192408383e-05,
+  "weight_effective_sample_size": 8000.00048828125
+}

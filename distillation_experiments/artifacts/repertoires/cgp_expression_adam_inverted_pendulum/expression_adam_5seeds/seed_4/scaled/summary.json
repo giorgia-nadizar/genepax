@@ -1,0 +1,10 @@
+{
+  "seed": 4,
+  "mode": "scaled",
+  "selected_position": 6,
+  "best_reward_before_adam": 44.29999923706055,
+  "best_reward_after_adam": 42.70000076293945,
+  "best_validation_mse_before_adam": 0.0028369862120598555,
+  "best_validation_mse_after_adam": 0.002822941867634654,
+  "solved": false
+}

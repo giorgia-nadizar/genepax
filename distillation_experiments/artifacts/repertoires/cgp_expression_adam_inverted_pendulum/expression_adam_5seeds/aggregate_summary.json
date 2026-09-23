@@ -1,0 +1,107 @@
+{
+  "completed_variants": 10,
+  "requested_variants": 10,
+  "solved_variants": 0,
+  "variants": [
+    {
+      "seed": 0,
+      "mode": "raw",
+      "selected_position": 0,
+      "best_reward_before_adam": 75.9000015258789,
+      "best_reward_after_adam": 80.4000015258789,
+      "best_validation_mse_before_adam": 0.003929733764380217,
+      "best_validation_mse_after_adam": 0.00384852709248662,
+      "solved": false
+    },
+    {
+      "seed": 0,
+      "mode": "scaled",
+      "selected_position": 0,
+      "best_reward_before_adam": 42.5,
+      "best_reward_after_adam": 39.70000076293945,
+      "best_validation_mse_before_adam": 0.003314276458695531,
+      "best_validation_mse_after_adam": 0.003307487117126584,
+      "solved": false
+    },
+    {
+      "seed": 1,
+      "mode": "raw",
+      "selected_position": 0,
+      "best_reward_before_adam": 41.5,
+      "best_reward_after_adam": 44.20000076293945,
+      "best_validation_mse_before_adam": 0.003497028024867177,
+      "best_validation_mse_after_adam": 0.003327034180983901,
+      "solved": false
+    },
+    {
+      "seed": 1,
+      "mode": "scaled",
+      "selected_position": 0,
+      "best_reward_before_adam": 66.9000015258789,
+      "best_reward_after_adam": 64.4000015258789,
+      "best_validation_mse_before_adam": 0.0032912306487560272,
+      "best_validation_mse_after_adam": 0.0032469637226313353,
+      "solved": false
+    },
+    {
+      "seed": 2,
+      "mode": "raw",
+      "selected_position": 1,
+      "best_reward_before_adam": 112.80000305175781,
+      "best_reward_after_adam": 115.0999984741211,
+      "best_validation_mse_before_adam": 0.0016142218373715878,
+      "best_validation_mse_after_adam": 0.0016012825071811676,
+      "solved": false
+    },
+    {
+      "seed": 2,
+      "mode": "scaled",
+      "selected_position": 9,
+      "best_reward_before_adam": 936.5,
+      "best_reward_after_adam": 927.2000122070312,
+      "best_validation_mse_before_adam": 0.001796797150745988,
+      "best_validation_mse_after_adam": 0.0017657647840678692,
+      "solved": false
+    },
+    {
+      "seed": 3,
+      "mode": "raw",
+      "selected_position": 4,
+      "best_reward_before_adam": 100.0,
+      "best_reward_after_adam": 102.0,
+      "best_validation_mse_before_adam": 0.0031717338133603334,
+      "best_validation_mse_after_adam": 0.0030976664274930954,
+      "solved": false
+    },
+    {
+      "seed": 3,
+      "mode": "scaled",
+      "selected_position": 0,
+      "best_reward_before_adam": 423.3000183105469,
+      "best_reward_after_adam": 558.2000122070312,
+      "best_validation_mse_before_adam": 0.0024044073652476072,
+      "best_validation_mse_after_adam": 0.0022930994164198637,
+      "solved": false
+    },
+    {
+      "seed": 4,
+      "mode": "raw",
+      "selected_position": 7,
+      "best_reward_before_adam": 175.10000610351562,
+      "best_reward_after_adam": 161.5,
+      "best_validation_mse_before_adam": 0.0030932265799492598,
+      "best_validation_mse_after_adam": 0.0030554409604519606,
+      "solved": false
+    },
+    {
+      "seed": 4,
+      "mode": "scaled",
+      "selected_position": 6,
+      "best_reward_before_adam": 44.29999923706055,
+      "best_reward_after_adam": 42.70000076293945,
+      "best_validation_mse_before_adam": 0.0028369862120598555,
+      "best_validation_mse_after_adam": 0.002822941867634654,
+      "solved": false
+    }
+  ]
+}

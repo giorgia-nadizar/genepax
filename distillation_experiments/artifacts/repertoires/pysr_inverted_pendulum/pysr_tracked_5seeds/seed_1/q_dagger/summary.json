@@ -1,0 +1,12 @@
+{
+  "seed": 1,
+  "mode": "q_dagger",
+  "candidate_count": 20,
+  "selected_position": 14,
+  "equation": "tanh(tanh(tanh(tanh((x2 * (x1 + ((x0 + -0.14405486) * 6.256042))) + x1) / 0.5408971)))",
+  "validation_mse": 0.012977248057723045,
+  "reward": 42.70000076293945,
+  "best_candidate_reward": 1000.0,
+  "solved": false,
+  "weight_effective_sample_size": 152.15562438964844
+}

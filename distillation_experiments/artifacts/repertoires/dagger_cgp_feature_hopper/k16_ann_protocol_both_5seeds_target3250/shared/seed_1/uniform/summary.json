@@ -1,0 +1,11 @@
+{
+  "seed": 1,
+  "architecture": "shared",
+  "mode": "uniform",
+  "k": 16,
+  "last_iteration": 9,
+  "final_reward": 1012.0402221679688,
+  "solved": false,
+  "dataset_size": 43958,
+  "best_observed_reward": 1012.0402221679688
+}

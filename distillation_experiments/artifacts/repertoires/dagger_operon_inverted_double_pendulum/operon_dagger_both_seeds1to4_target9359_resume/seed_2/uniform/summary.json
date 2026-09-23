@@ -1,0 +1,16 @@
+{
+  "seed": 2,
+  "mode": "uniform",
+  "last_iteration": 9,
+  "final_reward": 858.53125,
+  "final_validation_mse": 0.0060200816951692104,
+  "best_observed_reward": 2303.656494140625,
+  "best_observed_iteration": 5,
+  "solved": false,
+  "dataset_size": 27726,
+  "test_dataset_size": 2000,
+  "final_expressions": [
+    "(0.084034 + (1.135608 * ((tanh(((-12.094073) * X3)) - tanh((0.499888 * X1))) - ((-1.106458) * X3))))"
+  ],
+  "weight_effective_sample_size": 27725.998046875
+}

@@ -1,0 +1,142 @@
+[
+  {
+    "position": 0,
+    "repertoire_index": 9,
+    "train_mse_before": 0.018708551302552223,
+    "validation_mse_before": 0.017880700528621674,
+    "reward_before": 1000.0,
+    "train_mse_after": 0.01782825216650963,
+    "validation_mse_after": 0.017297251150012016,
+    "reward_after": 1000.0,
+    "scaling_weights_after": [
+      -0.5221002697944641,
+      0.10080307722091675
+    ]
+  },
+  {
+    "position": 1,
+    "repertoire_index": 8,
+    "train_mse_before": 0.018567167222499847,
+    "validation_mse_before": 0.015863465145230293,
+    "reward_before": 410.0,
+    "train_mse_after": 0.018257038667798042,
+    "validation_mse_after": 0.015845846384763718,
+    "reward_after": 420.6000061035156,
+    "scaling_weights_after": [
+      -0.5142432451248169,
+      0.18580704927444458
+    ]
+  },
+  {
+    "position": 2,
+    "repertoire_index": 7,
+    "train_mse_before": 0.01856519840657711,
+    "validation_mse_before": 0.01738428883254528,
+    "reward_before": 463.8000183105469,
+    "train_mse_after": 0.01845605857670307,
+    "validation_mse_after": 0.017196647822856903,
+    "reward_after": 493.1000061035156,
+    "scaling_weights_after": [
+      -0.6029871106147766,
+      0.1501752734184265
+    ]
+  },
+  {
+    "position": 3,
+    "repertoire_index": 6,
+    "train_mse_before": 0.018491774797439575,
+    "validation_mse_before": 0.01717795804142952,
+    "reward_before": 434.3999938964844,
+    "train_mse_after": 0.018332093954086304,
+    "validation_mse_after": 0.016985753551125526,
+    "reward_after": 381.8000183105469,
+    "scaling_weights_after": [
+      -0.563366711139679,
+      0.17116299271583557
+    ]
+  },
+  {
+    "position": 4,
+    "repertoire_index": 5,
+    "train_mse_before": 0.018435783684253693,
+    "validation_mse_before": 0.017189225181937218,
+    "reward_before": 720.2000122070312,
+    "train_mse_after": 0.018262680619955063,
+    "validation_mse_after": 0.01671060360968113,
+    "reward_after": 859.7999877929688,
+    "scaling_weights_after": [
+      -0.5970256328582764,
+      0.1577111780643463
+    ]
+  },
+  {
+    "position": 5,
+    "repertoire_index": 4,
+    "train_mse_before": 0.018404344096779823,
+    "validation_mse_before": 0.01751212403178215,
+    "reward_before": 91.80000305175781,
+    "train_mse_after": 0.018278105184435844,
+    "validation_mse_after": 0.0173659585416317,
+    "reward_after": 98.30000305175781,
+    "scaling_weights_after": [
+      -1.2095218896865845,
+      0.4453134536743164
+    ]
+  },
+  {
+    "position": 6,
+    "repertoire_index": 3,
+    "train_mse_before": 0.018252309411764145,
+    "validation_mse_before": 0.017533794045448303,
+    "reward_before": 727.5,
+    "train_mse_after": 0.018053356558084488,
+    "validation_mse_after": 0.01702834665775299,
+    "reward_after": 673.7000122070312,
+    "scaling_weights_after": [
+      -0.6092595458030701,
+      0.12610802054405212
+    ]
+  },
+  {
+    "position": 7,
+    "repertoire_index": 2,
+    "train_mse_before": 0.01807360351085663,
+    "validation_mse_before": 0.01812453381717205,
+    "reward_before": 599.7999877929688,
+    "train_mse_after": 0.017952844500541687,
+    "validation_mse_after": 0.017835505306720734,
+    "reward_after": 541.4000244140625,
+    "scaling_weights_after": [
+      -0.6676136255264282,
+      0.11082184314727783
+    ]
+  },
+  {
+    "position": 8,
+    "repertoire_index": 1,
+    "train_mse_before": 0.018065087497234344,
+    "validation_mse_before": 0.012811798602342606,
+    "reward_before": 128.6999969482422,
+    "train_mse_after": 0.017839139327406883,
+    "validation_mse_after": 0.012672845274209976,
+    "reward_after": 138.90000915527344,
+    "scaling_weights_after": [
+      -0.7212381362915039,
+      0.22295723855495453
+    ]
+  },
+  {
+    "position": 9,
+    "repertoire_index": 0,
+    "train_mse_before": 0.01801353506743908,
+    "validation_mse_before": 0.017186490818858147,
+    "reward_before": 1000.0,
+    "train_mse_after": 0.01753212697803974,
+    "validation_mse_after": 0.016711600124835968,
+    "reward_after": 1000.0,
+    "scaling_weights_after": [
+      -0.5857109427452087,
+      0.07831081748008728
+    ]
+  }
+]

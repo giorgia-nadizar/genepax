@@ -1,0 +1,226 @@
+{
+  "completed_variants": 20,
+  "requested_variants": 20,
+  "variants": [
+    {
+      "seed": 0,
+      "architecture": "shared",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 415.328125,
+      "solved": false,
+      "dataset_size": 50788,
+      "best_observed_reward": 2520.17431640625
+    },
+    {
+      "seed": 0,
+      "architecture": "shared",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 735.671630859375,
+      "solved": false,
+      "dataset_size": 70846,
+      "best_observed_reward": 2923.233154296875
+    },
+    {
+      "seed": 1,
+      "architecture": "shared",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 1012.0402221679688,
+      "solved": false,
+      "dataset_size": 43958,
+      "best_observed_reward": 1012.0402221679688
+    },
+    {
+      "seed": 1,
+      "architecture": "shared",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 485.2554626464844,
+      "solved": false,
+      "dataset_size": 43900,
+      "best_observed_reward": 1228.6458740234375
+    },
+    {
+      "seed": 2,
+      "architecture": "shared",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 344.24658203125,
+      "solved": false,
+      "dataset_size": 51622,
+      "best_observed_reward": 1175.3253173828125
+    },
+    {
+      "seed": 2,
+      "architecture": "shared",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 404.242919921875,
+      "solved": false,
+      "dataset_size": 73494,
+      "best_observed_reward": 3154.033447265625
+    },
+    {
+      "seed": 3,
+      "architecture": "shared",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 653.9820556640625,
+      "solved": false,
+      "dataset_size": 46678,
+      "best_observed_reward": 1862.548828125
+    },
+    {
+      "seed": 3,
+      "architecture": "shared",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 832.2048950195312,
+      "solved": false,
+      "dataset_size": 43214,
+      "best_observed_reward": 1047.645751953125
+    },
+    {
+      "seed": 4,
+      "architecture": "shared",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 304.0797424316406,
+      "solved": false,
+      "dataset_size": 49592,
+      "best_observed_reward": 2374.77001953125
+    },
+    {
+      "seed": 4,
+      "architecture": "shared",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 2878.05615234375,
+      "solved": false,
+      "dataset_size": 49935,
+      "best_observed_reward": 2878.05615234375
+    },
+    {
+      "seed": 0,
+      "architecture": "independent",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 1118.4163818359375,
+      "solved": false,
+      "dataset_size": 49257,
+      "best_observed_reward": 1118.4163818359375
+    },
+    {
+      "seed": 0,
+      "architecture": "independent",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 646.2743530273438,
+      "solved": false,
+      "dataset_size": 42613,
+      "best_observed_reward": 926.8448486328125
+    },
+    {
+      "seed": 1,
+      "architecture": "independent",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 481.6983337402344,
+      "solved": false,
+      "dataset_size": 62859,
+      "best_observed_reward": 2440.2265625
+    },
+    {
+      "seed": 1,
+      "architecture": "independent",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 1643.1402587890625,
+      "solved": false,
+      "dataset_size": 51767,
+      "best_observed_reward": 1643.1402587890625
+    },
+    {
+      "seed": 2,
+      "architecture": "independent",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 1534.713134765625,
+      "solved": false,
+      "dataset_size": 42444,
+      "best_observed_reward": 1534.713134765625
+    },
+    {
+      "seed": 2,
+      "architecture": "independent",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 832.54052734375,
+      "solved": false,
+      "dataset_size": 61772,
+      "best_observed_reward": 1649.834228515625
+    },
+    {
+      "seed": 3,
+      "architecture": "independent",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 583.6005249023438,
+      "solved": false,
+      "dataset_size": 44195,
+      "best_observed_reward": 874.98193359375
+    },
+    {
+      "seed": 3,
+      "architecture": "independent",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 234.85659790039062,
+      "solved": false,
+      "dataset_size": 57661,
+      "best_observed_reward": 2052.726806640625
+    },
+    {
+      "seed": 4,
+      "architecture": "independent",
+      "mode": "uniform",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 909.28955078125,
+      "solved": false,
+      "dataset_size": 50983,
+      "best_observed_reward": 1207.8419189453125
+    },
+    {
+      "seed": 4,
+      "architecture": "independent",
+      "mode": "q_dagger",
+      "k": 16,
+      "last_iteration": 9,
+      "final_reward": 3054.328125,
+      "solved": false,
+      "dataset_size": 48373,
+      "best_observed_reward": 3054.328125
+    }
+  ]
+}

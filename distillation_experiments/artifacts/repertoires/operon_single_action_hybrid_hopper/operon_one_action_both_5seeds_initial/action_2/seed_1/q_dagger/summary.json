@@ -1,0 +1,14 @@
+{
+  "seed": 1,
+  "mode": "q_dagger",
+  "operon_action_index": 2,
+  "ann_action_indices": [
+    0,
+    1
+  ],
+  "expression": "(0.013243 + (1.020407 * ((0.727200 * X3) - tanh(tanh((((-0.457229) * X8) - ((((0.174473 * X7) - (0.171937 * X9)) - tanh(((3.212720 * X5) - ((-1.596004) * X7)))) + (((1.382401 * X1) - (0.056105 * X11)) - (0.909808 * X6)))))))))",
+  "source_validation_mse": 0.09134155511856079,
+  "evaluation_seed": 200000,
+  "reward": 1944.9381103515625,
+  "solved": false
+}

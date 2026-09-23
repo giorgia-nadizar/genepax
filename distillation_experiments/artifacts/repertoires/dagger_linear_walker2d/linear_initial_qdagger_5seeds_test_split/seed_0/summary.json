@@ -1,0 +1,14 @@
+{
+  "seed": 0,
+  "last_iteration": 0,
+  "final_reward": 166.56478881835938,
+  "final_imitation_loss": 0.1480283886194229,
+  "final_test_imitation_loss": 0.15325133502483368,
+  "best_observed_reward": 166.56478881835938,
+  "best_observed_iteration": 0,
+  "solved": false,
+  "dataset_size": 8000,
+  "test_dataset_size": 2000,
+  "state_weighting": "q_dagger",
+  "weight_effective_sample_size": 3660.59912109375
+}

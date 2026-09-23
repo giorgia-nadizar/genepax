@@ -1,0 +1,20 @@
+{
+  "adam_batch_size": 256,
+  "adam_learning_rate": 0.001,
+  "adam_steps": 500,
+  "adam_top_k": 10,
+  "backend": "generalized",
+  "dataset_batch_size": 4096,
+  "env": "inverted_pendulum",
+  "evaluation_trajectories": 10,
+  "expert_samples": 10000,
+  "num_seeds": 5,
+  "population_size": 100,
+  "rollout_steps": 1000,
+  "run_name": "expression_adam_5seeds",
+  "search_generations": 50,
+  "search_mode": "both",
+  "seed_start": 0,
+  "target_reward": 999.0,
+  "validation_fraction": 0.2
+}

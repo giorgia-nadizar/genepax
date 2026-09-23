@@ -1,0 +1,13 @@
+{
+  "seed": 0,
+  "mode": "uniform",
+  "candidate_count": 3,
+  "selected_position": 2,
+  "expression": "(0.000011 + (0.999460 * ((tanh((1.273894 * X4)) - tanh(((-1.351039) * X2))) - ((0.396346 * X4) + (-0.002566)))))",
+  "validation_mse": 0.0015308912843465805,
+  "reward": 20.0,
+  "best_candidate_reward": 20.0,
+  "solved": false,
+  "weight_effective_sample_size": 1000.0000610351562,
+  "q_weight_implementation": "not_applicable"
+}

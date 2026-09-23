@@ -1,0 +1,22 @@
+{
+  "algorithm": "DAgger",
+  "backend": "generalized",
+  "dataset_batch_size": 4096,
+  "env": "inverted_pendulum",
+  "evaluation_trajectories": 10,
+  "expert_bootstrap_samples": 10000,
+  "iterations": 1,
+  "linear_scaling": true,
+  "num_seeds": 5,
+  "population_size": 100,
+  "rollout_steps": 1000,
+  "run_name": "cgp_linear_scaling_bc_5seeds",
+  "script": "distillation_experiments.scripts.experiments.dagger",
+  "seed_start": 0,
+  "sr_generations": 50,
+  "stop_when_solved": true,
+  "student_objective": "mean_squared_expert_action_error",
+  "target_reward": 999.0,
+  "trajectories_per_iteration": 20,
+  "warm_start": false
+}

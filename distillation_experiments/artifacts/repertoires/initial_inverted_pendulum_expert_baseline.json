@@ -1,0 +1,41 @@
+{
+  "inverted_pendulum": {
+    "evaluation_trajectories_per_seed": 10,
+    "overall_max_reward": 1000.0,
+    "overall_mean_reward": 1000.0,
+    "overall_min_reward": 1000.0,
+    "rollout_steps": 1000,
+    "seeds": {
+      "0": {
+        "max_reward": 1000.0,
+        "mean_reward": 1000.0,
+        "min_reward": 1000.0,
+        "trajectories": 10
+      },
+      "1": {
+        "max_reward": 1000.0,
+        "mean_reward": 1000.0,
+        "min_reward": 1000.0,
+        "trajectories": 10
+      },
+      "2": {
+        "max_reward": 1000.0,
+        "mean_reward": 1000.0,
+        "min_reward": 1000.0,
+        "trajectories": 10
+      },
+      "3": {
+        "max_reward": 1000.0,
+        "mean_reward": 1000.0,
+        "min_reward": 1000.0,
+        "trajectories": 10
+      },
+      "4": {
+        "max_reward": 1000.0,
+        "mean_reward": 1000.0,
+        "min_reward": 1000.0,
+        "trajectories": 10
+      }
+    }
+  }
+}

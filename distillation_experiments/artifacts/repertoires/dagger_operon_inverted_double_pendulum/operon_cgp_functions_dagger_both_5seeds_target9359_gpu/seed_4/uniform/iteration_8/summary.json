@@ -1,0 +1,16 @@
+{
+  "iteration": 8,
+  "expressions": [
+    "(0.010766 + ((-1.266238) * sin((3.897290 * X3))))"
+  ],
+  "selected_positions": [
+    1
+  ],
+  "per_action_validation_mse": [
+    0.0019410665845498443
+  ],
+  "validation_mse": 0.0019410665845498443,
+  "reward": 1408.4853515625,
+  "dataset_size": 43879,
+  "fit_samples": 10000
+}

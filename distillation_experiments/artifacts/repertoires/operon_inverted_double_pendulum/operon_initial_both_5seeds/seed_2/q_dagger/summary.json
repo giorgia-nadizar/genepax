@@ -1,0 +1,20 @@
+{
+  "seed": 2,
+  "mode": "q_dagger",
+  "candidate_count": 17,
+  "action_count": 1,
+  "selected_positions": [
+    8
+  ],
+  "expressions": [
+    "((-0.001627) + (0.998290 * (((((-0.995140) * X8) + (19.981014 * X3)) / (sqrt(1 + ((((-46.435265) * X8) - (56.139389 * X7)) + ((-119.170280) * X3)) ^ 2))) + ((-8.171475) * X3))))"
+  ],
+  "per_action_validation_mse": [
+    0.0004588805022649467
+  ],
+  "validation_mse": 0.0004588805022649467,
+  "reward": 3495.12158203125,
+  "solved": false,
+  "weight_effective_sample_size": 8414.6826171875,
+  "q_weight_implementation": "fixed_size_weighted_bootstrap"
+}

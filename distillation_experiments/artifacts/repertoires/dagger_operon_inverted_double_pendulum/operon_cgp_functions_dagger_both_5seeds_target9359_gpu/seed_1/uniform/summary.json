@@ -1,0 +1,16 @@
+{
+  "seed": 1,
+  "mode": "uniform",
+  "last_iteration": 9,
+  "final_reward": 1777.602783203125,
+  "final_validation_mse": 0.0029881810769438744,
+  "best_observed_reward": 2972.62158203125,
+  "best_observed_iteration": 0,
+  "solved": false,
+  "dataset_size": 34465,
+  "test_dataset_size": 2000,
+  "final_expressions": [
+    "(0.036715 + (0.919946 * (((((-1.838829) * X2) + ((-1.733383) * X3)) - sin((5.502797 * X3))) + ((-0.091389) * X8))))"
+  ],
+  "weight_effective_sample_size": 34465.0
+}

@@ -1,0 +1,12 @@
+{
+  "seed": 3,
+  "mode": "uniform",
+  "candidate_count": 17,
+  "selected_position": 16,
+  "equation": "(((0.15280606 - (x1 + x0)) * tanh((x3 + -0.09640476) / (x0 - -0.044372216))) + (x1 + (x0 * x0))) * 3.2455387",
+  "validation_mse": 0.002078441670164466,
+  "reward": 67.80000305175781,
+  "best_candidate_reward": 1000.0,
+  "solved": false,
+  "weight_effective_sample_size": 10000.0
+}

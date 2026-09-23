@@ -1,0 +1,20 @@
+{
+  "seed": 2,
+  "mode": "uniform",
+  "candidate_count": 21,
+  "action_count": 1,
+  "selected_positions": [
+    17
+  ],
+  "expressions": [
+    "(0.000021 + (1.000058 * ((((tanh((((-2386.003662) * X3) / (sqrt(1 + ((-1199.272339) / (sqrt(1 + (1.734522 * X8) ^ 2))) ^ 2)))) / (sqrt(1 + tanh(((-4.158271) * X3)) ^ 2))) / (sqrt(1 + tanh((((-23848.078125) * X3) / (sqrt(1 + ((-264.361023) * X8) ^ 2)))) ^ 2))) * (2.329245 * X5)) / (sqrt(1 + tanh((((-23848.078125) * X3) / (sqrt(1 + ((-908.582764) * X8) ^ 2)))) ^ 2)))))"
+  ],
+  "per_action_validation_mse": [
+    2.9052157515252475e-06
+  ],
+  "validation_mse": 2.9052157515252475e-06,
+  "reward": 9099.42578125,
+  "solved": false,
+  "weight_effective_sample_size": 10000.0,
+  "q_weight_implementation": "not_applicable"
+}

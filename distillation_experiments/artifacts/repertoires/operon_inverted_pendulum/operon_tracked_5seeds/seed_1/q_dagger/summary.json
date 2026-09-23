@@ -1,0 +1,13 @@
+{
+  "seed": 1,
+  "mode": "q_dagger",
+  "candidate_count": 20,
+  "selected_position": 18,
+  "expression": "((-0.001376) + (1.012067 * (tanh(tanh((tanh(((((2.827089 * X4) - ((-32.862072) * X2)) + (7.283493 * X3)) - 1.155823)) + (((((1.613603 * X4) - ((-5.620549) * X2)) + (2.623641 * X3)) - 0.507510) + (10.589544 * X1))))) - (((-0.094757) * X4) - ((-1.331056) * X2)))))",
+  "validation_mse": 0.005423403810709715,
+  "reward": 1000.0,
+  "best_candidate_reward": 1000.0,
+  "solved": true,
+  "weight_effective_sample_size": 152.15553283691406,
+  "q_weight_implementation": "fixed_size_weighted_bootstrap"
+}

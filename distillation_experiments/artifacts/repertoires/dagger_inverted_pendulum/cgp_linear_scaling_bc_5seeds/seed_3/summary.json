@@ -1,0 +1,16 @@
+{
+  "seed": 3,
+  "last_iteration": 0,
+  "final_reward": 89.9000015258789,
+  "final_imitation_loss": 0.0030757386703044176,
+  "final_raw_imitation_loss": 0.5146554112434387,
+  "linear_scaling": true,
+  "scaling_weights": [
+    0.9196135997772217,
+    0.657686710357666
+  ],
+  "best_observed_reward": 89.9000015258789,
+  "best_observed_iteration": 0,
+  "solved": false,
+  "dataset_size": 10000
+}

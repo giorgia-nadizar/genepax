@@ -1,0 +1,18 @@
+{
+  "action_count": 3,
+  "backend": "generalized",
+  "env": "hopper",
+  "evaluation_trajectories": 10,
+  "experiment": "single_operon_action_with_remaining_ann_expert_actions",
+  "fit_strategy": "reuse_independently_fitted_action_from_source_run",
+  "num_seeds": 5,
+  "requested_variants": 30,
+  "rollout_steps": 1000,
+  "run_name": "operon_one_action_both_5seeds_initial",
+  "script": "distillation_experiments.scripts.experiments.operon_single_action_hybrid",
+  "seed_start": 0,
+  "source_directory": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/repertoires/operon_hopper/operon_initial_both_5seeds",
+  "source_run": "operon_initial_both_5seeds",
+  "state_weighting": "both",
+  "target_reward": 3250.0
+}

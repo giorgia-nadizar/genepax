@@ -1,0 +1,16 @@
+{
+  "variants": [
+    {
+      "seed": 0,
+      "mode": "uniform",
+      "candidate_count": 4,
+      "selected_position": 3,
+      "equation": "tanh(tanh(tanh(0.47127837 * x3)))",
+      "validation_mse": 0.0008925918373279274,
+      "reward": 20.0,
+      "best_candidate_reward": 20.0,
+      "solved": false,
+      "weight_effective_sample_size": 1000.0000610351562
+    }
+  ]
+}

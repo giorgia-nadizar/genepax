@@ -1,0 +1,16 @@
+{
+  "completed_variants": 1,
+  "requested_variants": 1,
+  "variants": [
+    {
+      "seed": 0,
+      "mode": "uniform",
+      "best_epoch": 1,
+      "epochs_completed": 2,
+      "reward": 9.844488143920898,
+      "train_loss": 0.31170734763145447,
+      "validation_loss": 0.2990480065345764,
+      "weight_effective_sample_size": 800.0
+    }
+  ]
+}

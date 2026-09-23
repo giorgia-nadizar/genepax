@@ -1,0 +1,23 @@
+{
+  "backend": "generalized",
+  "batch_size": 256,
+  "dataset_path": "distillation_experiments/artifacts/expert_datasets/cgp_teacher_inverted_pendulum.npz",
+  "env": "inverted_pendulum",
+  "epochs": 200,
+  "evaluation_trajectories": 10,
+  "expert_samples": 10000,
+  "hidden_sizes": [
+    32,
+    32
+  ],
+  "learning_rate": 0.0003,
+  "num_seeds": 5,
+  "patience": 30,
+  "q_action_grid_size": 101,
+  "q_batch_size": 1000,
+  "rollout_steps": 1000,
+  "run_name": "cgp_teacher_bc_uniform_5seeds",
+  "seed_start": 0,
+  "state_weighting": "uniform",
+  "validation_fraction": 0.2
+}

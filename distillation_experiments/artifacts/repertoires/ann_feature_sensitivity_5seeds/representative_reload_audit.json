@@ -1,0 +1,66 @@
+[
+  {
+    "environment": "hopper",
+    "architecture": "independent",
+    "weighting": "q_dagger",
+    "k": 8,
+    "seed": 0,
+    "reused": true,
+    "run_directory": "distillation_experiments/artifacts/repertoires/cgp_action_feature_hopper/ann_independent_q_dagger_k8_5seeds",
+    "reference_run": "distillation_experiments/artifacts/repertoires/cgp_action_feature_hopper/ann_independent_q_dagger_k8_5seeds",
+    "dataset": "distillation_experiments/artifacts/expert_datasets/expert_hopper.npz",
+    "reloaded_cpu_metrics": {
+      "train_mse": 0.08423112332820892,
+      "train_weighted_mse": 0.07651492953300476,
+      "validation_mse": 0.08645505458116531,
+      "validation_weighted_mse": 0.08021998405456543
+    }
+  },
+  {
+    "environment": "inverted_pendulum",
+    "architecture": "shared",
+    "weighting": "uniform",
+    "k": 1,
+    "seed": 0,
+    "reused": false,
+    "run_directory": "distillation_experiments/artifacts/repertoires/ann_feature_sensitivity_5seeds/runs/cgp_feature_inverted_pendulum/shared_uniform_k1_seed0",
+    "reference_run": "distillation_experiments/artifacts/repertoires/cgp_feature_inverted_pendulum/ann_initial_uniform_k8_5seeds",
+    "dataset": "distillation_experiments/artifacts/expert_datasets/expert_inverted_pendulum.npz",
+    "reloaded_cpu_metrics": {
+      "train_mse": 0.0025361457373946905,
+      "validation_mse": 0.002277381019666791
+    }
+  },
+  {
+    "environment": "inverted_pendulum",
+    "architecture": "shared",
+    "weighting": "q_dagger",
+    "k": 1,
+    "seed": 0,
+    "reused": false,
+    "run_directory": "distillation_experiments/artifacts/repertoires/ann_feature_sensitivity_5seeds/runs/cgp_feature_inverted_pendulum/shared_q_dagger_k1_seed0",
+    "reference_run": "distillation_experiments/artifacts/repertoires/cgp_feature_inverted_pendulum/ann_initial_q_dagger_k8_5seeds",
+    "dataset": "distillation_experiments/artifacts/expert_datasets/expert_inverted_pendulum.npz",
+    "reloaded_cpu_metrics": {
+      "train_mse": 0.00562196783721447,
+      "train_weighted_mse": 0.026032498106360435,
+      "validation_mse": 0.004851537756621838,
+      "validation_weighted_mse": 0.034512560814619064
+    }
+  },
+  {
+    "environment": "inverted_double_pendulum",
+    "architecture": "shared",
+    "weighting": "uniform",
+    "k": 32,
+    "seed": 0,
+    "reused": true,
+    "run_directory": "distillation_experiments/artifacts/repertoires/cgp_feature_inverted_double_pendulum/ann_teacher_bc_k32_sensitivity_5seeds_gpu",
+    "reference_run": "distillation_experiments/artifacts/repertoires/cgp_feature_inverted_double_pendulum/ann_teacher_bc_k8_5seeds_gpu",
+    "dataset": "distillation_experiments/artifacts/expert_datasets/expert_inverted_double_pendulum.npz",
+    "reloaded_cpu_metrics": {
+      "train_mse": 0.00013529749412555248,
+      "validation_mse": 0.00023187138140201569
+    }
+  }
+]

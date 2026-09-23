@@ -1,0 +1,6 @@
+{
+  "action": 2,
+  "search_seed": 20000,
+  "train_weighted_mse": 0.21857108175754547,
+  "fit_seconds": 30.914320473006228
+}

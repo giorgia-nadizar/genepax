@@ -1,0 +1,13 @@
+{
+  "seed": 0,
+  "mode": "uniform",
+  "candidate_count": 16,
+  "selected_position": 14,
+  "expression": "((-0.001655) + (1.012022 * tanh(((((tanh((((-1.217961) + (3.456284 * X4)) + ((21.188421 * X2) + (5.464075 * X3)))) - ((-9.727550) * X1)) / (sqrt(1 + ((-2.324473) * X3) ^ 2))) - (2.995131 * X1)) + ((3.468488 * X2) + (0.062006 * X3))))))",
+  "validation_mse": 0.002853474346920848,
+  "reward": 1000.0,
+  "best_candidate_reward": 1000.0,
+  "solved": true,
+  "weight_effective_sample_size": 10000.0,
+  "q_weight_implementation": "not_applicable"
+}

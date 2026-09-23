@@ -1,0 +1,129 @@
+{
+  "iteration": 4,
+  "validation_reward": 187.0,
+  "selected_fitness_rank": 1,
+  "candidate_indices": [
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99
+  ],
+  "candidate_rewards": [
+    187.0,
+    187.0,
+    187.0,
+    187.0,
+    187.0,
+    187.0,
+    187.0,
+    187.0,
+    187.0,
+    187.0
+  ],
+  "best_validation_generation": 10,
+  "block_validations": [
+    {
+      "generation": 10,
+      "loss": 0.11556606739759445,
+      "reward": 187.0,
+      "selected_fitness_rank": 1,
+      "candidate_indices": [
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "candidate_rewards": [
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0
+      ]
+    },
+    {
+      "generation": 30,
+      "loss": 0.11556606739759445,
+      "reward": 187.0,
+      "selected_fitness_rank": 1,
+      "candidate_indices": [
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "candidate_rewards": [
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0
+      ]
+    },
+    {
+      "generation": 50,
+      "loss": 0.11556606739759445,
+      "reward": 187.0,
+      "selected_fitness_rank": 1,
+      "candidate_indices": [
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "candidate_rewards": [
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0,
+        187.0
+      ]
+    }
+  ],
+  "expert_weight": 0.5,
+  "realized_expert_contribution": 0.5,
+  "aggregation_policy": "best",
+  "behavior_policy_iteration": 3,
+  "behavior_policy_reward": 187.0,
+  "new_recovery_samples": 101,
+  "new_ordinary_samples": 9899
+}

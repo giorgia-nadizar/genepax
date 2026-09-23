@@ -1,0 +1,114 @@
+{
+  "started_utc": "2026-09-14T15:07:31.745529+00:00",
+  "feature_counts": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "n_nodes": 50,
+  "generations": 100,
+  "population_size": 100,
+  "expert_samples": 10000,
+  "validation_fraction": 0.2,
+  "rollout_steps": 1000,
+  "evaluation_trajectories": 10,
+  "target_reward": 9350,
+  "strict_target_reward": 9359,
+  "settings": [
+    {
+      "teacher": "cgp",
+      "k": 1,
+      "run_name": "cgp_teacher_bc_k1_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/cgp_teacher_inverted_double_pendulum.npz",
+      "reused": false
+    },
+    {
+      "teacher": "ann",
+      "k": 1,
+      "run_name": "ann_teacher_bc_k1_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/expert_inverted_double_pendulum.npz",
+      "reused": false
+    },
+    {
+      "teacher": "cgp",
+      "k": 2,
+      "run_name": "cgp_teacher_bc_k2_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/cgp_teacher_inverted_double_pendulum.npz",
+      "reused": false
+    },
+    {
+      "teacher": "ann",
+      "k": 2,
+      "run_name": "ann_teacher_bc_k2_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/expert_inverted_double_pendulum.npz",
+      "reused": false
+    },
+    {
+      "teacher": "cgp",
+      "k": 4,
+      "run_name": "cgp_teacher_bc_k4_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/cgp_teacher_inverted_double_pendulum.npz",
+      "reused": false
+    },
+    {
+      "teacher": "ann",
+      "k": 4,
+      "run_name": "ann_teacher_bc_k4_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/expert_inverted_double_pendulum.npz",
+      "reused": false
+    },
+    {
+      "teacher": "cgp",
+      "k": 8,
+      "run_name": "cgp_teacher_bc_k8_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/cgp_teacher_inverted_double_pendulum.npz",
+      "reused": true
+    },
+    {
+      "teacher": "ann",
+      "k": 8,
+      "run_name": "ann_teacher_bc_k8_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/expert_inverted_double_pendulum.npz",
+      "reused": true
+    },
+    {
+      "teacher": "cgp",
+      "k": 16,
+      "run_name": "cgp_teacher_bc_k16_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/cgp_teacher_inverted_double_pendulum.npz",
+      "reused": false
+    },
+    {
+      "teacher": "ann",
+      "k": 16,
+      "run_name": "ann_teacher_bc_k16_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/expert_inverted_double_pendulum.npz",
+      "reused": false
+    },
+    {
+      "teacher": "cgp",
+      "k": 32,
+      "run_name": "cgp_teacher_bc_k32_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/cgp_teacher_inverted_double_pendulum.npz",
+      "reused": false
+    },
+    {
+      "teacher": "ann",
+      "k": 32,
+      "run_name": "ann_teacher_bc_k32_sensitivity_5seeds_gpu",
+      "dataset": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/expert_datasets/expert_inverted_double_pendulum.npz",
+      "reused": false
+    }
+  ],
+  "timing_note": "Per-seed fit/evaluation wall time includes JAX compilation; historical k=8 timing unavailable."
+}

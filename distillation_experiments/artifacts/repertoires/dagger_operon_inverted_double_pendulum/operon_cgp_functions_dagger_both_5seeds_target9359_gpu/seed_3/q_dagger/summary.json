@@ -1,0 +1,16 @@
+{
+  "seed": 3,
+  "mode": "q_dagger",
+  "last_iteration": 9,
+  "final_reward": 1375.9404296875,
+  "final_validation_mse": 0.003628445789217949,
+  "best_observed_reward": 8422.125,
+  "best_observed_iteration": 0,
+  "solved": false,
+  "dataset_size": 41060,
+  "test_dataset_size": 2000,
+  "final_expressions": [
+    "(0.002716 + (1.369496 * sin(sin(((-6.372547) * X3)))))"
+  ],
+  "weight_effective_sample_size": 19563.078125
+}

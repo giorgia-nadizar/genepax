@@ -1,0 +1,30 @@
+{
+  "variants": [
+    {
+      "seed": 0,
+      "mode": "uniform",
+      "candidate_count": 16,
+      "selected_position": 14,
+      "expression": "((-0.001655) + (1.012022 * tanh(((((tanh((((-1.217961) + (3.456284 * X4)) + ((21.188421 * X2) + (5.464075 * X3)))) - ((-9.727550) * X1)) / (sqrt(1 + ((-2.324473) * X3) ^ 2))) - (2.995131 * X1)) + ((3.468488 * X2) + (0.062006 * X3))))))",
+      "validation_mse": 0.002853474346920848,
+      "reward": 1000.0,
+      "best_candidate_reward": 1000.0,
+      "solved": true,
+      "weight_effective_sample_size": 10000.0,
+      "q_weight_implementation": "not_applicable"
+    },
+    {
+      "seed": 0,
+      "mode": "q_dagger",
+      "candidate_count": 19,
+      "selected_position": 18,
+      "expression": "(0.000198 + (1.000884 * ((((((0.841409 * X4) - ((-27.185030) * X2)) / (sqrt(1 + ((((30072.796875 * X1) - (1416.502441 * X4)) + ((-1325.442017) * X3)) / (sqrt(1 + 1248.660645 ^ 2))) ^ 2))) / (sqrt(1 + (((-1277.434082) * X4) / (sqrt(1 + ((23248.876953 * X1) - (2077.049561 * X4)) ^ 2))) ^ 2))) / (sqrt(1 + (((-23.603039) * X2) - ((-0.368811) * X3)) ^ 2))) - (1.888523 * X2))))",
+      "validation_mse": 0.01772097311913967,
+      "reward": 211.60000610351562,
+      "best_candidate_reward": 863.5,
+      "solved": false,
+      "weight_effective_sample_size": 149.30519104003906,
+      "q_weight_implementation": "fixed_size_weighted_bootstrap"
+    }
+  ]
+}

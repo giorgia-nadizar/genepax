@@ -1,0 +1,20 @@
+{
+  "seed": 2,
+  "mode": "uniform",
+  "candidate_count": 20,
+  "action_count": 1,
+  "selected_positions": [
+    0
+  ],
+  "expressions": [
+    "(0.002743 + (0.739554 * (2.261186 * X2)))"
+  ],
+  "per_action_validation_mse": [
+    1.2757744116242975e-05
+  ],
+  "validation_mse": 1.2757744116242975e-05,
+  "reward": 990.4000244140625,
+  "solved": false,
+  "weight_effective_sample_size": 10000.0,
+  "q_weight_implementation": "not_applicable"
+}

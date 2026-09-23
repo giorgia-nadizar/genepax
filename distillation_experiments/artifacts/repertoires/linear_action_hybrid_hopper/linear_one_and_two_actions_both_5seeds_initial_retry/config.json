@@ -1,0 +1,25 @@
+{
+  "action_count": 3,
+  "backend": "generalized",
+  "env": "hopper",
+  "evaluation_trajectories": 10,
+  "experiment": "selected_linear_actions_with_remaining_ann_expert_actions",
+  "fit_strategy": "reuse_action_heads_from_initial_linear_runs",
+  "linear_action_count": "both",
+  "linear_action_counts": [
+    1,
+    2
+  ],
+  "num_seeds": 5,
+  "requested_variants": 60,
+  "rollout_steps": 1000,
+  "run_name": "linear_one_and_two_actions_both_5seeds_initial_retry",
+  "script": "distillation_experiments.scripts.experiments.linear_action_hybrid",
+  "seed_start": 0,
+  "source_runs": {
+    "q_dagger": "linear_initial_qdagger_5seeds_test_split",
+    "uniform": "linear_initial_uniform_5seeds_test_split"
+  },
+  "state_weighting": "both",
+  "target_reward": 3250.0
+}

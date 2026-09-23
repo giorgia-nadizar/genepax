@@ -1,0 +1,162 @@
+[
+  {
+    "environment": "hopper",
+    "weighting": "uniform",
+    "seed": 0,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.0794372409582138,
+    "validation_weighted_mse": 0.0794372409582138
+  },
+  {
+    "environment": "hopper",
+    "weighting": "uniform",
+    "seed": 1,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.07897110283374786,
+    "validation_weighted_mse": 0.07897110283374786
+  },
+  {
+    "environment": "hopper",
+    "weighting": "uniform",
+    "seed": 2,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.08309251070022583,
+    "validation_weighted_mse": 0.08309251070022583
+  },
+  {
+    "environment": "hopper",
+    "weighting": "uniform",
+    "seed": 3,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.08191190659999847,
+    "validation_weighted_mse": 0.08191190659999847
+  },
+  {
+    "environment": "hopper",
+    "weighting": "uniform",
+    "seed": 4,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 0.0,
+      "validation_weights": 0.0
+    },
+    "passed": true,
+    "validation_mse": 0.07838664203882217,
+    "validation_weighted_mse": 0.07838664203882217
+  },
+  {
+    "environment": "hopper",
+    "weighting": "q_dagger",
+    "seed": 0,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 1.1444091796875e-05,
+      "validation_weights": 1.1444091796875e-05
+    },
+    "passed": true,
+    "validation_mse": 0.08645504713058472,
+    "validation_weighted_mse": 0.08021998405456543
+  },
+  {
+    "environment": "hopper",
+    "weighting": "q_dagger",
+    "seed": 1,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 1.1444091796875e-05,
+      "validation_weights": 1.1444091796875e-05
+    },
+    "passed": true,
+    "validation_mse": 0.08205198496580124,
+    "validation_weighted_mse": 0.07468554377555847
+  },
+  {
+    "environment": "hopper",
+    "weighting": "q_dagger",
+    "seed": 2,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 1.1563301086425781e-05,
+      "validation_weights": 1.1473894119262695e-05
+    },
+    "passed": true,
+    "validation_mse": 0.0862305536866188,
+    "validation_weighted_mse": 0.07828310877084732
+  },
+  {
+    "environment": "hopper",
+    "weighting": "q_dagger",
+    "seed": 3,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 1.1444091796875e-05,
+      "validation_weights": 1.1444091796875e-05
+    },
+    "passed": true,
+    "validation_mse": 0.08661041408777237,
+    "validation_weighted_mse": 0.07490622252225876
+  },
+  {
+    "environment": "hopper",
+    "weighting": "q_dagger",
+    "seed": 4,
+    "graphs": 3,
+    "features_per_graph": 8,
+    "readout_weights_per_graph": 9,
+    "finite_reward": true,
+    "max_weight_differences": {
+      "train_weights": 1.1444091796875e-05,
+      "validation_weights": 1.1444091796875e-05
+    },
+    "passed": true,
+    "validation_mse": 0.0819411501288414,
+    "validation_weighted_mse": 0.07055621594190598
+  }
+]

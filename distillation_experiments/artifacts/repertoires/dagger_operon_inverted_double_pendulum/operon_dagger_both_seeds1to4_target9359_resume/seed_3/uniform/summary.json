@@ -1,0 +1,16 @@
+{
+  "seed": 3,
+  "mode": "uniform",
+  "last_iteration": 9,
+  "final_reward": 242.286865234375,
+  "final_validation_mse": 0.010656842030584812,
+  "best_observed_reward": 4690.638671875,
+  "best_observed_iteration": 0,
+  "solved": false,
+  "dataset_size": 29508,
+  "test_dataset_size": 2000,
+  "final_expressions": [
+    "(0.087389 + (0.522008 * ((-2.669915) * X3)))"
+  ],
+  "weight_effective_sample_size": 29508.0
+}

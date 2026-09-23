@@ -1,0 +1,129 @@
+{
+  "iteration": 3,
+  "validation_reward": 290.6000061035156,
+  "selected_fitness_rank": 1,
+  "candidate_indices": [
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    0,
+    1,
+    2
+  ],
+  "candidate_rewards": [
+    290.5,
+    290.5,
+    290.5,
+    290.5,
+    290.5,
+    290.5,
+    290.5,
+    290.6000061035156,
+    290.6000061035156,
+    290.6000061035156
+  ],
+  "best_validation_generation": 50,
+  "block_validations": [
+    {
+      "generation": 10,
+      "loss": 0.11238701641559601,
+      "reward": 249.8000030517578,
+      "selected_fitness_rank": 1,
+      "candidate_indices": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        0,
+        1,
+        2
+      ],
+      "candidate_rewards": [
+        230.40000915527344,
+        230.40000915527344,
+        230.40000915527344,
+        230.40000915527344,
+        230.40000915527344,
+        230.40000915527344,
+        230.40000915527344,
+        249.8000030517578,
+        249.8000030517578,
+        249.8000030517578
+      ]
+    },
+    {
+      "generation": 30,
+      "loss": 0.11226499825716019,
+      "reward": 290.5,
+      "selected_fitness_rank": 1,
+      "candidate_indices": [
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "candidate_rewards": [
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.5
+      ]
+    },
+    {
+      "generation": 50,
+      "loss": 0.1122603565454483,
+      "reward": 290.6000061035156,
+      "selected_fitness_rank": 1,
+      "candidate_indices": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        0,
+        1,
+        2
+      ],
+      "candidate_rewards": [
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.5,
+        290.6000061035156,
+        290.6000061035156,
+        290.6000061035156
+      ]
+    }
+  ],
+  "expert_weight": 0.6000000000000001,
+  "realized_expert_contribution": 0.6000000000000001,
+  "aggregation_policy": "best",
+  "behavior_policy_iteration": 1,
+  "behavior_policy_reward": 231.8000030517578,
+  "new_recovery_samples": 97,
+  "new_ordinary_samples": 9903
+}

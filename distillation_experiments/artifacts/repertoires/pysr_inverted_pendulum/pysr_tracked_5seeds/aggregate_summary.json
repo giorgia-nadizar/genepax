@@ -1,0 +1,124 @@
+{
+  "variants": [
+    {
+      "seed": 0,
+      "mode": "uniform",
+      "candidate_count": 22,
+      "selected_position": 21,
+      "equation": "tanh(tanh(tanh(tanh(tanh(((x1 + (((0.14316773 - x0) * (x1 + (x1 + tanh(x3)))) / 0.2941698)) / 0.2066783) - 0.30855575)) - -0.29825842)))",
+      "validation_mse": 0.0028803974855691195,
+      "reward": 59.79999923706055,
+      "best_candidate_reward": 487.8999938964844,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0
+    },
+    {
+      "seed": 0,
+      "mode": "q_dagger",
+      "candidate_count": 18,
+      "selected_position": 11,
+      "equation": "tanh(tanh(tanh((x1 + x1) + (((0.7758104 - x0) - (x0 * 3.710205)) * x3))))",
+      "validation_mse": 0.0463210865855217,
+      "reward": 158.6999969482422,
+      "best_candidate_reward": 291.3999938964844,
+      "solved": false,
+      "weight_effective_sample_size": 149.30523681640625
+    },
+    {
+      "seed": 1,
+      "mode": "uniform",
+      "candidate_count": 20,
+      "selected_position": 18,
+      "equation": "tanh(x0 + (x0 + tanh(tanh(tanh(tanh(tanh(((x1 + (x1 + x1)) + ((x3 / 3.0371876) - 0.090584524)) * 3.0061972)))))))",
+      "validation_mse": 0.0019100402714684606,
+      "reward": 39.79999923706055,
+      "best_candidate_reward": 1000.0,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0
+    },
+    {
+      "seed": 1,
+      "mode": "q_dagger",
+      "candidate_count": 20,
+      "selected_position": 14,
+      "equation": "tanh(tanh(tanh(tanh((x2 * (x1 + ((x0 + -0.14405486) * 6.256042))) + x1) / 0.5408971)))",
+      "validation_mse": 0.012977248057723045,
+      "reward": 42.70000076293945,
+      "best_candidate_reward": 1000.0,
+      "solved": false,
+      "weight_effective_sample_size": 152.15562438964844
+    },
+    {
+      "seed": 2,
+      "mode": "uniform",
+      "candidate_count": 23,
+      "selected_position": 20,
+      "equation": "tanh(tanh((((0.55452025 - x0) - x0) - x0) * ((x1 / 0.05330979) + (x3 / 0.355013)))) + tanh(tanh(x2 * 0.407228))",
+      "validation_mse": 0.001056945533491671,
+      "reward": 985.2999877929688,
+      "best_candidate_reward": 1000.0,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0
+    },
+    {
+      "seed": 2,
+      "mode": "q_dagger",
+      "candidate_count": 20,
+      "selected_position": 19,
+      "equation": "tanh(((tanh((x1 + 0.01114328) * 14.433418) + x2) + (x3 + -0.097688206)) * ((((0.6005263 - x0) - x0) - x0) * 3.4891005)) * 0.5692868",
+      "validation_mse": 0.010334336198866367,
+      "reward": 401.8000183105469,
+      "best_candidate_reward": 985.1000366210938,
+      "solved": false,
+      "weight_effective_sample_size": 140.79510498046875
+    },
+    {
+      "seed": 3,
+      "mode": "uniform",
+      "candidate_count": 17,
+      "selected_position": 16,
+      "equation": "(((0.15280606 - (x1 + x0)) * tanh((x3 + -0.09640476) / (x0 - -0.044372216))) + (x1 + (x0 * x0))) * 3.2455387",
+      "validation_mse": 0.002078441670164466,
+      "reward": 67.80000305175781,
+      "best_candidate_reward": 1000.0,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0
+    },
+    {
+      "seed": 3,
+      "mode": "q_dagger",
+      "candidate_count": 19,
+      "selected_position": 15,
+      "equation": "tanh(tanh(tanh((x1 / 0.10277417) + tanh(tanh(((((x1 / (x0 + -0.23989365)) + x3) - 0.031657502) + x2) - x1)))))",
+      "validation_mse": 0.01832747645676136,
+      "reward": 940.4000244140625,
+      "best_candidate_reward": 1000.0,
+      "solved": false,
+      "weight_effective_sample_size": 139.3186492919922
+    },
+    {
+      "seed": 4,
+      "mode": "uniform",
+      "candidate_count": 20,
+      "selected_position": 18,
+      "equation": "tanh(tanh(tanh(tanh(tanh((x1 + ((x1 + tanh(x3)) * (0.20632753 - x0))) * ((0.18881129 - x0) / 0.015545273)))))) + 0.007031648",
+      "validation_mse": 0.002583492314442992,
+      "reward": 99.20000457763672,
+      "best_candidate_reward": 264.20001220703125,
+      "solved": false,
+      "weight_effective_sample_size": 10000.0
+    },
+    {
+      "seed": 4,
+      "mode": "q_dagger",
+      "candidate_count": 21,
+      "selected_position": 15,
+      "equation": "tanh(tanh(tanh(tanh(((x0 + (tanh(tanh(x2 + -0.2626647)) * 0.54961985)) / 3.9670687) / (-0.053401183 - x0)))))",
+      "validation_mse": 0.021324900910258293,
+      "reward": 9.0,
+      "best_candidate_reward": 276.3000183105469,
+      "solved": false,
+      "weight_effective_sample_size": 132.99417114257812
+    }
+  ]
+}

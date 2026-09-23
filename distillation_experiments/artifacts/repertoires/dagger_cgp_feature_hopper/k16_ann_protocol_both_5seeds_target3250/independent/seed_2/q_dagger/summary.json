@@ -1,0 +1,11 @@
+{
+  "seed": 2,
+  "architecture": "independent",
+  "mode": "q_dagger",
+  "k": 16,
+  "last_iteration": 9,
+  "final_reward": 832.54052734375,
+  "solved": false,
+  "dataset_size": 61772,
+  "best_observed_reward": 1649.834228515625
+}

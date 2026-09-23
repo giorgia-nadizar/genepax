@@ -1,0 +1,16 @@
+{
+  "iteration": 5,
+  "expressions": [
+    "(0.121009 + (1.486241 * (((-0.049571) * X8) + tanh(tanh((tanh(((-16.876919) * X3)) + tanh((((-0.385459) * X1) + ((-3.562476) * X2)))))))))"
+  ],
+  "selected_positions": [
+    7
+  ],
+  "per_action_validation_mse": [
+    0.008921259082853794
+  ],
+  "validation_mse": 0.008921259082853794,
+  "reward": 9346.212890625,
+  "dataset_size": 21457,
+  "fit_samples": 10000
+}

@@ -1,0 +1,20 @@
+{
+  "backend": "generalized",
+  "env": "inverted_pendulum",
+  "evaluation_trajectories": 1,
+  "expert_samples": 1000,
+  "generations": 2,
+  "max_evaluations": 1000,
+  "max_length": 10,
+  "num_seeds": 1,
+  "population_size": 50,
+  "q_action_grid_size": 101,
+  "q_batch_size": 1000,
+  "rollout_steps": 20,
+  "run_name": "operon_tracking_smoke",
+  "seed_start": 0,
+  "state_weighting": "uniform",
+  "target_reward": 999.0,
+  "threads": 2,
+  "validation_fraction": 0.2
+}

@@ -1,0 +1,22 @@
+{
+  "algorithm": "DAgger",
+  "backend": "generalized",
+  "env": "hopper",
+  "evaluation_trajectories": 10,
+  "expert_bootstrap_samples": 10000,
+  "iterations": 1,
+  "num_seeds": 5,
+  "q_action_grid_size": 101,
+  "q_batch_size": 1000,
+  "rollout_steps": 1000,
+  "run_name": "linear_initial_uniform_5seeds_test_split",
+  "script": "distillation_experiments.scripts.experiments.dagger_linear",
+  "seed_start": 0,
+  "state_weighting": "uniform",
+  "stop_when_solved": true,
+  "student": "LinearRegression",
+  "student_objective": "mean_squared_expert_action_error",
+  "target_reward": 999.0,
+  "trajectories_per_iteration": 20,
+  "validation_fraction": 0.2
+}

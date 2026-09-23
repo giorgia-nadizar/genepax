@@ -1,0 +1,119 @@
+{
+  "hopper": {
+    "evaluation_trajectories_per_seed": 10,
+    "overall_max_reward": 3225.869140625,
+    "overall_mean_reward": 3194.326416015625,
+    "overall_min_reward": 3131.59521484375,
+    "rollout_steps": 1000,
+    "seeds": {
+      "0": {
+        "max_reward": 3217.78564453125,
+        "mean_reward": 3177.759033203125,
+        "min_reward": 3131.59521484375,
+        "trajectories": 10
+      },
+      "1": {
+        "max_reward": 3213.749755859375,
+        "mean_reward": 3199.310302734375,
+        "min_reward": 3175.513916015625,
+        "trajectories": 10
+      },
+      "2": {
+        "max_reward": 3219.475830078125,
+        "mean_reward": 3194.51171875,
+        "min_reward": 3169.759765625,
+        "trajectories": 10
+      },
+      "3": {
+        "max_reward": 3210.252197265625,
+        "mean_reward": 3195.238037109375,
+        "min_reward": 3168.1044921875,
+        "trajectories": 10
+      },
+      "4": {
+        "max_reward": 3225.869140625,
+        "mean_reward": 3204.8134765625,
+        "min_reward": 3182.663818359375,
+        "trajectories": 10
+      }
+    }
+  },
+  "inverted_double_pendulum": {
+    "evaluation_trajectories_per_seed": 10,
+    "overall_max_reward": 9359.8837890625,
+    "overall_mean_reward": 9359.8408203125,
+    "overall_min_reward": 9359.818359375,
+    "rollout_steps": 1000,
+    "seeds": {
+      "0": {
+        "max_reward": 9359.8544921875,
+        "mean_reward": 9359.837890625,
+        "min_reward": 9359.826171875,
+        "trajectories": 10
+      },
+      "1": {
+        "max_reward": 9359.859375,
+        "mean_reward": 9359.8408203125,
+        "min_reward": 9359.8251953125,
+        "trajectories": 10
+      },
+      "2": {
+        "max_reward": 9359.8486328125,
+        "mean_reward": 9359.8408203125,
+        "min_reward": 9359.8310546875,
+        "trajectories": 10
+      },
+      "3": {
+        "max_reward": 9359.8798828125,
+        "mean_reward": 9359.8427734375,
+        "min_reward": 9359.818359375,
+        "trajectories": 10
+      },
+      "4": {
+        "max_reward": 9359.8837890625,
+        "mean_reward": 9359.845703125,
+        "min_reward": 9359.833984375,
+        "trajectories": 10
+      }
+    }
+  },
+  "walker2d": {
+    "evaluation_trajectories_per_seed": 10,
+    "overall_max_reward": 4636.32421875,
+    "overall_mean_reward": 4571.52734375,
+    "overall_min_reward": 3386.5224609375,
+    "rollout_steps": 1000,
+    "seeds": {
+      "0": {
+        "max_reward": 4617.6044921875,
+        "mean_reward": 4590.45654296875,
+        "min_reward": 4518.9853515625,
+        "trajectories": 10
+      },
+      "1": {
+        "max_reward": 4636.32421875,
+        "mean_reward": 4466.23046875,
+        "min_reward": 3386.5224609375,
+        "trajectories": 10
+      },
+      "2": {
+        "max_reward": 4625.98046875,
+        "mean_reward": 4598.88818359375,
+        "min_reward": 4565.435546875,
+        "trajectories": 10
+      },
+      "3": {
+        "max_reward": 4626.646484375,
+        "mean_reward": 4597.8134765625,
+        "min_reward": 4557.3515625,
+        "trajectories": 10
+      },
+      "4": {
+        "max_reward": 4631.72802734375,
+        "mean_reward": 4604.24853515625,
+        "min_reward": 4560.134765625,
+        "trajectories": 10
+      }
+    }
+  }
+}

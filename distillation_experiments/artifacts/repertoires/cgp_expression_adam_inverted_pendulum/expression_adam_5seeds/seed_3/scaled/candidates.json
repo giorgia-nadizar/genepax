@@ -1,0 +1,142 @@
+[
+  {
+    "position": 0,
+    "repertoire_index": 36,
+    "train_mse_before": 0.00278094201348722,
+    "validation_mse_before": 0.0027799818199127913,
+    "reward_before": 423.3000183105469,
+    "train_mse_after": 0.002735009416937828,
+    "validation_mse_after": 0.002679940080270171,
+    "reward_after": 558.2000122070312,
+    "scaling_weights_after": [
+      -1.3193060159683228,
+      0.551460862159729
+    ]
+  },
+  {
+    "position": 1,
+    "repertoire_index": 37,
+    "train_mse_before": 0.00278094201348722,
+    "validation_mse_before": 0.0027799818199127913,
+    "reward_before": 423.3000183105469,
+    "train_mse_after": 0.002735009416937828,
+    "validation_mse_after": 0.002679940080270171,
+    "reward_after": 558.2000122070312,
+    "scaling_weights_after": [
+      -1.3193060159683228,
+      0.551460862159729
+    ]
+  },
+  {
+    "position": 2,
+    "repertoire_index": 38,
+    "train_mse_before": 0.00278094201348722,
+    "validation_mse_before": 0.0027799818199127913,
+    "reward_before": 423.3000183105469,
+    "train_mse_after": 0.002735009416937828,
+    "validation_mse_after": 0.002679940080270171,
+    "reward_after": 558.2000122070312,
+    "scaling_weights_after": [
+      -1.3193060159683228,
+      0.551460862159729
+    ]
+  },
+  {
+    "position": 3,
+    "repertoire_index": 39,
+    "train_mse_before": 0.00278094201348722,
+    "validation_mse_before": 0.0027799818199127913,
+    "reward_before": 423.3000183105469,
+    "train_mse_after": 0.002735009416937828,
+    "validation_mse_after": 0.002679940080270171,
+    "reward_after": 558.2000122070312,
+    "scaling_weights_after": [
+      -1.3193060159683228,
+      0.551460862159729
+    ]
+  },
+  {
+    "position": 4,
+    "repertoire_index": 40,
+    "train_mse_before": 0.00278094201348722,
+    "validation_mse_before": 0.0027799818199127913,
+    "reward_before": 423.3000183105469,
+    "train_mse_after": 0.002735009416937828,
+    "validation_mse_after": 0.002679940080270171,
+    "reward_after": 558.2000122070312,
+    "scaling_weights_after": [
+      -1.3193060159683228,
+      0.551460862159729
+    ]
+  },
+  {
+    "position": 5,
+    "repertoire_index": 41,
+    "train_mse_before": 0.00278094201348722,
+    "validation_mse_before": 0.0027799818199127913,
+    "reward_before": 423.3000183105469,
+    "train_mse_after": 0.002735009416937828,
+    "validation_mse_after": 0.002679940080270171,
+    "reward_after": 558.2000122070312,
+    "scaling_weights_after": [
+      -1.3193060159683228,
+      0.551460862159729
+    ]
+  },
+  {
+    "position": 6,
+    "repertoire_index": 42,
+    "train_mse_before": 0.00278094201348722,
+    "validation_mse_before": 0.0027799818199127913,
+    "reward_before": 423.3000183105469,
+    "train_mse_after": 0.002735009416937828,
+    "validation_mse_after": 0.002679940080270171,
+    "reward_after": 558.2000122070312,
+    "scaling_weights_after": [
+      -1.3193060159683228,
+      0.551460862159729
+    ]
+  },
+  {
+    "position": 7,
+    "repertoire_index": 43,
+    "train_mse_before": 0.00278094201348722,
+    "validation_mse_before": 0.0027799818199127913,
+    "reward_before": 423.3000183105469,
+    "train_mse_after": 0.002735009416937828,
+    "validation_mse_after": 0.002679940080270171,
+    "reward_after": 558.2000122070312,
+    "scaling_weights_after": [
+      -1.3193060159683228,
+      0.551460862159729
+    ]
+  },
+  {
+    "position": 8,
+    "repertoire_index": 44,
+    "train_mse_before": 0.00278094201348722,
+    "validation_mse_before": 0.0027799818199127913,
+    "reward_before": 423.3000183105469,
+    "train_mse_after": 0.002735009416937828,
+    "validation_mse_after": 0.002679940080270171,
+    "reward_after": 558.2000122070312,
+    "scaling_weights_after": [
+      -1.3193060159683228,
+      0.551460862159729
+    ]
+  },
+  {
+    "position": 9,
+    "repertoire_index": 0,
+    "train_mse_before": 0.0023011015728116035,
+    "validation_mse_before": 0.0024044073652476072,
+    "reward_before": 238.6999969482422,
+    "train_mse_after": 0.0021498091518878937,
+    "validation_mse_after": 0.0022930994164198637,
+    "reward_after": 173.8000030517578,
+    "scaling_weights_after": [
+      -1.6190192699432373,
+      0.6120520830154419
+    ]
+  }
+]

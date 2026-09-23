@@ -1,0 +1,87 @@
+{
+  "completed_seeds": 5,
+  "requested_seeds": 5,
+  "solved_seeds": 0,
+  "seeds": [
+    {
+      "seed": 0,
+      "last_iteration": 0,
+      "final_reward": 832.7999877929688,
+      "final_imitation_loss": 0.0023308582603931427,
+      "final_raw_imitation_loss": 0.03484313562512398,
+      "linear_scaling": true,
+      "scaling_weights": [
+        -0.5712016820907593,
+        0.0038324203342199326
+      ],
+      "best_observed_reward": 832.7999877929688,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 10000
+    },
+    {
+      "seed": 1,
+      "last_iteration": 0,
+      "final_reward": 46.0,
+      "final_imitation_loss": 0.003216242417693138,
+      "final_raw_imitation_loss": 0.5964053869247437,
+      "linear_scaling": true,
+      "scaling_weights": [
+        -1.3333691358566284,
+        1.0137766599655151
+      ],
+      "best_observed_reward": 46.0,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 10000
+    },
+    {
+      "seed": 2,
+      "last_iteration": 0,
+      "final_reward": 624.4000244140625,
+      "final_imitation_loss": 0.0025594113394618034,
+      "final_raw_imitation_loss": 0.006242481525987387,
+      "linear_scaling": true,
+      "scaling_weights": [
+        0.5104026794433594,
+        0.0102140037342906
+      ],
+      "best_observed_reward": 624.4000244140625,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 10000
+    },
+    {
+      "seed": 3,
+      "last_iteration": 0,
+      "final_reward": 89.9000015258789,
+      "final_imitation_loss": 0.0030757386703044176,
+      "final_raw_imitation_loss": 0.5146554112434387,
+      "linear_scaling": true,
+      "scaling_weights": [
+        0.9196135997772217,
+        0.657686710357666
+      ],
+      "best_observed_reward": 89.9000015258789,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 10000
+    },
+    {
+      "seed": 4,
+      "last_iteration": 0,
+      "final_reward": 58.5,
+      "final_imitation_loss": 0.0025989189743995667,
+      "final_raw_imitation_loss": 0.645672619342804,
+      "linear_scaling": true,
+      "scaling_weights": [
+        1.7433559894561768,
+        1.3975473642349243
+      ],
+      "best_observed_reward": 58.5,
+      "best_observed_iteration": 0,
+      "solved": false,
+      "dataset_size": 10000
+    }
+  ]
+}
