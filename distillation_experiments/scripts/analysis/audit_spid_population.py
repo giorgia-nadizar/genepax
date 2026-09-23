@@ -50,9 +50,9 @@ def main():
 
     run_dir = args.run_dir.resolve()
     config = json.loads((run_dir / "config.json").read_text())
-    experiments_dir = Path(__file__).resolve().parents[1]
+    experiments_dir = Path(__file__).resolve().parents[2]
     expert_data = np.load(
-        experiments_dir / "expert_datasets" / f"expert_{config['env']}.npz"
+        experiments_dir / "artifacts" / "expert_datasets" / f"expert_{config['env']}.npz"
     )
     cgp = CGP(
         n_inputs=expert_data["X"].shape[1],
@@ -62,7 +62,7 @@ def main():
         env_name=config["env"], backend=config["backend"]
     )
     q_estimator = load_q_value_estimator(
-        experiments_dir / "expert_models" / config["env"] / "final"
+        experiments_dir / "artifacts" / "expert_models" / config["env"] / "final"
     )
     audit_root = run_dir / "population_audit"
     audit_root.mkdir(exist_ok=True)

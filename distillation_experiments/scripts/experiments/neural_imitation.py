@@ -134,10 +134,10 @@ def save_student_checkpoint(
 
 
 if __name__ == '__main__':
-    experiments_dir = Path(__file__).resolve().parents[1]
+    experiments_dir = Path(__file__).resolve().parents[2]
     env_name = "inverted_pendulum"
     data = jnp.load(
-        experiments_dir / "expert_datasets" / f"expert_{env_name}.npz"
+        experiments_dir / "artifacts" / "expert_datasets" / f"expert_{env_name}.npz"
     )
     expert_X = jnp.asarray(data["X"], dtype=jnp.float32)
     expert_y = jnp.asarray(data["y"], dtype=jnp.float32)
@@ -155,7 +155,7 @@ if __name__ == '__main__':
     history = trainer.train(expert_X, expert_y, epochs=500, batch_size=256)
     print(f"best validation action MSE: {min(history['validation_loss']):.6f}")
     checkpoint_path = (
-        experiments_dir / "bc_ann_models" / env_name / "final"
+        experiments_dir / "artifacts" / "bc_ann_models" / env_name / "final"
     )
     save_student_checkpoint(
         checkpoint_path, trainer, expert_X.shape[1], expert_y.shape[1],

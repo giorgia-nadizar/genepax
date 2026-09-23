@@ -122,8 +122,8 @@ def main():
     if args.episodes <= 0 or args.episode_length <= 0:
         raise ValueError("episodes and episode-length must be positive")
 
-    experiments_dir = Path(__file__).resolve().parents[1]
-    checkpoint_path = experiments_dir / "expert_models" / args.env / "final"
+    experiments_dir = Path(__file__).resolve().parents[2]
+    checkpoint_path = experiments_dir / "artifacts" / "expert_models" / args.env / "final"
     policy_fn, model_config = load_sac_actor(checkpoint_path)
     environment = envs.create(
         env_name=model_config["env_name"],

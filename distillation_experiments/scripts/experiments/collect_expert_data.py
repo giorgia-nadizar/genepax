@@ -2,7 +2,7 @@ from distillation.dataset_collection import generate_expert_dataset
 from pathlib import Path
 
 if __name__ == "__main__":
-    experiments_dir = Path(__file__).resolve().parents[1]
+    experiments_dir = Path(__file__).resolve().parents[2]
     NUM_ENVS = 32
     NUM_ROLLOUTS = 4
     EPISODE_LENGTH = 1000
@@ -15,8 +15,8 @@ if __name__ == "__main__":
         "halfcheetah",
     ]:
 
-        checkpoint_path = experiments_dir / "expert_models" / env_name / "final"
-        dataset_path = experiments_dir / "expert_datasets" / f"expert_{env_name}.npz"
+        checkpoint_path = experiments_dir / "artifacts" / "expert_models" / env_name / "final"
+        dataset_path = experiments_dir / "artifacts" / "expert_datasets" / f"expert_{env_name}.npz"
 
         X, y = generate_expert_dataset(
             checkpoint_path=checkpoint_path,

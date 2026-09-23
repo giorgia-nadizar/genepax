@@ -461,11 +461,11 @@ if __name__ == '__main__':
             "the last validation checkpoint must equal sr-generations"
         )
 
-    experiments_dir = Path(__file__).resolve().parents[1]
+    experiments_dir = Path(__file__).resolve().parents[2]
     ENV_NAME = args.env
-    checkpoint_path = experiments_dir / "expert_models" / ENV_NAME / "final"
+    checkpoint_path = experiments_dir / "artifacts" / "expert_models" / ENV_NAME / "final"
     dataset_path = (
-        experiments_dir / "expert_datasets" / f"expert_{ENV_NAME}.npz"
+        experiments_dir / "artifacts" / "expert_datasets" / f"expert_{ENV_NAME}.npz"
     )
     if not checkpoint_path.is_dir():
         raise FileNotFoundError(f"Expert model not found: {checkpoint_path}")
@@ -473,7 +473,7 @@ if __name__ == '__main__':
         raise FileNotFoundError(f"Expert dataset not found: {dataset_path}")
 
     run_dir = create_run_directory(
-        experiments_dir / "repertoires",
+        experiments_dir / "artifacts" / "repertoires",
         ENV_NAME,
         args.run_name,
     )

@@ -5,11 +5,16 @@ reusable implementation remains in the `distillation` package.
 
 
 All saved models, datasets, run histories, figures, and analysis notebooks live
-under `artifacts/`; executable experiment scripts live under `scripts/`:
+under `artifacts/`. Scripts are split by purpose:
+
+- `scripts/experiments/`: training, search, demonstration collection, rollout evaluation, and their shared helpers.
+- `scripts/analysis/`: aggregation, figures, saved-run audits, and replay checks. Analysis tools do not train new policies; audits and replay checks may evaluate saved policies.
 
 ```text
 distillation_experiments/
 ├── scripts/
+│   ├── experiments/
+│   └── analysis/
 ├── artifacts/
 │   ├── expert_models/      # SAC teacher checkpoints (policy and critics)
 │   ├── expert_datasets/    # Saved observations and teacher actions
@@ -28,21 +33,26 @@ Script defaults and saved configuration/manifest paths use this layout. Historic
 log text retains the paths printed when those experiments ran. Explicit output
 path options still allow writing a new run elsewhere.
 
-Run scripts from the repository root, for example:
+Run modules from the repository root. For example, train/search with
+`python -m distillation_experiments.scripts.experiments.policy_search_gp`, or
+generate a saved-run report with
+`python -m distillation_experiments.scripts.analysis.ann_feature_sensitivity_report`.
+
+Other experiment commands:
 
 ```bash
-python -m distillation_experiments.scripts.train_brax
-python -m distillation_experiments.scripts.evaluate_brax --env inverted_pendulum
-python -m distillation_experiments.scripts.evaluate_brax --env inverted_pendulum --video
-python -m distillation_experiments.scripts.collect_data
-python -m distillation_experiments.scripts.neural_imitation
-python -m distillation_experiments.scripts.spid
-python -m distillation_experiments.scripts.spid_validated
-python -m distillation_experiments.scripts.dagger
-python -m distillation_experiments.scripts.dagger_linear
-python -m distillation_experiments.scripts.cgp_expression_then_adam
-python -m distillation_experiments.scripts.policy_search_gp --seed 0
-python -m distillation_experiments.scripts.policy_search_mixed --seed 0
+python -m distillation_experiments.scripts.experiments.train_brax
+python -m distillation_experiments.scripts.experiments.evaluate_brax --env inverted_pendulum
+python -m distillation_experiments.scripts.experiments.evaluate_brax --env inverted_pendulum --video
+python -m distillation_experiments.scripts.experiments.collect_expert_data
+python -m distillation_experiments.scripts.experiments.neural_imitation
+python -m distillation_experiments.scripts.experiments.spid
+python -m distillation_experiments.scripts.experiments.spid_validated
+python -m distillation_experiments.scripts.experiments.dagger
+python -m distillation_experiments.scripts.experiments.dagger_linear
+python -m distillation_experiments.scripts.experiments.cgp_expression_then_adam
+python -m distillation_experiments.scripts.experiments.policy_search_gp --seed 0
+python -m distillation_experiments.scripts.experiments.policy_search_mixed --seed 0
 ```
 
 `spid.py` is the original baseline implementation. `spid_validated.py` is the
@@ -53,7 +63,7 @@ reward-guided repertoire bootstrapping, and complete iteration persistence.
 For a small inverted-pendulum baseline SPID smoke test:
 
 ```bash
-python -m distillation_experiments.scripts.spid \
+python -m distillation_experiments.scripts.experiments.spid \
   --env inverted_pendulum \
   --run-name smoke \
   --num-seeds 1 \
@@ -70,7 +80,7 @@ For the validated workflow, use the same core options with the validated
 module and its validation controls:
 
 ```bash
-python -m distillation_experiments.scripts.spid_validated \
+python -m distillation_experiments.scripts.experiments.spid_validated \
   --env inverted_pendulum \
   --run-name validated-smoke \
   --num-seeds 1 \
@@ -99,7 +109,7 @@ from pure student rollouts labelled by the ANN expert. Reward is used only for
 reporting. For example:
 
 ```bash
-python -m distillation_experiments.scripts.dagger \
+python -m distillation_experiments.scripts.experiments.dagger \
   --env inverted_pendulum \
   --run-name plain-dagger \
   --iterations 10 \
@@ -145,7 +155,7 @@ working directory.
 ### CGP features with a linear action readout
 
 ```bash
-python -m distillation_experiments.scripts.cgp_feature_imitation \
+python -m distillation_experiments.scripts.experiments.cgp_feature_imitation \
   --env inverted_pendulum --k 8 --num-seeds 5 --run-name features8_bc
 ```
 
@@ -180,7 +190,7 @@ This helper applies the stored readout and clips actions to `[-1, 1]`.
 ### Q-DAgger with CGP features
 
 ```bash
-python -m distillation_experiments.scripts.dagger_cgp_features \
+python -m distillation_experiments.scripts.experiments.dagger_cgp_features \
   --env inverted_double_pendulum --k 8 --num-seeds 5 \
   --run-name ann_qdagger_k8_5seeds
 ```
@@ -209,7 +219,7 @@ Behavioral-cloning artificial neural networks produced by
 ### Independent feature CGP for each action
 
 ```bash
-python -m distillation_experiments.scripts.cgp_action_feature_imitation \
+python -m distillation_experiments.scripts.experiments.cgp_action_feature_imitation \
   --env hopper --k 8 --num-seeds 5 --state-weighting uniform \
   --run-name independent_features8_uniform
 ```
@@ -234,9 +244,9 @@ averages the independent per-action losses; it is not a joint population.
 ### ANN-teacher feature-count sweep
 
 ```bash
-python -m distillation_experiments.scripts.ann_feature_sensitivity
-python -m distillation_experiments.scripts.ann_feature_sensitivity_report
-JAX_PLATFORMS=cuda python -m distillation_experiments.scripts.ann_feature_sensitivity_audit --verify-mse
+python -m distillation_experiments.scripts.experiments.ann_feature_sensitivity
+python -m distillation_experiments.scripts.analysis.ann_feature_sensitivity_report
+JAX_PLATFORMS=cuda python -m distillation_experiments.scripts.analysis.ann_feature_sensitivity_audit --verify-mse
 ```
 
 The CUDA sweep tests k=1,2,4,8,16,32 with seeds 0–4, Uniform and Q-DAgger
@@ -271,7 +281,7 @@ Reproduce the small-ANN Hopper dataset-expansion protocol with both shared
 and per-action CGPs, five seeds and Uniform/Q-DAgger weighting:
 
 ```bash
-python -u -m distillation_experiments.scripts.hopper_feature_dagger
+python -u -m distillation_experiments.scripts.experiments.hopper_feature_dagger
 ```
 
 Requires the GPU. Each variant runs in an isolated process; completed variants
@@ -287,12 +297,12 @@ uses training error. Thus model classes and fitting budgets differ.
 Results and replay audits are saved in
 `artifacts/repertoires/dagger_cgp_feature_hopper/k16_ann_protocol_both_5seeds_target3250/`.
 The driver refreshes the notebook after each completed variant. Refresh partial
-progress manually with `python -m distillation_experiments.scripts.hopper_feature_dagger_report`.
+progress manually with `python -m distillation_experiments.scripts.analysis.hopper_feature_dagger_report`.
 
 ### Hopper direct evolution on Generalized (five seeds)
 
 ```bash
-python -u -m distillation_experiments.scripts.hopper_direct_evolution
+python -u -m distillation_experiments.scripts.experiments.hopper_direct_evolution
 ```
 
 Runs seeds 0–4 sequentially in isolated GPU processes. Each uses a 50-node

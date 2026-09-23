@@ -298,8 +298,8 @@ if __name__ == '__main__':
     # Paths
     # ========================================================
 
-    experiments_dir = Path(__file__).resolve().parents[1]
-    checkpoint_path = experiments_dir / "expert_models" / env_name
+    experiments_dir = Path(__file__).resolve().parents[2]
+    checkpoint_path = experiments_dir / "artifacts" / "expert_models" / env_name
 
     checkpoint_path.mkdir(
         parents=True,
