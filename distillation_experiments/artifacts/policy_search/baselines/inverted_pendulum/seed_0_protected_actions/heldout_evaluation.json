@@ -1,0 +1,9 @@
+{
+  "evaluation_seed": 1000000,
+  "trajectories": 100,
+  "mean_return": 1000.0,
+  "median_return": 1000.0,
+  "min_return": 1000.0,
+  "max_return": 1000.0,
+  "solved_fraction": 1.0
+}

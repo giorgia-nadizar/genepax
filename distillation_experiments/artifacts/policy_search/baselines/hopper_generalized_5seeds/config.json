@@ -1,0 +1,22 @@
+{
+  "backend": "generalized",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "n_nodes": 50,
+  "generations": 1500,
+  "population_size": 100,
+  "elite_size": 10,
+  "episode_length": 1000,
+  "evaluations": 5,
+  "comparison_trajectories": 10,
+  "fixed_budget": true,
+  "environment": "brax.envs.get_environment",
+  "comparison_seed_rule": "seed * 100000 + 90000 + arange(10)",
+  "selection": "best observed search fitness",
+  "policy": "CGP directly outputs three actions; no regression"
+}

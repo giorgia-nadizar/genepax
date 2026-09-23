@@ -1,0 +1,13 @@
+{
+  "best_fitness": 1683.3055419921875,
+  "best_generation": 746,
+  "final_generation": 1499,
+  "solved": null,
+  "target_reward": 3250.0,
+  "best_validation_mean": null,
+  "best_validation_min": null,
+  "best_validation_generation": null,
+  "validation_mean_reward": 3250.0,
+  "validation_min_reward": 3250.0,
+  "validation_trajectories": 50
+}

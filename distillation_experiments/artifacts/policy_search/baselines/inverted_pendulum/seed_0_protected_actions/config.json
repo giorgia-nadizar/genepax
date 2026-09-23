@@ -1,0 +1,14 @@
+{
+  "backend": "generalized",
+  "elite_size": 10,
+  "env": "inverted_pendulum",
+  "episode_length": 1000,
+  "evaluations": 5,
+  "generations": 1000,
+  "output_root": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/policy_search/baselines",
+  "population_size": 100,
+  "run_name": "seed_0_protected_actions",
+  "seed": 0,
+  "target_reward": 1000.0,
+  "tournament_size": 3
+}

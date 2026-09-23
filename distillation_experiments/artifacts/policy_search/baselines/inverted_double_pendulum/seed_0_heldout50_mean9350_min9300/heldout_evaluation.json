@@ -1,0 +1,10 @@
+{
+  "generation": 252,
+  "training_fitness": 9358.2451171875,
+  "mean_return": 9317.5419921875,
+  "median_return": 9357.9111328125,
+  "min_return": 8042.1630859375,
+  "max_return": 9359.1328125,
+  "evaluation_seed": 1000000,
+  "trajectories": 50
+}

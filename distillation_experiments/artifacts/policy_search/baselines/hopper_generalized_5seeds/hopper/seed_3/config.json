@@ -1,0 +1,26 @@
+{
+  "backend": "generalized",
+  "devices": [
+    "cuda:0"
+  ],
+  "elite_size": 10,
+  "env": "hopper",
+  "episode_length": 1000,
+  "evaluations": 5,
+  "fixed_budget": true,
+  "generations": 1500,
+  "n_nodes": 50,
+  "output_root": "/home/gnadizar/PycharmProjects/genepax/distillation_experiments/artifacts/policy_search/baselines/hopper_generalized_5seeds",
+  "population_size": 100,
+  "require_gpu": true,
+  "run_name": "seed_3",
+  "seed": 3,
+  "selection": "best observed search fitness",
+  "target_reward": 3250.0,
+  "tournament_size": 3,
+  "unwrapped_env": true,
+  "validation_mean_reward": 3250.0,
+  "validation_min_reward": 3250.0,
+  "validation_seed": 1000000,
+  "validation_trajectories": 50
+}
