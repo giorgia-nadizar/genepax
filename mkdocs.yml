@@ -16,6 +16,7 @@ plugins:
 
 nav:
   - Home: index.md
+  - PyTorch programs: torch_gp.md
   - API:
       - Evolution: api/evolution.md
       - Genetic Programming: api/gp.md

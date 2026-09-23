@@ -49,9 +49,9 @@ jobs:
           curl -LsSf https://astral.sh/uv/install.sh | sh
           echo "/home/runner/.local/bin" >> $GITHUB_PATH
 
-      - name: Install project (dev + examples)
+      - name: Install project (JAX + dev + examples)
         run: |
-          uv pip install --system .[dev,examples]
+          uv pip install --system .[jax,dev,examples]
 
       - name: Install jax
         run: pip install jax
@@ -62,6 +62,9 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
 
+      - name: Install optional PyTorch backend (CPU)
+        run: pip install "torch>=2.0" --index-url https://download.pytorch.org/whl/cpu
+
       - name: Run tests (coverage)
         run: |
           coverage run -m pytest -vv tests
@@ -71,3 +74,19 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  torch-standalone:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install only the PyTorch backend
+        run: |
+          pip install "torch>=2.0" --index-url https://download.pytorch.org/whl/cpu
+          pip install '.[torch]' pytest
+      - name: Verify standalone installation and native workflows
+        run: |
+          python -c "import importlib.util; assert importlib.util.find_spec('jax') is None; assert importlib.util.find_spec('qdax') is None"
+          pytest -q tests/torch_gp_tests

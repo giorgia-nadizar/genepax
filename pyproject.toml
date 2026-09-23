@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "genepax"
 dynamic = ["version"]
-description = "genepax: Jax Accelerated Genetic Programming"
+description = "genepax: Genetic Programming with JAX and PyTorch"
 readme = "README.md"
 authors = [
     { name = "Giorgia Nadizar", email = "giorgia.nadizar@gmail.com" }
@@ -24,10 +24,14 @@ keywords = ["genetic programming", "evolutionary computation", "interpretability
 requires-python = ">=3.11"
 
 dependencies = [
-    "qdax @ git+https://github.com/adaptive-intelligent-robotics/QDax.git@46b8feecae26d79414ce7a1ce731e5cfbeb9837d"
+    "numpy>=1.24"
 ]
 
 [project.optional-dependencies]
+torch = ["torch>=2.0"]
+jax = [
+    "qdax @ git+https://github.com/adaptive-intelligent-robotics/QDax.git@46b8feecae26d79414ce7a1ce731e5cfbeb9837d"
+]
 dev = [
     "pre-commit",
     "black",

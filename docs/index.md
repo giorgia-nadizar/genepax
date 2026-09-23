@@ -8,7 +8,12 @@
 [![Docs](https://img.shields.io/badge/docs-online-blue)](https://giorgia-nadizar.github.io/genepax/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/adaptive-intelligent-robotics/QDax/blob/main/LICENSE)
 
-Implementations of graph-based GP variants in JAX.
+Implementations of graph-based GP variants in JAX and PyTorch.
+
+For standalone PyTorch initialization, evolution, and gradient training,
+install `pip install '.[torch]'` and see the [PyTorch guide](torch_gp.md).
+For the JAX backend, use `pip install '.[jax]'`, or install `.[jax,torch]`
+for both. The base pip installation does not select a backend.
 
 ## Installation
 To install directly from source and set up the Python environment:
