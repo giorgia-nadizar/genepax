@@ -80,7 +80,7 @@ def test_weighted_evolution_stores_readout_used_by_weighted_fitness() -> None:
 
 def test_feature_collector_executes_student_but_retains_expert_labels() -> None:
     from typing import NamedTuple
-    from distillation_experiments.scripts.dagger_cgp_features import collect_feature_trajectories
+    from distillation_experiments.scripts.experiments.dagger_cgp_features import collect_feature_trajectories
 
     class State(NamedTuple):
         obs: object

@@ -6,10 +6,10 @@ import pytest
 
 from distillation.fit_imitation import apply_linear_scaling, imitation_loss
 from distillation.q_dagger import compute_q_dagger_weights
-from distillation_experiments.scripts.dagger import (
+from distillation_experiments.scripts.experiments.dagger import (
     select_rows,
 )
-from distillation_experiments.scripts.dagger_linear import (
+from distillation_experiments.scripts.experiments.dagger_linear import (
     fit_linear_student,
     linear_imitation_loss,
     split_train_test,

@@ -5,7 +5,7 @@ import json
 import numpy as np
 import pytest
 
-from distillation_experiments.scripts.feature_reference_data import load_reference_split
+from distillation_experiments.scripts.experiments.feature_reference_data import load_reference_split
 
 
 def test_reference_preserves_weighted_split_exactly(tmp_path: Path) -> None:

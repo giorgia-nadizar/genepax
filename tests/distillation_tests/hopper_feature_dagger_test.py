@@ -3,7 +3,7 @@
 from pathlib import Path
 import numpy as np
 
-from distillation_experiments.scripts.hopper_feature_dagger import load_bootstrap
+from distillation_experiments.scripts.experiments.hopper_feature_dagger import load_bootstrap
 
 
 def test_bootstrap_excludes_aggregated_states_and_preserves_reference_weights(tmp_path: Path) -> None:
@@ -25,7 +25,7 @@ def test_bootstrap_excludes_aggregated_states_and_preserves_reference_weights(tm
 
 def test_replay_audit_detects_changed_batch_weights(tmp_path: Path) -> None:
     import pytest
-    from distillation_experiments.scripts.hopper_feature_dagger import audit_replay
+    from distillation_experiments.scripts.experiments.hopper_feature_dagger import audit_replay
     initial = dict(X=np.ones((2, 2)), y=np.ones((2, 1)), sample_weights=np.array([.2, .8]),
                    test_X=np.zeros((1, 2)), test_y=np.zeros((1, 1)), test_weights=np.ones(1))
     np.savez(tmp_path / 'initial_dataset.npz', **initial)

@@ -8,8 +8,8 @@ import pytest
 import jax
 import jax.numpy as jnp
 
-import distillation_experiments.scripts.spid_validated as spid
-from distillation_experiments.scripts.spid_validated import (
+import distillation_experiments.scripts.experiments.spid_validated as spid
+from distillation_experiments.scripts.experiments.spid_validated import (
     combine_dataset_parts,
     create_run_directory,
     fit_and_validate_blocks,
